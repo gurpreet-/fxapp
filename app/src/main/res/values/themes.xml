@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--  Base app theme  -->
+    <style name="Base.Theme.CurrencyConvert" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorSecondary">@color/colorPrimaryLight</item>
+        <item name="android:fontFamily">@font/main_font</item>
+        <item name="toolbarStyle">@style/Theme.CurrencyConvert.Toolbar</item>
+    </style>
+
+    <style name="Theme.CurrencyConvert" parent="Base.Theme.CurrencyConvert" />
+
+    <style name="Theme.CurrencyConvert.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/viewBackground</item>
+        <item name="titleCentered">true</item>
+    </style>
+</resources>
