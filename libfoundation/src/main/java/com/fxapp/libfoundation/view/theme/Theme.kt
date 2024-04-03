@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.view.compose.theme
+package com.fxapp.libfoundation.view.theme
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme

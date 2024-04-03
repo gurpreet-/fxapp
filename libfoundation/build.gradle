@@ -1,6 +1,8 @@
 
 apply from: "../common.gradle"
 
+android.namespace = 'com.fxapp.libfoundation'
+
 def navVersion = "2.7.7"
 def composeBomVersion = "2024.03.00"
 

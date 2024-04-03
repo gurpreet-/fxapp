@@ -9,8 +9,13 @@ if (isMainProject()) {
 def javaVersion = JavaVersion.VERSION_17
 
 android {
-    namespace 'com.fxapp'
     compileSdk 34
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 34
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
 
     buildTypes {
         release {
@@ -25,7 +30,7 @@ android {
     kotlinOptions {
         jvmTarget = javaVersion.toString()
         freeCompilerArgs += [
-                '-opt-in=androidx.compose.ui.ExperimentalComposeUiApi'
+            '-opt-in=androidx.compose.ui.ExperimentalComposeUiApi'
         ]
     }
     buildFeatures {
@@ -37,10 +42,15 @@ android {
 }
 
 dependencies {
-    implementation project(":libfoundation")
-    testImplementation project(":libtestfoundation")
+    if (!isFoundationProject()) {
+        implementation project(":libfoundation")
+    }
 }
 
 private Boolean isMainProject() {
     return project.name == "app"
+}
+
+private Boolean isFoundationProject() {
+    return project.name == "libfoundation"
 }

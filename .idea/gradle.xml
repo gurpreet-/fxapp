@@ -11,7 +11,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/libfoundation" />
             <option value="$PROJECT_DIR$/liblogin" />
-            <option value="$PROJECT_DIR$/libtestfoundation" />
             <option value="$PROJECT_DIR$/libtransfer" />
           </set>
         </option>

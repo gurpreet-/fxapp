@@ -15,7 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.fxapp.libfoundation.view.compose.FxAppMain
-import com.fxapp.libfoundation.view.compose.theme.Theme.Dimensions.defaultMargin
+import com.fxapp.libfoundation.view.theme.Theme.Dimensions.defaultMargin
 
 @Composable
 fun HomeScreen() = FxAppMain {
