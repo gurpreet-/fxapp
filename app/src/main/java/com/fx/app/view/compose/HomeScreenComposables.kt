@@ -14,8 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.fx.app.view.compose.theme.Theme
-import com.fx.app.view.compose.theme.Theme.Dimensions.defaultMargin
+import com.fx.app.libfoundation.view.compose.theme.Theme.Dimensions.defaultMargin
 
 @Composable
 fun HomeScreen() = FxAppMain {
@@ -24,7 +23,7 @@ fun HomeScreen() = FxAppMain {
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        CurrencyExchange(
+        CurrencyExchangePanel(
             Modifier
                 .background(MaterialTheme.colorScheme.secondaryContainer)
                 .fillMaxWidth()
@@ -34,9 +33,10 @@ fun HomeScreen() = FxAppMain {
 }
 
 @Composable
-fun CurrencyExchange(modifier: Modifier = Modifier) {
+fun CurrencyExchangePanel(modifier: Modifier = Modifier) {
     Column(modifier, verticalArrangement = Arrangement.Center) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+
             Button(onClick = {}) {
                 Text("EUR")
             }

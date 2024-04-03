@@ -1,4 +1,4 @@
-package com.fx.app.view.base
+package com.fx.app.libfoundation.view.base
 
 import androidx.fragment.app.Fragment
 

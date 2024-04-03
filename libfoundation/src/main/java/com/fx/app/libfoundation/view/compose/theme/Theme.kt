@@ -1,13 +1,11 @@
-package com.fx.app.view.compose.theme
+package com.fx.app.libfoundation.view.compose.theme
 
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import com.fx.app.R
+import com.fx.app.libfoundation.R
 
 object Theme {
 

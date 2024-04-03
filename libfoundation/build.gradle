@@ -1,0 +1,58 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.fx.app.libfoundation'
+    compileSdk 34
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion "1.5.11"
+    }
+}
+
+dependencies {
+    def navVersion = "2.7.7"
+
+    // ---------------
+    // Core
+    // ---------------
+    api 'androidx.core:core-ktx:1.12.0'
+    api 'androidx.appcompat:appcompat:1.6.1'
+    api 'com.google.android.material:material:1.11.0'
+    api 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+
+    // ---------------
+    // Compose
+    // ---------------
+    api platform('androidx.compose:compose-bom:2024.03.00')
+    api 'androidx.compose.material3:material3:1.2.1'
+    api 'androidx.compose.foundation:foundation'
+
+
+    // ---------------
+    // Navigation
+    // ---------------
+    api "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    api "androidx.navigation:navigation-ui-ktx:$navVersion"
+
+
+    // ---------------
+    // Testing
+    // ---------------
+    testApi 'junit:junit:4.13.2'
+    androidTestApi 'androidx.test.ext:junit:1.1.5'
+    androidTestApi 'androidx.test.espresso:espresso-core:3.5.1'
+}
