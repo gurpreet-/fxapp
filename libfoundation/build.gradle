@@ -1,35 +1,10 @@
-plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
-}
 
-android {
-    namespace 'com.fxapp.libfoundation'
-    compileSdk 34
+apply from: "../common.gradle"
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-    buildFeatures {
-        compose true
-    }
-    kotlinOptions {
-        freeCompilerArgs += [
-            '-opt-in=androidx.compose.ui.ExperimentalComposeUiApi'
-        ]
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion "1.5.11"
-    }
-}
+def navVersion = "2.7.7"
+def composeBomVersion = "2024.03.00"
 
 dependencies {
-    def navVersion = "2.7.7"
-
     // ---------------
     // Core
     // ---------------
@@ -42,7 +17,7 @@ dependencies {
     // ---------------
     // Compose
     // ---------------
-    api platform('androidx.compose:compose-bom:2024.03.00')
+    api platform("androidx.compose:compose-bom:$composeBomVersion")
     api 'androidx.compose.material3:material3:1.2.1'
     api 'androidx.compose.foundation:foundation'
 
