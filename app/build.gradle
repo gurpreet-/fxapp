@@ -1,14 +1,9 @@
-plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-}
+
+apply from: "../common.gradle"
 
 android {
-    namespace 'com.fxapp'
-    compileSdk 34
-
     defaultConfig {
-        applicationId "com.fx.app"
+        applicationId "com.fxapp"
         minSdk 26
         targetSdk 34
         versionCode 1
@@ -16,31 +11,4 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
-        freeCompilerArgs += [
-            '-opt-in=androidx.compose.ui.ExperimentalComposeUiApi'
-        ]
-    }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion "1.5.11"
-    }
-}
-
-dependencies {
-    implementation project(":libfoundation")
 }
