@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.fx.app.libfoundation'
+    namespace 'com.fxapp.libfoundation'
     compileSdk 34
 
     compileOptions {
@@ -16,6 +16,11 @@ android {
     }
     buildFeatures {
         compose true
+    }
+    kotlinOptions {
+        freeCompilerArgs += [
+            '-opt-in=androidx.compose.ui.ExperimentalComposeUiApi'
+        ]
     }
     composeOptions {
         kotlinCompilerExtensionVersion "1.5.11"
@@ -52,7 +57,7 @@ dependencies {
     // ---------------
     // Testing
     // ---------------
-    testApi 'junit:junit:4.13.2'
-    androidTestApi 'androidx.test.ext:junit:1.1.5'
-    androidTestApi 'androidx.test.espresso:espresso-core:3.5.1'
+    api 'junit:junit:4.13.2'
+    api 'androidx.test.ext:junit:1.1.5'
+    api 'androidx.test.espresso:espresso-core:3.5.1'
 }

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.fx.app'
+    namespace 'com.fxapp'
     compileSdk 34
 
     defaultConfig {
@@ -29,6 +29,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
+        freeCompilerArgs += [
+            '-opt-in=androidx.compose.ui.ExperimentalComposeUiApi'
+        ]
     }
     buildFeatures {
         compose true
