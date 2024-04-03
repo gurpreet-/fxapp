@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 rootProject.name = "FxApp"
 include ':app'
 include ':libfoundation'
+include ':liblogin'
+include ':libtransfer'

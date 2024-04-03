@@ -10,6 +10,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/libfoundation" />
+            <option value="$PROJECT_DIR$/liblogin" />
+            <option value="$PROJECT_DIR$/libtransfer" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />
