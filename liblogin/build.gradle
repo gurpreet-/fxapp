@@ -1,3 +1,0 @@
-apply from: "../common.gradle"
-
-android.namespace = 'com.fxapp.liblogin'
