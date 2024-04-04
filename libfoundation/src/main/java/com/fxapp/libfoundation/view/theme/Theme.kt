@@ -20,12 +20,9 @@ object Theme {
             secondaryContainer = colorResource(R.color.colorPrimaryLight)
         )
 
+        // Add support for dark mode later on.
         @Composable
-        fun darkColourTheme() = darkColorScheme(
-            primary = lightColourTheme().primary,
-            secondary = lightColourTheme().secondary,
-            secondaryContainer = lightColourTheme().secondaryContainer
-        )
+        fun darkColourTheme() = lightColourTheme()
     }
 
     object Typography {

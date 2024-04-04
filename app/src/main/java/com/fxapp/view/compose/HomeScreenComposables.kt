@@ -9,16 +9,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.fxapp.libfoundation.view.compose.FxAppMain
+import androidx.compose.ui.tooling.preview.Preview
+import com.fxapp.libfoundation.view.compose.FxAppScreen
+import com.fxapp.libfoundation.view.compose.RenderPreview
 import com.fxapp.libfoundation.view.theme.Theme.Dimensions.defaultMargin
 
 @Composable
-fun HomeScreen() = FxAppMain {
+fun HomeScreen() = FxAppScreen {
     Column(
         Modifier
             .fillMaxSize()
@@ -35,12 +43,32 @@ fun HomeScreen() = FxAppMain {
 
 @Composable
 fun CurrencyExchangePanel(modifier: Modifier = Modifier) {
+    var expanded by remember { mutableStateOf(false) }
     Column(modifier, verticalArrangement = Arrangement.Center) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-
-            Button(onClick = {}) {
-                Text("EUR")
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }) {
+                DropdownMenuItem(
+                    text = { Text("Load") },
+                    onClick = {  }
+                )
+                DropdownMenuItem(
+                    text = { Text("Save") },
+                    onClick = {  }
+                )
             }
+            TextField(
+                value = "a",
+                onValueChange = {}
+            )
+
         }
     }
+}
+
+@Preview
+@Composable
+private fun PreviewCurrencyExchangePanel() = RenderPreview {
+    CurrencyExchangePanel()
 }
