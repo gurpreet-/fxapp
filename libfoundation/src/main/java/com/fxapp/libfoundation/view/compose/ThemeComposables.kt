@@ -15,7 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.unit.dp
-import com.fxapp.libfoundation.view.theme.Theme
+import com.fxapp.libfoundation.view.theme.Colours
+import com.fxapp.libfoundation.view.theme.Typography
 
 typealias SimpleCallback = () -> Unit
 typealias ComposeObject = @Composable SimpleCallback
@@ -45,12 +46,13 @@ fun FxAppScreen(content: ComposeObject) {
 @Composable
 fun FxAppTheme(content: ComposeObject) {
     val colourScheme = if (isSystemInDarkTheme()) {
-        Theme.Colours.darkColourTheme()
+        Colours.darkColourTheme()
     } else {
-        Theme.Colours.lightColourTheme()
+        Colours.lightColourTheme()
     }
     MaterialTheme(
         colorScheme = colourScheme,
+        typography = Typography.default(),
         shapes = MaterialTheme.shapes.copy(small = CutCornerShape(12.dp)),
         content = content
     )

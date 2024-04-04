@@ -3,15 +3,20 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="green70">#01513B</color>
+    <color name="green70">#024731</color>
     <color name="green50">#006a4d</color>
     <color name="green20">#C8ECE3</color>
     <color name="green10">#E6F6F2</color>
 
     <color name="grey10">#FDFDFD</color>
 
+    <color name="lightGreen50">#77b800</color>
+
+    <color name="sand50">#c8d882</color>
+
     <color name="colorPrimary">@color/green50</color>
     <color name="colorPrimaryDark">@color/green70</color>
     <color name="colorPrimaryLight">@color/green20</color>
-    <color name="viewBackground">@color/grey10</color>
+    <color name="colorSecondary">@color/sand50</color>
+    <color name="viewBackground">@color/white</color>
 </resources>
