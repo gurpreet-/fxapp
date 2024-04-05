@@ -11,6 +11,7 @@ data class AppColours(
 
     val green70: Color,
     val green50: Color,
+    val green30: Color,
     val green20: Color,
     val green10: Color,
 

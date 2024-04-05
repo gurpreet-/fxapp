@@ -15,6 +15,7 @@ object Colours {
     fun default() = AppColours(
         green70 = colorResource(R.color.green70),
         green50 = colorResource(R.color.green50),
+        green30 = colorResource(R.color.green30),
         green20 = colorResource(R.color.green20),
         green10 = colorResource(R.color.green10),
         grey40 = colorResource(R.color.grey40),

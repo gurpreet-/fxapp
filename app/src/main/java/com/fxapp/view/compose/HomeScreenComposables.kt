@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,16 +53,22 @@ fun HomeScreen() = FxAppScreen {
     Column(
         Modifier
             .fillMaxSize()
+            .background(Colours.default().grey10)
             .verticalScroll(rememberScrollState())
     ) {
         CurrencyExchangePanel(
             Modifier
+                .shadow(2.dp)
                 .background(
                     Colours.default().primaryColourDark
                 )
                 .fillMaxWidth()
                 .padding(horizontal = smallMargin, vertical = extraSmallMargin)
         )
+        Column(
+        ) {
+
+        }
     }
 }
 
