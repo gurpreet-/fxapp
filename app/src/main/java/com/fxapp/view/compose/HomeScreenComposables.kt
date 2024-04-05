@@ -204,10 +204,13 @@ private fun ColumnScope.CurrencyRatesList(amount: BigDecimal) {
 @Composable
 private fun CurrencyRatesLItem(amount: BigDecimal, rate: BigDecimal) {
     val finalRate = amount.multiply(rate)
-    Row(Modifier.padding(horizontal = defaultMargin, vertical = smallMargin)) {
+    Row(Modifier
+        .fillMaxWidth()
+        .clickable {  }
+        .padding(horizontal = defaultMargin, vertical = defaultMargin)) {
         Text(
             "£$finalRate",
-            style = MaterialTheme.typography.titleSmall
+            style = MaterialTheme.typography.titleMedium
         )
     }
 }
