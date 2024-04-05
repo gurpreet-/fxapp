@@ -186,7 +186,7 @@ private fun CurrencyRatesLItem(amount: BigDecimal, rate: BigDecimal) {
     Row(Modifier.padding(horizontal = defaultMargin, vertical = smallMargin)) {
         Text(
             "£$finalRate",
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.titleSmall
         )
     }
 }

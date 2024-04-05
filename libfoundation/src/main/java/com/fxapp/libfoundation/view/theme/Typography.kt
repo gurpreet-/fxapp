@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import com.fxapp.libfoundation.R
 
 object Typography {
-    private const val DEFAULT_FONT_SIZE = 14
+    private const val DEFAULT_FONT_SIZE = 15
 
     val defaultFontSize = DEFAULT_FONT_SIZE.sp
 

@@ -49,7 +49,7 @@ fun FxAppTheme(content: ComposeObject) {
         Colours.lightColourTheme()
     }
     val defaultTypography = Typography.default()
-    CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.bodyMedium) {
+    CompositionLocalProvider(LocalTextStyle provides LocalTextStyle.current.merge(defaultTypography.bodyMedium)) {
         MaterialTheme(
             colorScheme = colourScheme,
             typography = defaultTypography,
