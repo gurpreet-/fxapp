@@ -53,7 +53,7 @@ fun HomeScreen() = FxAppScreen {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Colours.default().grey10)
+            .background(Colours.default().green10)
             .verticalScroll(rememberScrollState())
     ) {
         CurrencyExchangePanel(
