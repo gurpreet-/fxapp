@@ -122,9 +122,6 @@ fun CurrencyTextField(
         }
     }
     val formatted = numberFormat.format(value)
-    val currentNumbersOnly by remember {
-        mutableStateOf("")
-    }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -145,7 +142,8 @@ fun CurrencyTextField(
             )
         ) { formattedString ->
             val newNumbersOnly = numbersOnly(formattedString, numberFormat.decimalFormatSymbols.decimalSeparator)
-            if (currentNumbersOnly != newNumbersOnly) {
+            val oldNumbersOnly = numbersOnly(formatted, numberFormat.decimalFormatSymbols.decimalSeparator)
+            if (oldNumbersOnly != newNumbersOnly) {
                 onValueChange(BigDecimal(newNumbersOnly))
             }
         }
