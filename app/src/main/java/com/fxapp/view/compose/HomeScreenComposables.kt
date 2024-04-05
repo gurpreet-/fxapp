@@ -29,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.fxapp.libfoundation.R
+import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.view.compose.CurrencyItem
 import com.fxapp.libfoundation.view.compose.FormTextField
 import com.fxapp.libfoundation.view.compose.FxAppBar
@@ -69,6 +71,7 @@ import com.fxapp.libfoundation.view.theme.Typography
 import com.fxapp.viewmodel.CurrencyConverterViewModel
 import org.koin.androidx.compose.koinViewModel
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.Currency
 
@@ -79,6 +82,14 @@ fun HomeScreen(
 ) = FxAppScreen {
     var amount by remember { mutableStateOf(BigDecimal.ZERO) }
     var currency by remember { mutableStateOf(Currency.getInstance("GBP")) }
+    var isLoading by remember { mutableStateOf(false) }
+    val rates = remember { mutableStateListOf<Amount>() }
+
+    LaunchedEffect(amount, currency) {
+        isLoading = true
+        rates.clear()
+        rates.addAll(viewModel.getRates(amount, currency))
+    }
 
     Column(
         Modifier
@@ -99,7 +110,7 @@ fun HomeScreen(
         if (amount.compareTo(BigDecimal.ZERO) == 0) {
             TypeSomething()
         } else {
-            CurrencyRatesList(amount)
+            CurrencyRatesList(amount, rates)
         }
     }
 }
@@ -126,7 +137,8 @@ fun CurrencyTextField(
     onCurrencyChanged: (Currency) -> Unit,
     onValueChanged: (BigDecimal) -> Unit
 ) {
-    val formatted = decimalFormat.format(value)
+    val precisionValue = value.setScale(2, RoundingMode.DOWN)
+    val formatted = decimalFormat.format(precisionValue)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -149,8 +161,8 @@ fun CurrencyTextField(
                 unfocusedContainerColor = Color.Transparent,
                 cursorColor = Colours.default().cursorColour,
             )
-        ) { formattedString ->
-            val newNumbersOnly = numbersOnly(formattedString, decimalFormat.decimalFormatSymbols.decimalSeparator)
+        ) { newString ->
+            val newNumbersOnly = numbersOnly(newString, decimalFormat.decimalFormatSymbols.decimalSeparator)
             val oldNumbersOnly = numbersOnly(formatted, decimalFormat.decimalFormatSymbols.decimalSeparator)
             if (oldNumbersOnly != newNumbersOnly) {
                 onValueChanged(BigDecimal(newNumbersOnly))
@@ -172,7 +184,8 @@ private fun numbersOnly(potentialNumber: String, decimalSeparator: Char): String
         // exception then return 0. Potential to be improved
         // by keeping the existing value.
         BigDecimal(filteredForNumbersAndSeparator)
-        filteredForNumbersAndSeparator
+            .setScale(2, RoundingMode.DOWN)
+            .toString()
     } catch (e: Throwable) {
         "0"
     }
@@ -204,14 +217,13 @@ fun TypeSomething() = Column(
 }
 
 @Composable
-private fun ColumnScope.CurrencyRatesList(amount: BigDecimal) {
-    val rates = listOf(BigDecimal(0.5), BigDecimal(1.3), BigDecimal(1.42))
+private fun ColumnScope.CurrencyRatesList(currentAmount: BigDecimal, rates: List<Amount>) {
     LazyColumn(
         Modifier.weight(1f),
         userScrollEnabled = false
     ) {
         items(rates) {
-            CurrencyRatesLItem(amount, it)
+            CurrencyRatesLItem(currentAmount, it.value)
         }
     }
 }
@@ -221,7 +233,7 @@ private fun CurrencyRatesLItem(amount: BigDecimal, rate: BigDecimal) {
     val finalRate = amount.multiply(rate)
     Row(Modifier
         .fillMaxWidth()
-        .clickable {  }
+        .clickable { }
         .padding(horizontal = defaultMargin, vertical = defaultMargin)) {
         Text(
             "£$finalRate",
@@ -290,7 +302,9 @@ fun CurrencySelectorButton(
             Icon(
                 painterResource(R.drawable.chevron_down),
                 stringResource(R.string.ac_more),
-                modifier = Modifier.size(extraSmallIcon).rotate(-90f),
+                modifier = Modifier
+                    .size(extraSmallIcon)
+                    .rotate(-90f),
             )
         }
     }
@@ -336,10 +350,13 @@ fun CurrencySelectorScreen(
         ) {
             LazyColumn {
                 items(currenciesToShow) {
-                    CurrencyItem(Modifier.fillMaxWidth().clickable(onClick = {
-                        onCurrencyChanged(it)
-                        onClose()
-                    }), it)
+                    CurrencyItem(
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable(onClick = {
+                                onCurrencyChanged(it)
+                                onClose()
+                            }), it)
                     HorizontalDivider()
                 }
             }
