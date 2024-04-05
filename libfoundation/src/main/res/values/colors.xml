@@ -8,11 +8,13 @@
     <color name="green20">#C8ECE3</color>
     <color name="green10">#E6F6F2</color>
 
+    <color name="grey40">#E8E8E8</color>
     <color name="grey10">#FDFDFD</color>
 
-    <color name="lightGreen50">#77b800</color>
+    <color name="neonGreen50">#77b800</color>
 
     <color name="sand50">#c8d882</color>
+    <color name="sand40">#DDEC9D</color>
 
     <color name="colorPrimary">@color/green50</color>
     <color name="colorPrimaryDark">@color/green70</color>

@@ -5,14 +5,21 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorSecondary">@color/colorPrimaryLight</item>
-        <item name="android:fontFamily">@font/main_font</item>
+        <item name="android:fontFamily">@font/primary_font</item>
         <item name="toolbarStyle">@style/Theme.CurrencyConvert.Toolbar</item>
     </style>
 
     <style name="Theme.CurrencyConvert" parent="Base.Theme.CurrencyConvert" />
 
     <style name="Theme.CurrencyConvert.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="titleTextColor">@color/viewBackground</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="titleTextColor">@color/colorSecondary</item>
+        <item name="titleTextAppearance">@style/ToolbarText</item>
+        <item name="android:fontFamily">@font/primary_font</item>
+    </style>
+
+    <style name="ToolbarText">
+        <item name="android:fontFamily">@font/rasa_bolditalic</item>
+        <item name="android:textSize">26sp</item>
     </style>
 </resources>

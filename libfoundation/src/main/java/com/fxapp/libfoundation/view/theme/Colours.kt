@@ -6,7 +6,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import com.fxapp.libfoundation.R
 
@@ -14,16 +13,15 @@ object Colours {
 
     @Composable
     fun default() = AppColours(
-        primary = colorResource(R.color.colorPrimary),
-        background = colorResource(R.color.viewBackground),
-        secondary = colorResource(R.color.colorSecondary),
-        secondaryContainer = colorResource(R.color.colorSecondary),
-        onSecondaryContainer = colorResource(R.color.white), // text on secondary
-        inversePrimary = colorResource(R.color.colorSecondary),
-        formFieldBackground = Color(0xfff8f9fa),
-        formFieldTextColour = colorResource(R.color.black),
-        textColour = colorResource(R.color.black),
-        cursorColour = colorResource(R.color.lightGreen50),
+        green70 = colorResource(R.color.green70),
+        green50 = colorResource(R.color.green50),
+        green20 = colorResource(R.color.green20),
+        green10 = colorResource(R.color.green10),
+        grey40 = colorResource(R.color.grey40),
+        grey10 = colorResource(R.color.grey10),
+        neonGreen50 = colorResource(R.color.neonGreen50),
+        sand50 = colorResource(R.color.sand50),
+        sand40 = colorResource(R.color.sand40),
     )
 
     @Composable
@@ -35,8 +33,10 @@ object Colours {
             unfocusedContainerColor = default().formFieldBackground,
             focusedTextColor = default().formFieldBackground,
             unfocusedTextColor = default().formFieldBackground,
+            unfocusedLeadingIconColor = default().formFieldBackground,
+            focusedLeadingIconColor = default().formFieldBackground,
             cursorColor = default().cursorColour,
-            selectionColors = TextSelectionColors(default().inversePrimary, default().cursorColour.copy(alpha = 0.6f))
+            selectionColors = TextSelectionColors(default().secondary, default().cursorColour.copy(alpha = 0.6f))
         )
     }
 
@@ -51,13 +51,13 @@ object Colours {
     @Composable
     fun lightColourTheme() = default().run {
         lightColorScheme(
-            primary = primary,
-            primaryContainer = primary,
+            primary = primaryColour,
+            primaryContainer = primaryColour,
             background = background,
             secondary = secondary,
             secondaryContainer = secondaryContainer,
-            onSecondaryContainer = onSecondaryContainer,
-            inversePrimary = inversePrimary,
+            onSecondaryContainer = secondaryContainer,
+            inversePrimary = secondary,
         )
     }
 

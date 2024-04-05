@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
 
         // Set up the nav controller with our global graph
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        findViewById<MaterialToolbar>(R.id.main_toolbar)
-            .setupWithNavController(navController, appBarConfiguration)
+        findViewById<MaterialToolbar>(R.id.main_toolbar).apply {
+            setupWithNavController(navController, appBarConfiguration)
+        }
     }
 }
