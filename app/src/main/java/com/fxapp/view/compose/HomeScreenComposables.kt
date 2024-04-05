@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledIconButton
@@ -41,6 +42,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,7 +63,6 @@ import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
 import com.fxapp.libfoundation.view.theme.Dimens.extraSmallIcon
 import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
-import com.fxapp.libfoundation.view.theme.Dimens.smallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
@@ -133,6 +135,10 @@ fun CurrencyTextField(
             value = formatted,
             modifier = Modifier.weight(1f),
             placeholder = "0.00",
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal,
+                imeAction = ImeAction.None
+            ),
             textStyle = Typography.default()
                 .bodyMedium
                 .copy(color = Colours.default().secondary, fontSize = 50.sp),
@@ -157,9 +163,15 @@ fun CurrencyTextField(
     }
 }
 
-private fun numbersOnly(s: String, decimalSeparator: Char): String {
-    return s.filter {
-        it.isDigit() || it == decimalSeparator
+private fun numbersOnly(potentialNumber: String, decimalSeparator: Char): String {
+    val filteredForNumbersAndSeparator = potentialNumber
+        .filter { it.isDigit() || it == decimalSeparator }
+        .ifBlank { "0" }
+    return try {
+        BigDecimal(filteredForNumbersAndSeparator)
+        filteredForNumbersAndSeparator
+    } catch (e: Throwable) {
+        "0"
     }
 }
 

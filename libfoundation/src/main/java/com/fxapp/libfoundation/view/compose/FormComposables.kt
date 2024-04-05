@@ -1,5 +1,6 @@
 package com.fxapp.libfoundation.view.compose
 
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -16,6 +17,7 @@ fun FormTextField(
     value: String,
     placeholder: String,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions? = null,
     textStyle: TextStyle? = null,
     suffix: ComposeObject? = null,
     colours: TextFieldColors? = null,
@@ -23,6 +25,7 @@ fun FormTextField(
 ) {
     TextField(
         modifier = modifier,
+        keyboardOptions = keyboardOptions ?: KeyboardOptions.Default,
         value = value,
         textStyle = textStyle ?: Typography.default().bodyMedium,
         placeholder = {
