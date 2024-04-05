@@ -1,26 +1,37 @@
 package com.fxapp.view.compose
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -28,17 +39,23 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import com.fxapp.libfoundation.R
+import com.fxapp.libfoundation.view.compose.CurrencyItem
 import com.fxapp.libfoundation.view.compose.FormTextField
+import com.fxapp.libfoundation.view.compose.FxAppBar
 import com.fxapp.libfoundation.view.compose.FxAppScreen
-import com.fxapp.libfoundation.view.compose.FxFilledIconButton
+import com.fxapp.libfoundation.view.compose.HorizontalDivider
 import com.fxapp.libfoundation.view.compose.RenderPreview
 import com.fxapp.libfoundation.view.compose.SpacerHeight
 import com.fxapp.libfoundation.view.theme.Colours
+import com.fxapp.libfoundation.view.theme.Dimens
 import com.fxapp.libfoundation.view.theme.Dimens.defaultIcon
 import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
 import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
@@ -132,7 +149,7 @@ fun CurrencyTextField(
                 onValueChange(BigDecimal(newNumbersOnly))
             }
         }
-        FxFilledIconButton()
+        CurrencySelectorButton()
     }
 }
 
@@ -188,6 +205,104 @@ private fun CurrencyRatesLItem(amount: BigDecimal, rate: BigDecimal) {
             "£$finalRate",
             style = MaterialTheme.typography.titleSmall
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CurrencySelectorButton(
+    modifier: Modifier = Modifier
+) {
+    var showDialog by remember { mutableStateOf(false) }
+    var searchText by remember { mutableStateOf("") }
+    val availableCurrencies = listOf("EUR", "GBP", "USD")
+    val searchedCurrencies = remember { availableCurrencies.toMutableStateList() }
+
+    LaunchedEffect(searchText) {
+        availableCurrencies.filter { currency ->
+            currency.startsWith(searchText, true)
+        }.also {
+            searchedCurrencies.apply {
+                clear()
+                addAll(it)
+            }
+        }
+    }
+
+    if (showDialog) {
+        Dialog(
+            properties = DialogProperties(usePlatformDefaultWidth = false),
+            onDismissRequest = { showDialog = false }
+        ) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(Colours.default().viewBackground)
+            ) {
+                FxAppBar(stringResource(R.string.select_currency)) {
+                    showDialog = false
+                }
+                SearchBar(
+                    searchText,
+                    placeholder = {
+                        Text("Search", color = Colours.default().slate50)
+                    },
+                    trailingIcon = {
+                        Icon(
+                            painterResource(androidx.appcompat.R.drawable.abc_ic_clear_material),
+                            contentDescription = stringResource(R.string.ac_search),
+                            tint = Colours.default().slate50,
+                            modifier = Modifier.clickable {
+                                searchText = ""
+                            }
+                        )
+                    },
+                    onActiveChange = {},
+                    onSearch = {},
+                    active = true,
+                    onQueryChange = {
+                        searchText = it
+                    }
+                ) {
+                    LazyColumn {
+                        items(searchedCurrencies) {
+                            CurrencyItem(Currency.getInstance(it))
+                            HorizontalDivider()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    FilledIconButton(
+        modifier = modifier
+            .requiredSizeIn(minWidth = 58.dp, maxHeight = 30.dp),
+        shape = RoundedCornerShape(8.dp),
+        onClick = {
+            showDialog = !showDialog
+        },
+        colors = IconButtonDefaults.iconButtonColors(
+            containerColor = Colours.default().secondaryContainer,
+            contentColor = Colours.default().primaryColour
+        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.End
+        ) {
+            Text(
+                "EUR",
+                style = Typography.default().bodyMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            Spacer(Modifier.width(Dimens.extraSmallMargin))
+            Icon(
+                painterResource(R.drawable.chevron_down),
+                stringResource(R.string.ac_more),
+                modifier = Modifier.size(Dimens.smallIcon),
+            )
+        }
     }
 }
 
