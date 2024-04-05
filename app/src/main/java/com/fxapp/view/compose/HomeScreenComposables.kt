@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.view.compose.CurrencyItem
@@ -68,10 +69,11 @@ import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
+import com.fxapp.model.ConversionModel
 import com.fxapp.viewmodel.CurrencyConverterViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 import java.math.BigDecimal
-import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.Currency
 
@@ -80,6 +82,7 @@ import java.util.Currency
 fun HomeScreen(
     viewModel: CurrencyConverterViewModel = koinViewModel()
 ) = FxAppScreen {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var amount by remember { mutableStateOf(BigDecimal.ZERO) }
     var currency by remember { mutableStateOf(Currency.getInstance("GBP")) }
     var isLoading by remember { mutableStateOf(false) }
@@ -88,7 +91,7 @@ fun HomeScreen(
     LaunchedEffect(amount, currency) {
         isLoading = true
         rates.clear()
-        rates.addAll(viewModel.getRates(amount, currency))
+        viewModel.getRates(amount, currency)
     }
 
     Column(
@@ -110,7 +113,7 @@ fun HomeScreen(
         if (amount.compareTo(BigDecimal.ZERO) == 0) {
             TypeSomething()
         } else {
-            CurrencyRatesList(amount, rates)
+            CurrencyRatesList(uiState.exchangeRates)
         }
     }
 }
@@ -134,11 +137,11 @@ fun CurrencyTextField(
     value: BigDecimal,
     currency: Currency,
     decimalFormat: DecimalFormat,
+    conversionModel: ConversionModel = koinInject(),
     onCurrencyChanged: (Currency) -> Unit,
     onValueChanged: (BigDecimal) -> Unit
 ) {
-    val precisionValue = value.setScale(2, RoundingMode.DOWN)
-    val formatted = decimalFormat.format(precisionValue)
+    val formatted = conversionModel.format(currency, value)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -162,8 +165,8 @@ fun CurrencyTextField(
                 cursorColor = Colours.default().cursorColour,
             )
         ) { newString ->
-            val newNumbersOnly = numbersOnly(newString, decimalFormat.decimalFormatSymbols.decimalSeparator)
-            val oldNumbersOnly = numbersOnly(formatted, decimalFormat.decimalFormatSymbols.decimalSeparator)
+            val newNumbersOnly = conversionModel.numbersOnly(newString, decimalFormat.decimalFormatSymbols.decimalSeparator)
+            val oldNumbersOnly = conversionModel.numbersOnly(formatted, decimalFormat.decimalFormatSymbols.decimalSeparator)
             if (oldNumbersOnly != newNumbersOnly) {
                 onValueChanged(BigDecimal(newNumbersOnly))
             }
@@ -172,22 +175,6 @@ fun CurrencyTextField(
             currency = currency,
             onCurrencyChanged = onCurrencyChanged
         )
-    }
-}
-
-private fun numbersOnly(potentialNumber: String, decimalSeparator: Char): String {
-    val filteredForNumbersAndSeparator = potentialNumber
-        .filter { it.isDigit() || it == decimalSeparator }
-        .ifBlank { "0" }
-    return try {
-        // Just try parse here and if it throws an
-        // exception then return 0. Potential to be improved
-        // by keeping the existing value.
-        BigDecimal(filteredForNumbersAndSeparator)
-            .setScale(2, RoundingMode.DOWN)
-            .toString()
-    } catch (e: Throwable) {
-        "0"
     }
 }
 
@@ -217,26 +204,27 @@ fun TypeSomething() = Column(
 }
 
 @Composable
-private fun ColumnScope.CurrencyRatesList(currentAmount: BigDecimal, rates: List<Amount>) {
+private fun ColumnScope.CurrencyRatesList(rates: List<Amount>) {
     LazyColumn(
-        Modifier.weight(1f),
-        userScrollEnabled = false
+        Modifier.weight(1f)
     ) {
         items(rates) {
-            CurrencyRatesLItem(currentAmount, it.value)
+            CurrencyRatesLItem(it)
         }
     }
 }
 
 @Composable
-private fun CurrencyRatesLItem(amount: BigDecimal, rate: BigDecimal) {
-    val finalRate = amount.multiply(rate)
+private fun CurrencyRatesLItem(
+    rate: Amount,
+    currencyModel: ConversionModel = koinInject()
+) {
     Row(Modifier
         .fillMaxWidth()
         .clickable { }
         .padding(horizontal = defaultMargin, vertical = defaultMargin)) {
         Text(
-            "£$finalRate",
+            currencyModel.format(rate),
             style = MaterialTheme.typography.titleMedium
         )
     }

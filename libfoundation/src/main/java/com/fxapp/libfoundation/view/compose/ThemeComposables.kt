@@ -18,6 +18,7 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Typography
 import org.koin.compose.KoinApplication
+import org.koin.compose.KoinContext
 import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -27,20 +28,22 @@ typealias ComposeObject = @Composable SimpleCallback
 
 @Composable
 fun FxAppScreen(content: ComposeObject) = FxAppTheme {
-    val snackbarHostState = remember { SnackbarHostState() }
-    Scaffold(
-        modifier = Modifier.semantics {
-            testTagsAsResourceId = true
-        },
-        containerColor = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) {
-        Box(
-            Modifier
-                .padding(it)
-                .fillMaxSize()) {
-            content()
+    KoinContext {
+        val snackbarHostState = remember { SnackbarHostState() }
+        Scaffold(
+            modifier = Modifier.semantics {
+                testTagsAsResourceId = true
+            },
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+            snackbarHost = { SnackbarHost(snackbarHostState) }
+        ) {
+            Box(
+                Modifier
+                    .padding(it)
+                    .fillMaxSize()) {
+                content()
+            }
         }
     }
 }

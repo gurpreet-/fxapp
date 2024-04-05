@@ -3,10 +3,10 @@ package com.fxapp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.fxapp.libfoundation.view.compose.RenderPreview
+import com.fxapp.model.ConversionModel.Companion.baseNumberFormat
 import com.fxapp.view.compose.CurrencyExchangePanel
 import com.fxapp.view.compose.CurrencyTextField
 import com.fxapp.view.compose.TypeSomething
-import com.fxapp.viewmodel.CurrencyConverterViewModel
 import java.math.BigDecimal
 import java.util.Currency
 
@@ -15,7 +15,7 @@ import java.util.Currency
 private fun PreviewCurrencyExchangePanel() {
     CurrencyExchangePanel {
         CurrencyTextField(
-            decimalFormat = CurrencyConverterViewModel.baseNumberFormat,
+            decimalFormat = baseNumberFormat,
             value = BigDecimal.ONE,
             currency = Currency.getInstance("GBP"),
             onCurrencyChanged = {  },
