@@ -12,15 +12,14 @@ import androidx.compose.ui.unit.sp
 import com.fxapp.libfoundation.R
 
 object Typography {
-    private const val DEFAULT_FONT_SIZE = 13
+    private const val DEFAULT_FONT_SIZE = 14
 
-    val defaultFont = DEFAULT_FONT_SIZE.sp
-
+    val defaultFontSize = DEFAULT_FONT_SIZE.sp
 
     @Composable
     fun defaultTextStyle() = TextStyle(
         color = LocalContentColor.current,
-        fontSize = defaultFont,
+        fontSize = defaultFontSize,
         fontFamily = FontFamily(
             Font(R.font.rasa_light, FontWeight.Light),
             Font(R.font.rasa_regular, FontWeight.Normal),
@@ -33,13 +32,14 @@ object Typography {
             Font(R.font.rasa_mediumitalic, FontWeight.Medium, style = FontStyle.Italic),
             Font(R.font.rasa_semibolditalic, FontWeight.SemiBold, style = FontStyle.Italic),
             Font(R.font.rasa_bolditalic, FontWeight.Bold, style = FontStyle.Italic),
-        )
+        ),
     )
 
     @Composable
     fun default() = Typography(
-        bodySmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 1).sp),
+        bodySmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 2).sp),
         bodyMedium = defaultTextStyle(),
+        bodyLarge = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 4).sp),
         titleSmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 8).sp),
         titleMedium = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 10).sp),
         titleLarge = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 14).sp),

@@ -4,17 +4,17 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import androidx.compose.ui.unit.dp
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Typography
 
@@ -22,23 +22,21 @@ typealias SimpleCallback = () -> Unit
 typealias ComposeObject = @Composable SimpleCallback
 
 @Composable
-fun FxAppScreen(content: ComposeObject) {
+fun FxAppScreen(content: ComposeObject) = FxAppTheme {
     val snackbarHostState = remember { SnackbarHostState() }
-    FxAppTheme {
-        Scaffold(
-            modifier = Modifier.semantics {
-                testTagsAsResourceId = true
-            },
-            containerColor = MaterialTheme.colorScheme.background,
-            contentColor = MaterialTheme.colorScheme.onBackground,
-            snackbarHost = { SnackbarHost(snackbarHostState) }
-        ) {
-            Box(
-                Modifier
-                    .padding(it)
-                    .fillMaxSize()) {
-                content()
-            }
+    Scaffold(
+        modifier = Modifier.semantics {
+            testTagsAsResourceId = true
+        },
+        containerColor = MaterialTheme.colorScheme.background,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        snackbarHost = { SnackbarHost(snackbarHostState) }
+    ) {
+        Box(
+            Modifier
+                .padding(it)
+                .fillMaxSize()) {
+            content()
         }
     }
 }
@@ -50,12 +48,14 @@ fun FxAppTheme(content: ComposeObject) {
     } else {
         Colours.lightColourTheme()
     }
-    MaterialTheme(
-        colorScheme = colourScheme,
-        typography = Typography.default(),
-        shapes = MaterialTheme.shapes.copy(small = CutCornerShape(12.dp)),
-        content = content
-    )
+    val defaultTypography = Typography.default()
+    CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.bodyMedium) {
+        MaterialTheme(
+            colorScheme = colourScheme,
+            typography = defaultTypography,
+            content = content
+        )
+    }
 }
 
 @Composable
