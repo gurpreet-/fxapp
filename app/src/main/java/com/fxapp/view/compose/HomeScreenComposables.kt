@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
@@ -40,6 +42,7 @@ import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Dimens.defaultIcon
 import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
 import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
+import com.fxapp.libfoundation.view.theme.Dimens.smallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
@@ -52,22 +55,24 @@ import java.util.Locale
 
 @Composable
 fun HomeScreen() = FxAppScreen {
+    var amount by remember { mutableStateOf(BigDecimal.ZERO) }
     Column(
         Modifier
             .fillMaxSize()
             .background(Colours.default().green10)
             .verticalScroll(rememberScrollState())
     ) {
-        var amount by remember { mutableStateOf(BigDecimal.ZERO) }
         CurrencyExchangePanel {
             CurrencyTextField(value = amount) {
                 amount = it
             }
         }
+
         if (amount.compareTo(BigDecimal.ZERO) == 0) {
             TypeSomething()
+        } else {
+            CurrencyRatesList(amount)
         }
-
     }
 }
 
@@ -77,13 +82,11 @@ fun CurrencyExchangePanel(
 ) = Column(
     Modifier
         .shadow(4.dp)
-        .background(
-            Colours.default().primaryColourDark
-        )
+        .background(Colours.default().primaryColourDark)
         .fillMaxWidth()
         .padding(defaultMargin),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center,
     content = content
 )
 
@@ -164,6 +167,30 @@ private fun TypeSomething() = Column(
     SpacerHeight(xLargeMargin)
 }
 
+@Composable
+private fun ColumnScope.CurrencyRatesList(amount: BigDecimal) {
+    val rates = listOf(BigDecimal(0.5), BigDecimal(1.3), BigDecimal(1.42))
+    LazyColumn(
+        Modifier.weight(1f),
+        userScrollEnabled = false
+    ) {
+        items(rates) {
+            CurrencyRatesLItem(amount, it)
+        }
+    }
+}
+
+@Composable
+private fun CurrencyRatesLItem(amount: BigDecimal, rate: BigDecimal) {
+    val finalRate = amount.multiply(rate)
+    Row(Modifier.padding(horizontal = defaultMargin, vertical = smallMargin)) {
+        Text(
+            "£$finalRate",
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
+}
+
 @Preview
 @Composable
 private fun PreviewCurrencyExchangePanel() = RenderPreview {
@@ -172,4 +199,10 @@ private fun PreviewCurrencyExchangePanel() = RenderPreview {
 
         }
     }
+}
+
+@Preview
+@Composable
+private fun PreviewTypeSomething() = RenderPreview {
+    TypeSomething()
 }
