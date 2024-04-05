@@ -35,6 +35,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -54,9 +55,10 @@ import com.fxapp.libfoundation.view.compose.HorizontalDivider
 import com.fxapp.libfoundation.view.compose.SimpleCallback
 import com.fxapp.libfoundation.view.compose.SpacerHeight
 import com.fxapp.libfoundation.view.theme.Colours
-import com.fxapp.libfoundation.view.theme.Dimens
 import com.fxapp.libfoundation.view.theme.Dimens.defaultIcon
 import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
+import com.fxapp.libfoundation.view.theme.Dimens.extraSmallIcon
+import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.smallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
@@ -210,7 +212,6 @@ private fun CurrencyRatesLItem(amount: BigDecimal, rate: BigDecimal) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrencySelectorButton(
     modifier: Modifier = Modifier,
@@ -248,8 +249,7 @@ fun CurrencySelectorButton(
     }
 
     FilledIconButton(
-        modifier = modifier
-            .requiredSizeIn(minWidth = 58.dp, maxHeight = 30.dp),
+        modifier = modifier.requiredSizeIn(minWidth = 58.dp, maxHeight = 30.dp),
         shape = RoundedCornerShape(8.dp),
         onClick = {
             showDialog = !showDialog
@@ -266,13 +266,13 @@ fun CurrencySelectorButton(
             Text(
                 currency.currencyCode,
                 style = Typography.default().bodyMedium,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
             )
-            Spacer(Modifier.width(Dimens.extraSmallMargin))
+            Spacer(Modifier.width(extraSmallMargin))
             Icon(
                 painterResource(R.drawable.chevron_down),
                 stringResource(R.string.ac_more),
-                modifier = Modifier.size(Dimens.smallIcon),
+                modifier = Modifier.size(extraSmallIcon).rotate(-90f),
             )
         }
     }

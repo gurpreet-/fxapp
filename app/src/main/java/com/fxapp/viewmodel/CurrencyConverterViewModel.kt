@@ -13,6 +13,9 @@ class CurrencyConverterViewModel : BaseViewModel() {
     fun getNumberFormat(newCurrency: Currency): DecimalFormat {
         return baseNumberFormat.apply {
             currency = newCurrency
+            decimalFormatSymbols = decimalFormatSymbols.apply {
+                currencySymbol = newCurrency.symbol
+            }
         }
     }
 
