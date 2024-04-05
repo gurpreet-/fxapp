@@ -4,19 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSizeIn
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.FilledIconButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,19 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.fxapp.libfoundation.R
+import androidx.compose.ui.unit.sp
 import com.fxapp.libfoundation.view.compose.FormTextField
 import com.fxapp.libfoundation.view.compose.FxAppScreen
+import com.fxapp.libfoundation.view.compose.FxFilledIconButton
 import com.fxapp.libfoundation.view.compose.RenderPreview
 import com.fxapp.libfoundation.view.theme.Colours
-import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
-import com.fxapp.libfoundation.view.theme.Dimens.smallIcon
-import com.fxapp.libfoundation.view.theme.Dimens.smallMargin
+import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
 import com.fxapp.libfoundation.view.theme.Typography
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -58,16 +46,17 @@ fun HomeScreen() = FxAppScreen {
     ) {
         CurrencyExchangePanel(
             Modifier
-                .shadow(2.dp)
+                .shadow(4.dp)
                 .background(
                     Colours.default().primaryColourDark
                 )
                 .fillMaxWidth()
-                .padding(horizontal = smallMargin, vertical = extraSmallMargin)
+                .padding(defaultMargin)
         )
         Column(
+            Modifier.weight(1f)
         ) {
-
+            Text("Hi")
         }
     }
 }
@@ -75,13 +64,9 @@ fun HomeScreen() = FxAppScreen {
 @Composable
 fun CurrencyExchangePanel(modifier: Modifier = Modifier) {
     var firstAmount by remember { mutableStateOf(BigDecimal.ZERO) }
-    var secondAmount by remember { mutableStateOf(BigDecimal.ZERO) }
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         CurrencyTextField(firstAmount) {
             firstAmount = it
-        }
-        CurrencyTextField(secondAmount) {
-            secondAmount = it
         }
     }
 }
@@ -108,42 +93,16 @@ fun CurrencyTextField(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(Modifier.weight(0.42f))
-        FilledIconButton(
-            modifier = Modifier
-                .requiredSizeIn(minWidth = 58.dp, maxHeight = 30.dp),
-            shape = RoundedCornerShape(8.dp),
-            onClick = {},
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = Colours.default().cursorColour,
-                contentColor = Colours.default().primaryColour
-            )
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    "EUR",
-                    style = Typography.default().bodyMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Spacer(Modifier.width(extraSmallMargin))
-                Icon(
-                    painterResource(R.drawable.chevron_down),
-                    stringResource(R.string.ac_more),
-                    modifier = Modifier.size(smallIcon),
-                )
-            }
-        }
         FormTextField(
             value = formatted,
-            placeholder = "0.00",
             modifier = Modifier.weight(1f),
-            textStyle = Typography.default().titleLarge.copy(color = Colours.default().secondary),
+            placeholder = "0.00",
+            textStyle = Typography.default()
+                .bodyMedium
+                .copy(color = Colours.default().secondary, fontSize = 50.sp),
             colours = Colours.defaultTextFieldColors().copy(
-                focusedTextColor = Colours.default().formFieldTextColour.copy(alpha = 0.9f),
-                unfocusedTextColor = Colours.default().formFieldTextColour.copy(alpha = 0.9f),
+                focusedTextColor = Colours.default().secondary,
+                unfocusedTextColor = Colours.default().secondary,
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
                 cursorColor = Colours.default().cursorColour,
@@ -154,6 +113,7 @@ fun CurrencyTextField(
                 onValueChange(BigDecimal(newNumbersOnly))
             }
         }
+        FxFilledIconButton()
     }
 }
 

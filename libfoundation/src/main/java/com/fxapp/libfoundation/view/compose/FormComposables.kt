@@ -17,7 +17,7 @@ fun FormTextField(
     placeholder: String,
     modifier: Modifier = Modifier,
     textStyle: TextStyle? = null,
-    leadingIcon: ComposeObject? = null,
+    suffix: ComposeObject? = null,
     colours: TextFieldColors? = null,
     onValueChange: (String) -> Unit
 ) {
@@ -33,7 +33,7 @@ fun FormTextField(
             )
         },
         onValueChange = onValueChange,
-        leadingIcon = leadingIcon,
+        suffix = suffix,
         colors = colours ?: Colours.defaultTextFieldColors()
     )
 }
