@@ -9,6 +9,7 @@ if (isMainProject()) {
 def javaVersion = JavaVersion.VERSION_17
 def navVersion = "2.7.7"
 def koinVersion = "3.5.3"
+def mockkVersion = "1.13.10"
 def composeBomVersion = "2024.03.00"
 
 android {
@@ -41,6 +42,13 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion "1.5.11"
+    }
+    packaging {
+        var exclude = [
+            "META-INF/LICENSE.md",
+            "META-INF/LICENSE-notice.md",
+        ]
+        resources.excludes.addAll(exclude)
     }
 }
 
@@ -76,6 +84,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
 
+
     // ---------------
     // Dependency injection - Koin
     // ---------------
@@ -87,12 +96,24 @@ dependencies {
 
 
     // ---------------
+    // Mocking - Mockk
+    // ---------------
+    debugImplementation "io.mockk:mockk:$mockkVersion"
+
+
+    // ---------------
     // Testing
     // ---------------
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     testImplementation "io.insert-koin:koin-test:$koinVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "io.mockk:mockk-android:$mockkVersion"
+    testImplementation "io.mockk:mockk-agent:$mockkVersion"
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
+    androidTestImplementation "io.mockk:mockk-agent:$mockkVersion"
 }
 
 private Boolean isMainProject() {

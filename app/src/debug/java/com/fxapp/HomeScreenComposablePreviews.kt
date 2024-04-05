@@ -1,0 +1,31 @@
+package com.fxapp
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import com.fxapp.libfoundation.view.compose.RenderPreview
+import com.fxapp.view.compose.CurrencyExchangePanel
+import com.fxapp.view.compose.CurrencyTextField
+import com.fxapp.view.compose.TypeSomething
+import com.fxapp.viewmodel.CurrencyConverterViewModel
+import java.math.BigDecimal
+import java.util.Currency
+
+@Preview
+@Composable
+private fun PreviewCurrencyExchangePanel() {
+    CurrencyExchangePanel {
+        CurrencyTextField(
+            decimalFormat = CurrencyConverterViewModel.baseNumberFormat,
+            value = BigDecimal.ONE,
+            currency = Currency.getInstance("GBP"),
+            onCurrencyChanged = {  },
+            onValueChanged = { },
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewTypeSomething() = RenderPreview {
+    TypeSomething()
+}

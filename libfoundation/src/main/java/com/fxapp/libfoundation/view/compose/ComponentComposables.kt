@@ -41,8 +41,8 @@ fun SpacerWidth(dimen: Dp) {
 }
 
 @Composable
-fun CurrencyItem(currency: Currency) = Row(
-    Modifier.padding(smallMargin, mediumMargin),
+fun CurrencyItem(modifier: Modifier = Modifier, currency: Currency) = Row(
+    modifier.padding(smallMargin, mediumMargin),
     horizontalArrangement = Arrangement.Start,
     verticalAlignment = Alignment.CenterVertically
 ) {

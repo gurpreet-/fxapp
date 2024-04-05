@@ -41,7 +41,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -52,7 +51,7 @@ import com.fxapp.libfoundation.view.compose.FormTextField
 import com.fxapp.libfoundation.view.compose.FxAppBar
 import com.fxapp.libfoundation.view.compose.FxAppScreen
 import com.fxapp.libfoundation.view.compose.HorizontalDivider
-import com.fxapp.libfoundation.view.compose.RenderPreview
+import com.fxapp.libfoundation.view.compose.SimpleCallback
 import com.fxapp.libfoundation.view.compose.SpacerHeight
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Dimens
@@ -63,16 +62,20 @@ import com.fxapp.libfoundation.view.theme.Dimens.smallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
+import com.fxapp.viewmodel.CurrencyConverterViewModel
+import org.koin.androidx.compose.koinViewModel
 import java.math.BigDecimal
-import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.Currency
-import java.util.Locale
 
 
 @Composable
-fun HomeScreen() = FxAppScreen {
+fun HomeScreen(
+    viewModel: CurrencyConverterViewModel = koinViewModel()
+) = FxAppScreen {
     var amount by remember { mutableStateOf(BigDecimal.ZERO) }
+    var currency by remember { mutableStateOf(Currency.getInstance("GBP")) }
+
     Column(
         Modifier
             .fillMaxSize()
@@ -80,9 +83,13 @@ fun HomeScreen() = FxAppScreen {
             .verticalScroll(rememberScrollState())
     ) {
         CurrencyExchangePanel {
-            CurrencyTextField(value = amount) {
-                amount = it
-            }
+            CurrencyTextField(
+                decimalFormat = viewModel.getNumberFormat(currency),
+                value = amount,
+                currency = currency,
+                onCurrencyChanged = { currency = it },
+                onValueChanged = { amount = it }
+            )
         }
 
         if (amount.compareTo(BigDecimal.ZERO) == 0) {
@@ -110,18 +117,12 @@ fun CurrencyExchangePanel(
 @Composable
 fun CurrencyTextField(
     value: BigDecimal,
-    onValueChange: (BigDecimal) -> Unit
+    currency: Currency,
+    decimalFormat: DecimalFormat,
+    onCurrencyChanged: (Currency) -> Unit,
+    onValueChanged: (BigDecimal) -> Unit
 ) {
-    val numberFormat = (DecimalFormat.getCurrencyInstance(Locale.UK) as DecimalFormat).apply {
-        isParseBigDecimal = true
-        roundingMode = RoundingMode.DOWN
-        currency = Currency.getInstance("GBP")
-        decimalFormatSymbols = decimalFormatSymbols.apply {
-            decimalSeparator = '.'
-            groupingSeparator = ','
-        }
-    }
-    val formatted = numberFormat.format(value)
+    val formatted = decimalFormat.format(value)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -141,13 +142,16 @@ fun CurrencyTextField(
                 cursorColor = Colours.default().cursorColour,
             )
         ) { formattedString ->
-            val newNumbersOnly = numbersOnly(formattedString, numberFormat.decimalFormatSymbols.decimalSeparator)
-            val oldNumbersOnly = numbersOnly(formatted, numberFormat.decimalFormatSymbols.decimalSeparator)
+            val newNumbersOnly = numbersOnly(formattedString, decimalFormat.decimalFormatSymbols.decimalSeparator)
+            val oldNumbersOnly = numbersOnly(formatted, decimalFormat.decimalFormatSymbols.decimalSeparator)
             if (oldNumbersOnly != newNumbersOnly) {
-                onValueChange(BigDecimal(newNumbersOnly))
+                onValueChanged(BigDecimal(newNumbersOnly))
             }
         }
-        CurrencySelectorButton()
+        CurrencySelectorButton(
+            currency = currency,
+            onCurrencyChanged = onCurrencyChanged
+        )
     }
 }
 
@@ -158,7 +162,7 @@ private fun numbersOnly(s: String, decimalSeparator: Char): String {
 }
 
 @Composable
-private fun TypeSomething() = Column(
+fun TypeSomething() = Column(
     Modifier
         .fillMaxWidth()
         .alpha(0.66f)
@@ -209,22 +213,24 @@ private fun CurrencyRatesLItem(amount: BigDecimal, rate: BigDecimal) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrencySelectorButton(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    currency: Currency,
+    onCurrencyChanged: (Currency) -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
-    val availableCurrencies = listOf("EUR", "GBP", "USD")
+    val availableCurrencies = listOf("EUR", "GBP", "USD").map { Currency.getInstance(it) }
     val searchedCurrencies = remember { availableCurrencies.toMutableStateList() }
 
     LaunchedEffect(searchText) {
-        availableCurrencies.filter { currency ->
-            currency.startsWith(searchText, true)
-        }.also {
-            searchedCurrencies.apply {
-                clear()
-                addAll(it)
+        availableCurrencies
+            .filter { it.currencyCode.startsWith(searchText, true) }
+            .also {
+                searchedCurrencies.apply {
+                    clear()
+                    addAll(it)
+                }
             }
-        }
     }
 
     if (showDialog) {
@@ -232,44 +238,12 @@ fun CurrencySelectorButton(
             properties = DialogProperties(usePlatformDefaultWidth = false),
             onDismissRequest = { showDialog = false }
         ) {
-            Column(
-                Modifier
-                    .fillMaxSize()
-                    .background(Colours.default().viewBackground)
-            ) {
-                FxAppBar(stringResource(R.string.select_currency)) {
-                    showDialog = false
-                }
-                SearchBar(
-                    searchText,
-                    placeholder = {
-                        Text("Search", color = Colours.default().slate50)
-                    },
-                    trailingIcon = {
-                        Icon(
-                            painterResource(androidx.appcompat.R.drawable.abc_ic_clear_material),
-                            contentDescription = stringResource(R.string.ac_search),
-                            tint = Colours.default().slate50,
-                            modifier = Modifier.clickable {
-                                searchText = ""
-                            }
-                        )
-                    },
-                    onActiveChange = {},
-                    onSearch = {},
-                    active = true,
-                    onQueryChange = {
-                        searchText = it
-                    }
-                ) {
-                    LazyColumn {
-                        items(searchedCurrencies) {
-                            CurrencyItem(Currency.getInstance(it))
-                            HorizontalDivider()
-                        }
-                    }
-                }
-            }
+            CurrencySelectorScreen(
+                currenciesToShow = searchedCurrencies,
+                onSearched = { searchText = it },
+                onCurrencyChanged = onCurrencyChanged,
+                onClose = { showDialog = false},
+            )
         }
     }
 
@@ -290,7 +264,7 @@ fun CurrencySelectorButton(
             horizontalArrangement = Arrangement.End
         ) {
             Text(
-                "EUR",
+                currency.currencyCode,
                 style = Typography.default().bodyMedium,
                 fontWeight = FontWeight.SemiBold
             )
@@ -304,18 +278,53 @@ fun CurrencySelectorButton(
     }
 }
 
-@Preview
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PreviewCurrencyExchangePanel() = RenderPreview {
-    CurrencyExchangePanel {
-        CurrencyTextField(value = BigDecimal.ONE) {
-
+fun CurrencySelectorScreen(
+    currenciesToShow: List<Currency>,
+    onSearched: (String) -> Unit,
+    onCurrencyChanged: (Currency) -> Unit,
+    onClose: SimpleCallback
+) {
+    var searchText by remember { mutableStateOf("") }
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Colours.default().viewBackground)
+    ) {
+        FxAppBar(stringResource(R.string.select_currency), backPressed = onClose)
+        SearchBar(
+            searchText,
+            placeholder = {
+                Text("Search", color = Colours.default().slate50)
+            },
+            trailingIcon = {
+                Icon(
+                    painterResource(androidx.appcompat.R.drawable.abc_ic_clear_material),
+                    contentDescription = stringResource(R.string.ac_search),
+                    tint = Colours.default().slate50,
+                    modifier = Modifier.clickable {
+                        searchText = ""
+                    }
+                )
+            },
+            onActiveChange = {},
+            onSearch = {},
+            active = true,
+            onQueryChange = {
+                searchText = it
+                onSearched(it)
+            }
+        ) {
+            LazyColumn {
+                items(currenciesToShow) {
+                    CurrencyItem(Modifier.fillMaxWidth().clickable(onClick = {
+                        onCurrencyChanged(it)
+                        onClose()
+                    }), it)
+                    HorizontalDivider()
+                }
+            }
         }
     }
-}
-
-@Preview
-@Composable
-private fun PreviewTypeSomething() = RenderPreview {
-    TypeSomething()
 }

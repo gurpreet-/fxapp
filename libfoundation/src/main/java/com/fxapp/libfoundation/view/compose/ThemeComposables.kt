@@ -17,6 +17,10 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Typography
+import org.koin.compose.KoinApplication
+import org.koin.core.context.stopKoin
+import org.koin.core.module.Module
+import org.koin.dsl.module
 
 typealias SimpleCallback = () -> Unit
 typealias ComposeObject = @Composable SimpleCallback
@@ -59,4 +63,11 @@ fun FxAppTheme(content: ComposeObject) {
 }
 
 @Composable
-fun RenderPreview(content: ComposeObject) = FxAppTheme(content)
+fun RenderPreview(moduleDeclaration: Module = module {}, content: ComposeObject) {
+    stopKoin()
+    KoinApplication(application = {
+        modules(moduleDeclaration)
+    }) {
+        FxAppTheme(content)
+    }
+}
