@@ -168,6 +168,9 @@ private fun numbersOnly(potentialNumber: String, decimalSeparator: Char): String
         .filter { it.isDigit() || it == decimalSeparator }
         .ifBlank { "0" }
     return try {
+        // Just try parse here and if it throws an
+        // exception then return 0. Potential to be improved
+        // by keeping the existing value.
         BigDecimal(filteredForNumbersAndSeparator)
         filteredForNumbersAndSeparator
     } catch (e: Throwable) {
