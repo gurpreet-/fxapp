@@ -11,11 +11,6 @@ import java.util.Currency
 import java.util.Locale
 
 open class ConversionModel(val apiRepository: ApiRepository) {
-    // A small handy cache for our basic rates
-    // that we get from the API
-    private var rates: MutableList<Amount> = mutableListOf()
-    // Another handy store of all the exchanged rates.
-    private var exchangedRates: List<Amount> = mutableListOf()
 
     suspend fun getExchangedRatesForAmountFormatted(amount: Amount): List<AmountFormatted> {
         return getExchangedRatesForAmount(amount)
@@ -23,20 +18,18 @@ open class ConversionModel(val apiRepository: ApiRepository) {
     }
 
     private suspend fun getExchangedRatesForAmount(amount: Amount): List<Amount> {
-        if (rates.isEmpty()) {
-            // Get the latest conversion rates from the API.
-            val fetchedRates = apiRepository.getLatestRates(amount.currency)
-            // Map to formats that we can use within the app.
-            rates = fetchedRates.rates
-                .map { Amount(Currency.getInstance(it.key), BigDecimal(it.value)) }
-                .toMutableList()
-                .apply {
-                    add(amount.copy(value = BigDecimal.ONE))
-                }
-        }
+        // Get the latest conversion rates from the API.
+        val fetchedRates = apiRepository.getLatestRates(amount.currency)
+        // Map to formats that we can use within the app.
+        val rates = fetchedRates.rates
+            .map { Amount(Currency.getInstance(it.key), BigDecimal(it.value)) }
+            .toMutableList()
+            .apply {
+                add(amount.copy(value = BigDecimal.ONE))
+            }
 
         // Multiply rates
-        exchangedRates = rates.map {
+        val exchangedRates = rates.map {
             val multiplied = amount.value.multiply(it.value)
             it.copy(value = multiplied)
         }

@@ -23,7 +23,8 @@ class ConverterViewModel(
 
     // Main state flow used to update the view
     // careful not to add too many fields that update as
-    // it can be quite expensive.
+    // it can be quite expensive. Better to use different
+    // screen states.
     private val _uiState = MutableStateFlow(ConverterScreenState())
     // Consume this unidirectional UI state from the view
     val uiState: StateFlow<ConverterScreenState> = _uiState.asStateFlow()
@@ -33,11 +34,13 @@ class ConverterViewModel(
     private val exchangeRatesUpdaterFlow = MutableStateFlow<Amount?>(null)
 
     init {
-        exchangeRatesUpdaterFlow
-            .asStateFlow()
-            .debounce(2.seconds)
-            .onEach { it?.let { getFormattedExchangeRates(it) } }
-            .launchIn(jobExecutor.ioScope)
+        launchOnIO {
+            exchangeRatesUpdaterFlow
+                .asStateFlow()
+                .debounce(2.seconds)
+                .onEach { it?.let { getFormattedExchangeRates(it) } }
+                .launchIn(this)
+        }
     }
 
     fun initialise() {
