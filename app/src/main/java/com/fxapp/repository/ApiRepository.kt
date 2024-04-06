@@ -1,10 +1,8 @@
 package com.fxapp.repository
 
-import com.fxapp.di.OkHttpClientHandler
-import com.fxapp.libfoundation.async.JobExecutor
 import com.fxapp.libfoundation.data.LatestRates
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.withContext
+import com.fxapp.libfoundation.di.OkHttpClientHandler
+import kotlinx.coroutines.coroutineScope
 import org.http4k.core.Body
 import org.http4k.core.HttpMessage.Companion.HTTP_2
 import org.http4k.core.Method.GET
@@ -13,10 +11,10 @@ import org.http4k.format.Gson.auto
 import java.util.Currency
 
 class ApiRepository(
-    val client: OkHttpClientHandler,
-    val jobExecutor: JobExecutor
+    val client: OkHttpClientHandler
 ) {
-    suspend fun getLatestRates(from: Currency): LatestRates = launchRequest {
+
+    suspend fun getLatestRates(from: Currency): LatestRates = coroutineScope {
         val latestRatesLens = Body.auto<LatestRates>().toLens()
 
         val request = getRequest("latest").query("from", from.currencyCode)
@@ -26,8 +24,6 @@ class ApiRepository(
     }
 
     private fun getRequest(path: String) = Request(GET, "$FULL_URL/$path", HTTP_2)
-
-    private suspend fun <T> launchRequest(block: suspend CoroutineScope.() -> T) = withContext(jobExecutor.ioContext, block)
 
     companion object {
         const val SCHEME: String = "https://"

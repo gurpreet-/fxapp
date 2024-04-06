@@ -33,7 +33,6 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -43,7 +42,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -53,6 +51,8 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.data.Amount
+import com.fxapp.libfoundation.data.AmountFormatted
+import com.fxapp.libfoundation.view.compose.CircularLoading
 import com.fxapp.libfoundation.view.compose.CurrencyItem
 import com.fxapp.libfoundation.view.compose.FormTextField
 import com.fxapp.libfoundation.view.compose.FxAppBar
@@ -60,6 +60,7 @@ import com.fxapp.libfoundation.view.compose.FxAppScreen
 import com.fxapp.libfoundation.view.compose.HorizontalDivider
 import com.fxapp.libfoundation.view.compose.SimpleCallback
 import com.fxapp.libfoundation.view.compose.SpacerHeight
+import com.fxapp.libfoundation.view.compose.SpacerWidth
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Dimens.defaultIcon
 import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
@@ -83,15 +84,14 @@ fun HomeScreen(
     viewModel: CurrencyConverterViewModel = koinViewModel()
 ) = FxAppScreen {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    var amount by remember { mutableStateOf(BigDecimal.ZERO) }
-    var currency by remember { mutableStateOf(Currency.getInstance("GBP")) }
-    var isLoading by remember { mutableStateOf(false) }
-    val rates = remember { mutableStateListOf<Amount>() }
+    val amount = uiState.amount
 
-    LaunchedEffect(amount, currency) {
-        isLoading = true
-        rates.clear()
-        viewModel.getRates(amount, currency)
+    LaunchedEffect(true) {
+        viewModel.getAvailableCurrencies()
+    }
+
+    LaunchedEffect(amount) {
+        viewModel.getRates(amount)
     }
 
     Column(
@@ -102,18 +102,41 @@ fun HomeScreen(
     ) {
         CurrencyExchangePanel {
             CurrencyTextField(
-                decimalFormat = viewModel.getNumberFormat(currency),
-                value = amount,
-                currency = currency,
-                onCurrencyChanged = { currency = it },
-                onValueChanged = { amount = it }
+                decimalFormat = viewModel.getNumberFormat(amount.currency),
+                value = amount.value,
+                currency = amount.currency,
+                availableCurrencies = uiState.availableCurrencies,
+                onCurrencyChanged = {
+                    viewModel.setAmount(Amount(it, amount.value))
+                },
+                onValueChanged = {
+                    viewModel.setAmount(Amount(amount.currency, it))
+                }
             )
         }
 
-        if (amount.compareTo(BigDecimal.ZERO) == 0) {
+        if (amount.value.compareTo(BigDecimal.ZERO) == 0) {
             TypeSomething()
         } else {
-            CurrencyRatesList(uiState.exchangeRates)
+            RatesList(uiState.formattedExchangeRates)
+        }
+    }
+}
+
+@Composable
+fun ColumnScope.RatesList(formattedExchangeRates: List<AmountFormatted>) {
+    if (formattedExchangeRates.isEmpty()) {
+        Row(
+            Modifier
+                .weight(1f)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center) {
+            CircularLoading()
+        }
+    } else {
+        formattedExchangeRates.forEach {
+            CurrencyRatesLItem(it.currencyCode, it.formattedAmount)
         }
     }
 }
@@ -137,6 +160,7 @@ fun CurrencyTextField(
     value: BigDecimal,
     currency: Currency,
     decimalFormat: DecimalFormat,
+    availableCurrencies: List<Currency> = listOf(),
     conversionModel: ConversionModel = koinInject(),
     onCurrencyChanged: (Currency) -> Unit,
     onValueChanged: (BigDecimal) -> Unit
@@ -151,8 +175,7 @@ fun CurrencyTextField(
             modifier = Modifier.weight(1f),
             placeholder = "0.00",
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Decimal,
-                imeAction = ImeAction.None
+                keyboardType = KeyboardType.Decimal
             ),
             textStyle = Typography.default()
                 .bodyMedium
@@ -167,12 +190,19 @@ fun CurrencyTextField(
         ) { newString ->
             val newNumbersOnly = conversionModel.numbersOnly(newString, decimalFormat.decimalFormatSymbols.decimalSeparator)
             val oldNumbersOnly = conversionModel.numbersOnly(formatted, decimalFormat.decimalFormatSymbols.decimalSeparator)
-            if (oldNumbersOnly != newNumbersOnly) {
-                onValueChanged(BigDecimal(newNumbersOnly))
+
+            val bdOld = BigDecimal(oldNumbersOnly)
+            val bdNew = BigDecimal(newNumbersOnly)
+
+            val isDifferent = bdOld.compareTo(bdNew) != 0
+            val is100TimesLarger = bdOld.multiply(BigDecimal(100)).compareTo(bdNew) == 0
+            if (isDifferent && !is100TimesLarger) {
+                onValueChanged(bdNew)
             }
         }
         CurrencySelectorButton(
             currency = currency,
+            availableCurrencies = availableCurrencies,
             onCurrencyChanged = onCurrencyChanged
         )
     }
@@ -204,28 +234,24 @@ fun TypeSomething() = Column(
 }
 
 @Composable
-private fun ColumnScope.CurrencyRatesList(rates: List<Amount>) {
-    LazyColumn(
-        Modifier.weight(1f)
-    ) {
-        items(rates) {
-            CurrencyRatesLItem(it)
-        }
-    }
-}
-
-@Composable
 private fun CurrencyRatesLItem(
-    rate: Amount,
-    currencyModel: ConversionModel = koinInject()
+    currencyCode: String,
+    formattedRate: String,
 ) {
     Row(Modifier
         .fillMaxWidth()
         .clickable { }
-        .padding(horizontal = defaultMargin, vertical = defaultMargin)) {
+        .padding(defaultMargin),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(currencyCode,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        SpacerWidth(defaultMargin)
         Text(
-            currencyModel.format(rate),
-            style = MaterialTheme.typography.titleMedium
+            formattedRate,
+            style = MaterialTheme.typography.titleLarge,
+            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
         )
     }
 }
@@ -234,12 +260,12 @@ private fun CurrencyRatesLItem(
 fun CurrencySelectorButton(
     modifier: Modifier = Modifier,
     currency: Currency,
-    onCurrencyChanged: (Currency) -> Unit
+    availableCurrencies: List<Currency>,
+    onCurrencyChanged: (Currency) -> Unit,
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
-    val availableCurrencies = listOf("EUR", "GBP", "USD").map { Currency.getInstance(it) }
-    val searchedCurrencies = remember { availableCurrencies.toMutableStateList() }
+    val searchedCurrencies = remember { mutableStateListOf<Currency>() }
 
     LaunchedEffect(searchText) {
         availableCurrencies
@@ -258,7 +284,9 @@ fun CurrencySelectorButton(
             onDismissRequest = { showDialog = false }
         ) {
             CurrencySelectorScreen(
-                currenciesToShow = searchedCurrencies,
+                currenciesToShow =
+                    if (searchText.isBlank()) availableCurrencies
+                    else searchedCurrencies,
                 onSearched = { searchText = it },
                 onCurrencyChanged = onCurrencyChanged,
                 onClose = { showDialog = false},

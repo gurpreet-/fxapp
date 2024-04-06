@@ -1,6 +1,8 @@
 package com.fxapp.model
 
 import com.fxapp.libfoundation.data.Amount
+import com.fxapp.libfoundation.data.AmountFormatted
+import com.fxapp.libfoundation.data.CurrencyMap
 import com.fxapp.repository.ApiRepository
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -11,13 +13,35 @@ import java.util.Locale
 class ConversionModel(
     val apiRepository: ApiRepository
 ) {
+    private var rates: MutableList<Amount> = mutableListOf()
 
     suspend fun getExchangedRatesForAmount(amount: Amount): List<Amount> {
-        val latestRates = apiRepository.getLatestRates(amount.currency)
-        return latestRates.rates.map {
-            val multiplied = amount.value.multiply(BigDecimal(it.value))
-            Amount(Currency.getInstance(it.key), multiplied)
+        if (rates.isEmpty()) {
+            val fetchedRates = apiRepository.getLatestRates(amount.currency)
+            rates = fetchedRates.rates
+                .map { Amount(Currency.getInstance(it.key), BigDecimal(it.value)) }
+                .toMutableList()
+                .apply {
+                    add(amount.copy(value = BigDecimal.ONE))
+                }
         }
+
+        return rates.map {
+            val multiplied = amount.value.multiply(it.value)
+            it.copy(value = multiplied)
+        }
+    }
+
+    suspend fun getExchangedRatesForAmountFormatted(amount: Amount): List<AmountFormatted> {
+        return getExchangedRatesForAmount(amount).map { AmountFormatted(it.currency.currencyCode, format(it)) }
+    }
+
+    fun getAvailableCurrencies(): List<Currency> {
+        return listOf(
+            Currency.getInstance("GBP"),
+            Currency.getInstance("USD"),
+            Currency.getInstance("EUR"),
+        )
     }
 
     fun format(amount: Amount): String {
@@ -33,9 +57,8 @@ class ConversionModel(
 
     fun getNumberFormat(newCurrency: Currency): DecimalFormat {
         return baseNumberFormat.apply {
-            currency = newCurrency
             decimalFormatSymbols = decimalFormatSymbols.apply {
-                currencySymbol = newCurrency.symbol
+                currencySymbol = CurrencyMap.map.getOrDefault(newCurrency.currencyCode, newCurrency.symbol)
             }
         }
     }
@@ -57,6 +80,8 @@ class ConversionModel(
     }
 
     companion object {
+        val GBP = Currency.getInstance("GBP")
+
         val baseNumberFormat = (DecimalFormat.getCurrencyInstance(Locale.UK) as DecimalFormat).apply {
             isParseBigDecimal = true
             roundingMode = RoundingMode.DOWN
@@ -66,9 +91,5 @@ class ConversionModel(
                 groupingSeparator = ','
             }
         }
-
-        val GBP = Currency.getInstance("GBP")
-        val USD = Currency.getInstance("USD")
-        val EUR = Currency.getInstance("EUR")
     }
 }
