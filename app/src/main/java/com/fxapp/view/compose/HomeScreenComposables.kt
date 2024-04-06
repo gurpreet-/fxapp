@@ -36,7 +36,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -52,6 +51,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountFormatted
+import com.fxapp.libfoundation.view.compose.ChevronRightIcon
 import com.fxapp.libfoundation.view.compose.CircularLoading
 import com.fxapp.libfoundation.view.compose.CurrencyItem
 import com.fxapp.libfoundation.view.compose.FormTextField
@@ -62,11 +62,11 @@ import com.fxapp.libfoundation.view.compose.SimpleCallback
 import com.fxapp.libfoundation.view.compose.SpacerHeight
 import com.fxapp.libfoundation.view.compose.SpacerWidth
 import com.fxapp.libfoundation.view.theme.Colours
-import com.fxapp.libfoundation.view.theme.Dimens.defaultIcon
 import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
-import com.fxapp.libfoundation.view.theme.Dimens.extraSmallIcon
 import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
+import com.fxapp.libfoundation.view.theme.Dimens.largeIcon
 import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
+import com.fxapp.libfoundation.view.theme.Dimens.mediumIcon
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
@@ -229,7 +229,7 @@ fun TypeSomething() = Column(
         painterResource(R.drawable.currency_exchange),
         tint = Colours.default().primaryColourDark,
         contentDescription = stringResource(R.string.ac_currency_exchange),
-        modifier = Modifier.size(defaultIcon)
+        modifier = Modifier.size(largeIcon)
     )
     SpacerHeight(defaultMargin)
     Text(
@@ -260,6 +260,11 @@ private fun CurrencyRatesLItem(
             formattedRate,
             style = MaterialTheme.typography.titleLarge,
             lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
+        )
+        Spacer(Modifier.weight(1f))
+        ChevronRightIcon(
+            tint = Colours.default().black,
+            size = mediumIcon
         )
     }
 }
@@ -323,13 +328,7 @@ fun CurrencySelectorButton(
                 fontWeight = FontWeight.SemiBold,
             )
             Spacer(Modifier.width(extraSmallMargin))
-            Icon(
-                painterResource(R.drawable.chevron_down),
-                stringResource(R.string.ac_more),
-                modifier = Modifier
-                    .size(extraSmallIcon)
-                    .rotate(-90f),
-            )
+            ChevronRightIcon()
         }
     }
 }
@@ -352,7 +351,7 @@ fun CurrencySelectorScreen(
         SearchBar(
             searchText,
             placeholder = {
-                Text("Search", color = Colours.default().slate50)
+                Text(stringResource(R.string.search), color = Colours.default().slate50)
             },
             trailingIcon = {
                 Icon(

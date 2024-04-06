@@ -13,6 +13,7 @@ object Dimens {
 
     val extraSmallIcon = 8.dp
     val smallIcon = 10.dp
-    val defaultIcon = 32.dp
-    val largeIcon = 54.dp
+    val mediumIcon = 14.dp
+    val defaultIcon = 20.dp
+    val largeIcon = 32.dp
 }
