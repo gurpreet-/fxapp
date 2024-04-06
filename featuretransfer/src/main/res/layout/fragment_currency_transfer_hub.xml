@@ -12,6 +12,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tabTextAppearance="@style/TabTextAppearance"
+        app:tabTextColor="@color/sand60"
+        app:tabIndicatorColor="@color/colorSecondary"
+        app:tabSelectedTextColor="@color/colorSecondary"
         app:tabBackground="@color/colorPrimaryDark"
         app:tabMode="fixed" />
 

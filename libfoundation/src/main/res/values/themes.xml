@@ -23,4 +23,9 @@
         <item name="android:fontFamily">@font/rasa_bolditalic</item>
         <item name="android:textSize">26sp</item>
     </style>
+
+    <style name="TabTextAppearance">
+        <item name="android:fontFamily">@font/rasa_bolditalic</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>
