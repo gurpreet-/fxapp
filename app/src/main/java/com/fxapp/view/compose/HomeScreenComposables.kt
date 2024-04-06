@@ -131,7 +131,8 @@ fun ColumnScope.RatesList(formattedExchangeRates: List<AmountFormatted>) {
                 .weight(1f)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center) {
+            horizontalArrangement = Arrangement.Center
+        ) {
             CircularLoading()
         }
     } else {
@@ -188,8 +189,14 @@ fun CurrencyTextField(
                 cursorColor = Colours.default().cursorColour,
             )
         ) { newString ->
-            val newNumbersOnly = conversionModel.numbersOnly(newString, decimalFormat.decimalFormatSymbols.decimalSeparator)
-            val oldNumbersOnly = conversionModel.numbersOnly(formatted, decimalFormat.decimalFormatSymbols.decimalSeparator)
+            val newNumbersOnly = conversionModel.numbersOnly(
+                newString,
+                decimalFormat.decimalFormatSymbols.decimalSeparator
+            )
+            val oldNumbersOnly = conversionModel.numbersOnly(
+                formatted,
+                decimalFormat.decimalFormatSymbols.decimalSeparator
+            )
 
             val bdOld = BigDecimal(oldNumbersOnly)
             val bdNew = BigDecimal(newNumbersOnly)
@@ -244,7 +251,8 @@ private fun CurrencyRatesLItem(
         .padding(defaultMargin),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(currencyCode,
+        Text(
+            currencyCode,
             style = MaterialTheme.typography.bodyMedium
         )
         SpacerWidth(defaultMargin)
@@ -285,11 +293,11 @@ fun CurrencySelectorButton(
         ) {
             CurrencySelectorScreen(
                 currenciesToShow =
-                    if (searchText.isBlank()) availableCurrencies
-                    else searchedCurrencies,
+                if (searchText.isBlank()) availableCurrencies
+                else searchedCurrencies,
                 onSearched = { searchText = it },
                 onCurrencyChanged = onCurrencyChanged,
-                onClose = { showDialog = false},
+                onClose = { showDialog = false },
             )
         }
     }
@@ -372,7 +380,8 @@ fun CurrencySelectorScreen(
                             .clickable(onClick = {
                                 onCurrencyChanged(it)
                                 onClose()
-                            }), it)
+                            }), it
+                    )
                     HorizontalDivider()
                 }
             }

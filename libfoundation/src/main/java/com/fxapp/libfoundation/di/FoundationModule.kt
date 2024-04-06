@@ -39,12 +39,14 @@ object FoundationModule {
         // Build OkHttpClient
         val client = OkHttpClient().newBuilder().followRedirects(false).build()
 
-        // String everything together
+        // Print request and responses in debug
         val debugPrint = if (buildWrapper.isDebug) {
             DebuggingFilters.PrintRequestAndResponse()
         } else {
             Filter { it }
         }
+
+        // String everything together
         return debugPrint
             .then(withCachedContent)
             .then(OkHttp(client = client))
