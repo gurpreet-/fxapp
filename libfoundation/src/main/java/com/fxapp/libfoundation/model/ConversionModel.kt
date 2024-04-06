@@ -11,12 +11,22 @@ import java.util.Currency
 import java.util.Locale
 
 open class ConversionModel(val apiRepository: ApiRepository) {
+    // A small handy cache for our basic rates
+    // that we get from the API
     private var rates: MutableList<Amount> = mutableListOf()
+    // Another handy store of all the exchanged rates.
     private var exchangedRates: List<Amount> = mutableListOf()
+
+    suspend fun getExchangedRatesForAmountFormatted(amount: Amount): List<AmountFormatted> {
+        return getExchangedRatesForAmount(amount)
+            .map { AmountFormatted(it.currency.currencyCode, format(it)) }
+    }
 
     private suspend fun getExchangedRatesForAmount(amount: Amount): List<Amount> {
         if (rates.isEmpty()) {
+            // Get the latest conversion rates from the API.
             val fetchedRates = apiRepository.getLatestRates(amount.currency)
+            // Map to formats that we can use within the app.
             rates = fetchedRates.rates
                 .map { Amount(Currency.getInstance(it.key), BigDecimal(it.value)) }
                 .toMutableList()
@@ -25,20 +35,19 @@ open class ConversionModel(val apiRepository: ApiRepository) {
                 }
         }
 
-        // When presenting, filter the one currently requested
-
+        // Multiply rates
         exchangedRates = rates.map {
             val multiplied = amount.value.multiply(it.value)
             it.copy(value = multiplied)
         }
+
+        // When presenting, filter the one currently requested
         return exchangedRates.filterNot { it.currency == amount.currency }
     }
 
-    suspend fun getExchangedRatesForAmountFormatted(amount: Amount): List<AmountFormatted> {
-        return getExchangedRatesForAmount(amount)
-            .map { AmountFormatted(it.currency.currencyCode, format(it)) }
-    }
-
+    /**
+     * A list of available currencies.
+     */
     fun getAvailableCurrencies(): List<Currency> {
         return listOf(
             Currency.getInstance("GBP"),
@@ -64,14 +73,20 @@ open class ConversionModel(val apiRepository: ApiRepository) {
         }
     }
 
-    fun numbersOnly(potentialNumber: String, decimalSeparator: Char = baseNumberFormat.decimalFormatSymbols.decimalSeparator): String {
+    /**
+     * A useful method that parses a string and gets out
+     * its numbers and a decimal separator.
+     */
+    fun extractNumbersAndSeparator(potentialNumber: String, decimalSeparator: Char = baseNumberFormat.decimalFormatSymbols.decimalSeparator): String {
         val filteredForNumbersAndSeparator = potentialNumber
             .filter { it.isDigit() || it == decimalSeparator }
             .ifBlank { "0" }
+
+        // Just try parse here and if it throws an
+        // exception then return 0. Potential to be improved
+        // by keeping the existing value rather than defauling
+        // to 0.
         return try {
-            // Just try parse here and if it throws an
-            // exception then return 0. Potential to be improved
-            // by keeping the existing value.
             BigDecimal(filteredForNumbersAndSeparator)
                 .setScale(2, RoundingMode.DOWN)
                 .toString()
@@ -81,12 +96,16 @@ open class ConversionModel(val apiRepository: ApiRepository) {
     }
 
     companion object {
-        val GBP = Currency.getInstance("GBP")
+        val GBP: Currency = Currency.getInstance("GBP")
 
         val baseNumberFormat = (DecimalFormat.getCurrencyInstance(Locale.UK) as DecimalFormat).apply {
             isParseBigDecimal = true
             roundingMode = RoundingMode.DOWN
             currency = Currency.getInstance("GBP")
+
+            // For the purposes of this app, we force all decimal separators
+            // to be "." and all grouping separators to be "," even though
+            // that might look incorrect in some locales.
             decimalFormatSymbols = decimalFormatSymbols.apply {
                 decimalSeparator = '.'
                 groupingSeparator = ','

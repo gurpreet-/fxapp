@@ -8,7 +8,11 @@ import org.koin.core.component.inject
 
 open class BaseViewModel : ViewModel(), KoinComponent {
 
-     private val jobExecutor by inject<JobExecutor>()
+     protected val jobExecutor by inject<JobExecutor>()
+
+     override fun onCleared() {
+          jobExecutor.cancelAll()
+     }
 
      fun launchOnIO(block: suspend CoroutineScope.() -> Unit)
           = jobExecutor.launchIO(block)

@@ -90,11 +90,7 @@ fun HomeScreen(
     val amount = uiState.amount
 
     LaunchedEffect(true) {
-        converterViewModel.getAvailableCurrencies()
-    }
-
-    LaunchedEffect(amount) {
-        converterViewModel.getFormattedExchangeRates(amount)
+        converterViewModel.initialise()
     }
 
     Column(
@@ -119,47 +115,47 @@ fun HomeScreen(
             )
         }
 
-        if (amount.value.compareTo(BigDecimal.ZERO) == 0) {
-            TypeSomething()
+        if (uiState.isLoading) {
+            Row(
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                CircularLoading()
+            }
         } else {
-            RatesList(uiState.formattedExchangeRates) {
-                transferViewModel.fromAmount = amount
-                transferViewModel.exchangedAmount = it
-                navController.navigate(
-                    HomeScreenFragmentDirections.actionGlobalOpenTransferHub(
-                        amount.value.toString(),
-                        amount.currency.currencyCode,
-                        it.value.toString(),
-                        it.currency.currencyCode
-                    ),
-                )
+            if (amount.value.compareTo(BigDecimal.ZERO) == 0) {
+                TypeSomething()
+            } else {
+                RatesList(uiState.formattedExchangeRates) {
+                    transferViewModel.fromAmount = amount
+                    transferViewModel.exchangedAmount = it
+                    navController.navigate(
+                        HomeScreenFragmentDirections.actionGlobalOpenTransferHub(
+                            amount.value.toString(),
+                            amount.currency.currencyCode,
+                            it.value.toString(),
+                            it.currency.currencyCode
+                        ),
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun ColumnScope.RatesList(
+fun RatesList(
     formattedExchangeRates: List<AmountFormatted>,
     conversionModel: ConversionModel = koinInject(),
     onClick: (Amount) -> Unit
 ) {
-    if (formattedExchangeRates.isEmpty()) {
-        Row(
-            Modifier
-                .weight(1f)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            CircularLoading()
-        }
-    } else {
-        formattedExchangeRates.forEach { formattedAmount ->
-            CurrencyRatesListItem(formattedAmount.currencyCode, formattedAmount.formattedAmount) {
-                val converted = conversionModel.numbersOnly(formattedAmount.formattedAmount)
-                onClick(Amount(formattedAmount.currencyCode, BigDecimal(converted)))
-            }
+    formattedExchangeRates.forEach { formattedAmount ->
+        CurrencyRatesListItem(formattedAmount.currencyCode, formattedAmount.formattedAmount) {
+            val converted = conversionModel.extractNumbersAndSeparator(formattedAmount.formattedAmount)
+            onClick(Amount(formattedAmount.currencyCode, BigDecimal(converted)))
         }
     }
 }
@@ -213,11 +209,11 @@ fun CurrencyTextField(
                 cursorColor = Colours.default().cursorColour,
             )
         ) { newString ->
-            val newNumbersOnly = conversionModel.numbersOnly(
+            val newNumbersOnly = conversionModel.extractNumbersAndSeparator(
                 newString,
                 decimalFormat.decimalFormatSymbols.decimalSeparator
             )
-            val oldNumbersOnly = conversionModel.numbersOnly(
+            val oldNumbersOnly = conversionModel.extractNumbersAndSeparator(
                 formatted,
                 decimalFormat.decimalFormatSymbols.decimalSeparator
             )
@@ -292,9 +288,7 @@ fun CurrencySelectorButton(
             onDismissRequest = { showDialog = false }
         ) {
             CurrencySelectorScreen(
-                currenciesToShow =
-                if (searchText.isBlank()) availableCurrencies
-                else searchedCurrencies,
+                currenciesToShow = if (searchText.isBlank()) availableCurrencies else searchedCurrencies,
                 onSearched = { searchText = it },
                 onCurrencyChanged = onCurrencyChanged,
                 onClose = { showDialog = false },
@@ -302,28 +296,30 @@ fun CurrencySelectorButton(
         }
     }
 
-    FilledIconButton(
-        modifier = modifier.requiredSizeIn(minWidth = 58.dp, maxHeight = 30.dp),
-        shape = RoundedCornerShape(8.dp),
-        onClick = {
-            showDialog = !showDialog
-        },
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = Colours.default().secondaryContainer,
-            contentColor = Colours.default().primaryColour
-        )
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.End
-        ) {
-            Text(
-                currency.currencyCode,
-                style = Typography.default().bodyMedium,
-                fontWeight = FontWeight.SemiBold,
+    if (availableCurrencies.isNotEmpty()) {
+        FilledIconButton(
+            modifier = modifier.requiredSizeIn(minWidth = 58.dp, maxHeight = 30.dp),
+            shape = RoundedCornerShape(8.dp),
+            onClick = {
+                showDialog = !showDialog
+            },
+            colors = IconButtonDefaults.iconButtonColors(
+                containerColor = Colours.default().secondaryContainer,
+                contentColor = Colours.default().primaryColour
             )
-            Spacer(Modifier.width(extraSmallMargin))
-            ChevronRightIcon()
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    currency.currencyCode,
+                    style = Typography.default().bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Spacer(Modifier.width(extraSmallMargin))
+                ChevronRightIcon()
+            }
         }
     }
 }
