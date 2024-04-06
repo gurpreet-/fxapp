@@ -15,8 +15,11 @@
         <action
             android:id="@+id/action_global_open_transfer_hub"
             app:destination="@id/transfer_nav_graph">
-            <argument android:name="currency" app:argType="string" />
-            <argument android:name="amount" app:argType="string" />
+            <argument android:name="initialAmount" app:argType="string" />
+            <argument android:name="initialCurrency" app:argType="string" />
+
+            <argument android:name="convertedAmount" app:argType="string" />
+            <argument android:name="convertedCurrency" app:argType="string" />
         </action>
 
     </fragment>

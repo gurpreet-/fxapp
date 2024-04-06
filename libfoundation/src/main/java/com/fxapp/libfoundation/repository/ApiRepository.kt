@@ -1,5 +1,6 @@
-package com.fxapp.repository
+package com.fxapp.libfoundation.repository
 
+import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.LatestRates
 import com.fxapp.libfoundation.di.OkHttpClientHandler
 import kotlinx.coroutines.coroutineScope
@@ -17,7 +18,24 @@ class ApiRepository(
     suspend fun getLatestRates(from: Currency): LatestRates = coroutineScope {
         val latestRatesLens = Body.auto<LatestRates>().toLens()
 
-        val request = getRequest("latest").query("from", from.currencyCode)
+        val request = getRequest("latest")
+            .query("from", from.currencyCode)
+        val response = client.invoke(request)
+
+        latestRatesLens(response)
+    }
+
+    suspend fun getHistoricRates(
+        amount: Amount,
+        convertToCurrencyIsoCode: String,
+        datePrior: String
+    ): LatestRates = coroutineScope {
+        val latestRatesLens = Body.auto<LatestRates>().toLens()
+
+        val request = getRequest("$datePrior..")
+            .query("amount", amount.value.toString())
+            .query("from", amount.currency.currencyCode)
+            .query("to", convertToCurrencyIsoCode)
         val response = client.invoke(request)
 
         latestRatesLens(response)

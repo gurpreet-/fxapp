@@ -5,3 +5,4 @@ import java.math.BigDecimal
 import java.util.Currency
 
 fun Currency.toAmount(value: BigDecimal? = null) = Amount(this, value)
+fun BigDecimal.toAmount(currencyCode: String) = Amount(Currency.getInstance(currencyCode), this)

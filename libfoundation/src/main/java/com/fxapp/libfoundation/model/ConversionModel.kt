@@ -1,18 +1,16 @@
-package com.fxapp.model
+package com.fxapp.libfoundation.model
 
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountFormatted
 import com.fxapp.libfoundation.data.CurrencyMap
-import com.fxapp.repository.ApiRepository
+import com.fxapp.libfoundation.repository.ApiRepository
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.Currency
 import java.util.Locale
 
-class ConversionModel(
-    val apiRepository: ApiRepository
-) {
+open class ConversionModel(val apiRepository: ApiRepository) {
     private var rates: MutableList<Amount> = mutableListOf()
 
     suspend fun getExchangedRatesForAmount(amount: Amount): List<Amount> {
@@ -33,8 +31,8 @@ class ConversionModel(
         }
     }
 
-    suspend fun getExchangedRatesForAmountFormatted(amount: Amount): List<AmountFormatted> {
-        return getExchangedRatesForAmount(amount).map { AmountFormatted(it.currency.currencyCode, format(it)) }
+    suspend fun getExchangedRatesForAmountFormatted(exchangedRates: List<Amount>): List<AmountFormatted> {
+        return exchangedRates.map { AmountFormatted(it.currency.currencyCode, format(it)) }
     }
 
     fun getAvailableCurrencies(): List<Currency> {

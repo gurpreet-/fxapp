@@ -2,9 +2,9 @@ package com.fxapp.viewmodel
 
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountFormatted
+import com.fxapp.libfoundation.model.ConversionModel
+import com.fxapp.libfoundation.model.ConversionModel.Companion.GBP
 import com.fxapp.libfoundation.viewmodel.base.BaseViewModel
-import com.fxapp.model.ConversionModel
-import com.fxapp.model.ConversionModel.Companion.GBP
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import java.text.DecimalFormat
@@ -15,10 +15,16 @@ class CurrencyConverterViewModel(
 ) : BaseViewModel() {
 
     val uiState = MutableStateFlow(UIState())
+    var unformattedExchangeRates: List<Amount> = listOf()
 
     fun getRates(amount: Amount) = launchOnIO {
-        val rates = conversionModel.getExchangedRatesForAmountFormatted(amount)
-        uiState.update { it.copy(formattedExchangeRates = rates) }
+        unformattedExchangeRates = conversionModel.getExchangedRatesForAmount(amount)
+        val formatted = conversionModel.getExchangedRatesForAmountFormatted(unformattedExchangeRates)
+        uiState.update {
+            it.copy(
+                formattedExchangeRates = formatted
+            )
+        }
     }
 
     fun getAvailableCurrencies() = launchOnIO {

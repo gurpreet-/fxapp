@@ -23,9 +23,14 @@ import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.mediumMargin
 import com.fxapp.transfer.R
+import com.fxapp.transfer.viewmodel.TransferViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun TransferMainScreenComposable(formattedAmount: String) = FxAppScreen {
+fun TransferMainScreenComposable(
+    viewModel: TransferViewModel = koinViewModel()
+) = FxAppScreen {
+    val formattedAmount = viewModel.exchangedAmount
     var name by remember { mutableStateOf(TextFieldValue("")) }
     var accountNumber by remember { mutableStateOf(TextFieldValue("")) }
     var sortCode by remember { mutableStateOf(TextFieldValue("")) }

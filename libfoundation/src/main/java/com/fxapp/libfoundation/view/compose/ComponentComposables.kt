@@ -130,3 +130,33 @@ fun SupportingText(text: String) {
         Text(text)
     }
 }
+
+@Composable
+fun CurrencyRatesListItem(
+    currencyCode: String,
+    formattedRate: String,
+    onClick: SimpleCallback? = null
+) {
+    Row(Modifier
+        .fillMaxWidth()
+        .clickable { onClick?.invoke() }
+        .padding(Dimens.defaultMargin),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            currencyCode,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        SpacerWidth(Dimens.defaultMargin)
+        Text(
+            formattedRate,
+            style = MaterialTheme.typography.titleLarge,
+            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
+        )
+        Spacer(Modifier.weight(1f))
+        ChevronRightIcon(
+            tint = Colours.default().black,
+            size = Dimens.mediumIcon
+        )
+    }
+}

@@ -8,8 +8,6 @@ class TransferFragment : ComposeFragment() {
 
     override val composeScreen: ComposeObject
         get() = {
-            val args = getParentArgs<CurrencyTransferHubFragmentArgs>()
-            val formattedAmount = args?.amount.orEmpty()
-            TransferMainScreenComposable(formattedAmount)
+            TransferMainScreenComposable()
         }
 }

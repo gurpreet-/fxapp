@@ -50,27 +50,26 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountFormatted
+import com.fxapp.libfoundation.model.ConversionModel
 import com.fxapp.libfoundation.view.compose.ChevronRightIcon
 import com.fxapp.libfoundation.view.compose.CircularLoading
 import com.fxapp.libfoundation.view.compose.CurrencyItem
+import com.fxapp.libfoundation.view.compose.CurrencyRatesListItem
 import com.fxapp.libfoundation.view.compose.FormTextField
 import com.fxapp.libfoundation.view.compose.FxAppBar
 import com.fxapp.libfoundation.view.compose.FxAppScreen
 import com.fxapp.libfoundation.view.compose.HorizontalDivider
 import com.fxapp.libfoundation.view.compose.SimpleCallback
 import com.fxapp.libfoundation.view.compose.SpacerHeight
-import com.fxapp.libfoundation.view.compose.SpacerWidth
 import com.fxapp.libfoundation.view.compose.findNavController
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
 import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.largeIcon
 import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
-import com.fxapp.libfoundation.view.theme.Dimens.mediumIcon
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
-import com.fxapp.model.ConversionModel
 import com.fxapp.view.fragment.HomeScreenFragmentDirections
 import com.fxapp.viewmodel.CurrencyConverterViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -120,13 +119,21 @@ fun HomeScreen(
         if (amount.value.compareTo(BigDecimal.ZERO) == 0) {
             TypeSomething()
         } else {
-            RatesList(uiState.formattedExchangeRates)
+            RatesList(
+                amount,
+                viewModel.unformattedExchangeRates,
+                uiState.formattedExchangeRates
+            )
         }
     }
 }
 
 @Composable
-fun ColumnScope.RatesList(formattedExchangeRates: List<AmountFormatted>) {
+fun ColumnScope.RatesList(
+    initialAmount: Amount,
+    unformattedExchangeRates: List<Amount>,
+    formattedExchangeRates: List<AmountFormatted>
+) {
     if (formattedExchangeRates.isEmpty()) {
         Row(
             Modifier
@@ -139,12 +146,14 @@ fun ColumnScope.RatesList(formattedExchangeRates: List<AmountFormatted>) {
         }
     } else {
         val navController = findNavController()
-        formattedExchangeRates.forEach {
-            CurrencyRatesLItem(it.currencyCode, it.formattedAmount) {
+        formattedExchangeRates.forEachIndexed { i, formattedAmount ->
+            CurrencyRatesListItem(formattedAmount.currencyCode, formattedAmount.formattedAmount) {
                 navController.navigate(
                     HomeScreenFragmentDirections.actionGlobalOpenTransferHub(
-                        it.currencyCode,
-                        it.formattedAmount
+                        initialAmount.value.toString(),
+                        initialAmount.currency.currencyCode,
+                        unformattedExchangeRates[i].value.toString(),
+                        unformattedExchangeRates[i].currency.currencyCode,
                     ),
                 )
             }
@@ -250,36 +259,6 @@ fun TypeSomething() = Column(
         style = MaterialTheme.typography.bodyLarge
     )
     SpacerHeight(xLargeMargin)
-}
-
-@Composable
-private fun CurrencyRatesLItem(
-    currencyCode: String,
-    formattedRate: String,
-    onClick: SimpleCallback? = null
-) {
-    Row(Modifier
-        .fillMaxWidth()
-        .clickable { onClick?.invoke() }
-        .padding(defaultMargin),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            currencyCode,
-            style = MaterialTheme.typography.bodyMedium
-        )
-        SpacerWidth(defaultMargin)
-        Text(
-            formattedRate,
-            style = MaterialTheme.typography.titleLarge,
-            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
-        )
-        Spacer(Modifier.weight(1f))
-        ChevronRightIcon(
-            tint = Colours.default().black,
-            size = mediumIcon
-        )
-    }
 }
 
 @Composable

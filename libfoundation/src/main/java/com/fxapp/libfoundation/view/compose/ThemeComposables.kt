@@ -1,5 +1,6 @@
 package com.fxapp.libfoundation.view.compose
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +41,7 @@ fun FxAppScreen(content: ComposeObject) = FxAppTheme {
         ) {
             Box(
                 Modifier
+                    .background(MaterialTheme.colorScheme.background)
                     .padding(it)
                     .fillMaxSize()) {
                 content()

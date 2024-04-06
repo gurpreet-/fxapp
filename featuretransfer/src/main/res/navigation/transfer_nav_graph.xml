@@ -7,16 +7,26 @@
 
     <fragment
         android:id="@+id/currency_transfer_hub_fragment"
-        android:name="com.fxapp.transfer.view.fragment.CurrencyTransferHubFragment"
+        android:name="com.fxapp.transfer.view.fragment.TransferHubFragment"
         android:label="@string/details">
 
         <argument
-            android:name="currency"
+            android:name="initialAmount"
             app:argType="string"
             app:nullable="false" />
 
         <argument
-            android:name="amount"
+            android:name="initialCurrency"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="convertedCurrency"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="convertedAmount"
             app:argType="string"
             app:nullable="false" />
     </fragment>
