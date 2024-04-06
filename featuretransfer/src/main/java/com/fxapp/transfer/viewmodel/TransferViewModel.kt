@@ -5,9 +5,11 @@ import com.fxapp.libfoundation.data.AmountOnDate
 import com.fxapp.libfoundation.extensions.toAmount
 import com.fxapp.libfoundation.model.ConversionModel
 import com.fxapp.libfoundation.model.ConversionModel.Companion.GBP
+import com.fxapp.libfoundation.view.base.BaseUIState
 import com.fxapp.libfoundation.viewmodel.base.BaseViewModel
 import com.fxapp.transfer.model.HistoricRatesModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class TransferViewModel(
@@ -15,13 +17,16 @@ class TransferViewModel(
     private val historicRatesModel: HistoricRatesModel
 ) : BaseViewModel() {
 
-    val uiState = MutableStateFlow(UIState())
+    private val _uiState = MutableStateFlow(TransferScreenState())
+    val uiState = _uiState.asStateFlow()
+
     var fromAmount = GBP.toAmount()
     var exchangedAmount = GBP.toAmount()
 
     fun getHistoricalRates() = launchOnIO {
+        _uiState.update { it.copy(isLoading = true) }
         val rates = historicRatesModel.getHistoricRates(fromAmount, exchangedAmount.currency.currencyCode)
-        uiState.update { it.copy(historicRates = rates) }
+        _uiState.update { it.copy(historicRates = rates, isLoading = false) }
     }
 
     fun formatAmount(amount: Amount) = conversionModel.format(amount)
@@ -30,7 +35,9 @@ class TransferViewModel(
         return formatAmount(exchangedAmount)
     }
 
-    data class UIState(
-        val historicRates: List<AmountOnDate> = listOf()
-    )
+    data class TransferScreenState(
+        val historicRates: List<AmountOnDate> = listOf(),
+        override var isLoading: Boolean = false,
+        override var error: Throwable? = null
+    ) : BaseUIState
 }

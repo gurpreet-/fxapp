@@ -45,8 +45,8 @@ class ApiRepository(
     private fun getRequest(path: String) = Request(GET, "$FULL_URL/$path", HTTP_2)
 
     companion object {
-        const val SCHEME: String = "https://"
-        const val HOST: String = "api.frankfurter.app"
+        private const val SCHEME: String = "https://"
+        private const val HOST: String = "api.frankfurter.app"
         const val FULL_URL: String = "$SCHEME$HOST"
     }
 }
