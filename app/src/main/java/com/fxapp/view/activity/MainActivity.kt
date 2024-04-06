@@ -2,18 +2,30 @@ package com.fxapp.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.fxapp.R
+import com.fxapp.login.viewmodel.LoginViewModel
 import com.google.android.material.appbar.MaterialToolbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+
+    private val loginViewModel by viewModel<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupNavController()
+        if (!loginViewModel.isLoggedIn()) {
+            NavDeepLinkBuilder(this)
+                .setGraph(R.navigation.global_nav_graph)
+                .setDestination(R.id.currency_exchange_fragment)
+                .createPendingIntent()
+                .send()
+        }
     }
 
     private fun setupNavController() {
