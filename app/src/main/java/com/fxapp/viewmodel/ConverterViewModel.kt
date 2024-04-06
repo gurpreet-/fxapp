@@ -52,9 +52,17 @@ class ConverterViewModel(
      * based on an amount we supply.
      */
     private fun getFormattedExchangeRates(amount: Amount) = launchOnIO {
-        _uiState.update { it.copy(isLoading = true) }
-        val formatted = conversionModel.getExchangedRatesForAmountFormatted(amount)
-        _uiState.update { it.copy(formattedExchangeRates = formatted, isLoading = false) }
+        with(_uiState) {
+            try {
+                update { it.copy(isLoading = true) }
+                val formatted = conversionModel.getExchangedRatesForAmountFormatted(amount)
+                update { it.copy(formattedExchangeRates = formatted) }
+            } catch (e: Throwable) {
+                update { it.copy(error = e) }
+            } finally {
+                update { it.copy(isLoading = false) }
+            }
+        }
     }
 
     private fun getAvailableCurrencies() = launchOnIO {

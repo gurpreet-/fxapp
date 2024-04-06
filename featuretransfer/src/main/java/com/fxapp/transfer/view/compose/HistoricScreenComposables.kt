@@ -9,7 +9,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.fxapp.libfoundation.view.base.showGlobalError
 import com.fxapp.libfoundation.view.compose.CircularLoading
 import com.fxapp.libfoundation.view.compose.CurrencyRatesListItem
 import com.fxapp.libfoundation.view.compose.FxAppScreen
@@ -23,8 +25,13 @@ fun HistoricMainScreenComposable(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val historicRates = uiState.historicRates
 
-    LaunchedEffect(viewModel.exchangedAmount) {
+    LaunchedEffect(true) {
         viewModel.getHistoricalRates()
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(uiState.error) {
+        showGlobalError(context, uiState.error?.message.orEmpty())
     }
 
     if (uiState.isLoading) {

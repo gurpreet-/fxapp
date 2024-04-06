@@ -24,9 +24,17 @@ class TransferViewModel(
     var exchangedAmount = GBP.toAmount()
 
     fun getHistoricalRates() = launchOnIO {
-        _uiState.update { it.copy(isLoading = true) }
-        val rates = historicRatesModel.getHistoricRates(fromAmount, exchangedAmount.currency.currencyCode)
-        _uiState.update { it.copy(historicRates = rates, isLoading = false) }
+        with(_uiState) {
+            try {
+                update { it.copy(isLoading = true) }
+                val rates = historicRatesModel.getHistoricRates(fromAmount, exchangedAmount.currency.currencyCode)
+                update { it.copy(historicRates = rates) }
+            } catch (e: Throwable) {
+                update { it.copy(error = e) }
+            } finally {
+                update { it.copy(isLoading = false) }
+            }
+        }
     }
 
     fun formatAmount(amount: Amount) = conversionModel.format(amount)

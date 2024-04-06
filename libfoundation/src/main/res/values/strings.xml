@@ -13,6 +13,11 @@
     <string name="tab1_title">@string/transfer</string>
     <string name="tab2_title">@string/historical</string>
 
+    <!--  Errors  -->
+    <string name="sorry">Sorry there was an error.</string>
+    <string name="sorry_description">There was an error with that request. The details are below.\n%s</string>
+    <string name="ok">OK</string>
+
     <!--  Accessibility  -->
     <string name="ac_more">More</string>
     <string name="ac_search">@string/search</string>

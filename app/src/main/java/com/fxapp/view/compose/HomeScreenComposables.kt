@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,6 +52,7 @@ import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountFormatted
 import com.fxapp.libfoundation.model.ConversionModel
+import com.fxapp.libfoundation.view.base.showGlobalError
 import com.fxapp.libfoundation.view.compose.ChevronRightIcon
 import com.fxapp.libfoundation.view.compose.CircularLoading
 import com.fxapp.libfoundation.view.compose.CurrencyItem
@@ -71,7 +73,6 @@ import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
-import com.fxapp.transfer.viewmodel.TransferViewModel
 import com.fxapp.view.fragment.HomeScreenFragmentDirections
 import com.fxapp.viewmodel.ConverterViewModel
 import org.koin.compose.koinInject
@@ -82,8 +83,7 @@ import java.util.Currency
 
 @Composable
 fun HomeScreen(
-    converterViewModel: ConverterViewModel = koinLocalViewModel(),
-    transferViewModel: TransferViewModel = koinLocalViewModel()
+    converterViewModel: ConverterViewModel = koinLocalViewModel()
 ) = FxAppScreen {
     val navController = findNavController()
     val uiState by converterViewModel.uiState.collectAsStateWithLifecycle()
@@ -91,6 +91,11 @@ fun HomeScreen(
 
     LaunchedEffect(true) {
         converterViewModel.initialise()
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(uiState.error) {
+        showGlobalError(context, uiState.error?.message.orEmpty())
     }
 
     Column(

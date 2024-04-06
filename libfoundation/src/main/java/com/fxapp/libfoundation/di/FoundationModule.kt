@@ -18,6 +18,7 @@ import org.http4k.traffic.ReadWriteCache
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 typealias OkHttpClientHandler = HttpHandler
 
@@ -42,7 +43,14 @@ object FoundationModule {
             .then(TrafficFilters.RecordTo(storage))
 
         // Build OkHttpClient
-        val client = OkHttpClient().newBuilder().followRedirects(false).build()
+        val client = OkHttpClient()
+            .newBuilder()
+                .connectTimeout(40, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .callTimeout(120, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS)
+                .followRedirects(false)
+            .build()
 
         // Print request and responses in debug
         val debugPrint = if (buildWrapper.isDebug) {
