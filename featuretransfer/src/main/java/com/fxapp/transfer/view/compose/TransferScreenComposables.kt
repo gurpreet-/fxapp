@@ -30,7 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 fun TransferMainScreenComposable(
     viewModel: TransferViewModel = koinViewModel()
 ) = FxAppScreen {
-    val formattedAmount = viewModel.exchangedAmount
+    val formattedAmount = viewModel.getExchangedAmountFormatted()
     var name by remember { mutableStateOf(TextFieldValue("")) }
     var accountNumber by remember { mutableStateOf(TextFieldValue("")) }
     var sortCode by remember { mutableStateOf(TextFieldValue("")) }

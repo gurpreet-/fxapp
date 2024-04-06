@@ -5,8 +5,8 @@ import com.fxapp.libfoundation.data.AmountFormatted
 import com.fxapp.libfoundation.extensions.toAmount
 import com.fxapp.libfoundation.model.ConversionModel
 import com.fxapp.libfoundation.model.ConversionModel.Companion.GBP
-import com.fxapp.libfoundation.model.HistoricRatesModel
 import com.fxapp.libfoundation.viewmodel.base.BaseViewModel
+import com.fxapp.transfer.model.HistoricRatesModel
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class TransferViewModel(
@@ -23,6 +23,8 @@ class TransferViewModel(
     }
 
     fun formatAmount(amount: Amount) = conversionModel.format(amount)
+
+    fun getExchangedAmountFormatted() = formatAmount(exchangedAmount)
 
     data class UIState(
         val historicRates: List<AmountFormatted> = listOf()

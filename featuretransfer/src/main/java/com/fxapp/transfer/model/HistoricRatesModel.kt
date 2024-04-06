@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.model
+package com.fxapp.transfer.model
 
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.LatestRates

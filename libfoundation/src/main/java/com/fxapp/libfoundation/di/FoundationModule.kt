@@ -4,6 +4,8 @@ import android.content.Context
 import com.fxapp.libfoundation.async.AppCoroutineScopes
 import com.fxapp.libfoundation.async.CoroutineScopes
 import com.fxapp.libfoundation.async.JobExecutor
+import com.fxapp.libfoundation.model.ConversionModel
+import com.fxapp.libfoundation.repository.ApiRepository
 import com.fxapp.libfoundation.wrappers.BuildWrapper
 import okhttp3.OkHttpClient
 import org.http4k.client.OkHttp
@@ -25,6 +27,9 @@ object FoundationModule {
         factory<CoroutineScopes> { AppCoroutineScopes() }
         factory<JobExecutor> { JobExecutor(get()) }
         single<OkHttpClientHandler> { createOkHttpClient(androidContext(), get()) }
+        single<ApiRepository> { ApiRepository(get()) }
+
+        factory { ConversionModel(get()) }
     }
 
     private fun createOkHttpClient(context: Context, buildWrapper: BuildWrapper): OkHttpClientHandler {
