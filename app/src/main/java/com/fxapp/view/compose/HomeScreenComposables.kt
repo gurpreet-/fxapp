@@ -61,6 +61,7 @@ import com.fxapp.libfoundation.view.compose.HorizontalDivider
 import com.fxapp.libfoundation.view.compose.SimpleCallback
 import com.fxapp.libfoundation.view.compose.SpacerHeight
 import com.fxapp.libfoundation.view.compose.SpacerWidth
+import com.fxapp.libfoundation.view.compose.findNavController
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
 import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
@@ -71,6 +72,7 @@ import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
 import com.fxapp.model.ConversionModel
+import com.fxapp.view.fragment.HomeScreenFragmentDirections
 import com.fxapp.viewmodel.CurrencyConverterViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -136,8 +138,13 @@ fun ColumnScope.RatesList(formattedExchangeRates: List<AmountFormatted>) {
             CircularLoading()
         }
     } else {
+        val navController = findNavController()
         formattedExchangeRates.forEach {
-            CurrencyRatesLItem(it.currencyCode, it.formattedAmount)
+            CurrencyRatesLItem(it.currencyCode, it.formattedAmount) {
+                navController.navigate(
+                    HomeScreenFragmentDirections.actionGlobalOpenTransferHub(it.currencyCode),
+                )
+            }
         }
     }
 }
@@ -244,10 +251,11 @@ fun TypeSomething() = Column(
 private fun CurrencyRatesLItem(
     currencyCode: String,
     formattedRate: String,
+    onClick: SimpleCallback? = null
 ) {
     Row(Modifier
         .fillMaxWidth()
-        .clickable { }
+        .clickable { onClick?.invoke() }
         .padding(defaultMargin),
         verticalAlignment = Alignment.CenterVertically
     ) {

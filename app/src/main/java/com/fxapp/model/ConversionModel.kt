@@ -26,7 +26,8 @@ class ConversionModel(
                 }
         }
 
-        return rates.map {
+        // When presenting, filter the one currently requested
+        return rates.filterNot { it.currency == amount.currency }.map {
             val multiplied = amount.value.multiply(it.value)
             it.copy(value = multiplied)
         }

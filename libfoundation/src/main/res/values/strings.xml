@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">FxApp</string>
+
+    <!--  Home screen  -->
     <string name="start_typing">Enter a value greater than 0 to see currency exchange rates.</string>
     <string name="select_currency">Select currency</string>
     <string name="search">Search</string>
 
+    <!--  Transfer hub  -->
+    <string name="details">Details</string>
+
+    <!--  Accessibility  -->
     <string name="ac_more">More</string>
     <string name="ac_search">@string/search</string>
     <string name="ac_currency_exchange">Currency exchange icon</string>

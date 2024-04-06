@@ -9,3 +9,8 @@ android {
         versionName "1.0"
     }
 }
+
+dependencies {
+    implementation project(":featuretransfer")
+    implementation project(":featurelogin")
+}

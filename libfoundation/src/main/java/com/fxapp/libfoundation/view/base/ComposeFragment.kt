@@ -1,4 +1,4 @@
-package com.fxapp.view.fragment
+package com.fxapp.libfoundation.view.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import com.fxapp.libfoundation.view.base.BaseFragment
-import com.fxapp.view.compose.HomeScreen
+import com.fxapp.libfoundation.view.compose.ComposeObject
 
-class CurrencyExchangeFragment : BaseFragment() {
+abstract class ComposeFragment : BaseFragment() {
+
+    open val composeScreen: ComposeObject = {}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,8 +20,9 @@ class CurrencyExchangeFragment : BaseFragment() {
         return ComposeView(inflater.context).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                HomeScreen()
+                composeScreen()
             }
         }
     }
+
 }

@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupNavController() {
         // Retrieve the nav controller
         val navHostFragment = supportFragmentManager.findFragmentById(
-            R.id.main_fragment_container
+            com.fxapp.libfoundation.R.id.main_fragment_container
         ) as NavHostFragment
         val navController = navHostFragment.navController
 

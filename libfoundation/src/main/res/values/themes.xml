@@ -7,6 +7,7 @@
         <item name="colorSecondary">@color/colorPrimaryLight</item>
         <item name="android:fontFamily">@font/primary_font</item>
         <item name="toolbarStyle">@style/Theme.CurrencyConvert.Toolbar</item>
+        <item name="colorControlNormal">@color/colorSecondary</item>
     </style>
 
     <style name="Theme.CurrencyConvert" parent="Base.Theme.CurrencyConvert" />

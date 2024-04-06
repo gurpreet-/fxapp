@@ -1,10 +1,12 @@
 apply plugin: 'org.jetbrains.kotlin.android'
 
-if (isMainProject()) {
+if (isAppProject()) {
     apply plugin: 'com.android.application'
 } else {
     apply plugin: 'com.android.library'
 }
+
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 def javaVersion = JavaVersion.VERSION_17
 def navVersion = "2.7.7"
@@ -89,7 +91,7 @@ dependencies {
     // ---------------
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
-
+    implementation "androidx.navigation:navigation-compose:$navVersion"
 
     // ---------------
     // Dependency injection - Koin
@@ -137,7 +139,7 @@ dependencies {
     androidTestImplementation "io.mockk:mockk-agent:$mockkVersion"
 }
 
-private Boolean isMainProject() {
+private Boolean isAppProject() {
     return project.name == "app"
 }
 

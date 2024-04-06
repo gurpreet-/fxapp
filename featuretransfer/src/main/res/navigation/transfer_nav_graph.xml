@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/currency_transfer_hub_fragment"
+    android:id="@+id/transfer_nav_graph">
+
+    <fragment
+        android:id="@+id/currency_transfer_hub_fragment"
+        android:name="com.fxapp.transfer.view.fragment.CurrencyTransferHub"
+        android:label="@string/details">
+
+        <argument
+            android:name="currency"
+            app:argType="string"
+            app:nullable="false" />
+    </fragment>
+
+</navigation>
