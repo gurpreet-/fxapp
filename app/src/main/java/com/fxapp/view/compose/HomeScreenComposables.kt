@@ -130,8 +130,6 @@ fun HomeScreen(
                 TypeSomething()
             } else {
                 RatesList(uiState.formattedExchangeRates) {
-                    transferViewModel.fromAmount = amount
-                    transferViewModel.exchangedAmount = it
                     navController.navigate(
                         HomeScreenFragmentDirections.actionGlobalOpenTransferHub(
                             amount.value.toString(),
