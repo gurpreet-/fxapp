@@ -8,6 +8,10 @@
 
     <!--  Transfer hub  -->
     <string name="details">Details</string>
+    <string name="transfer">Transfer</string>
+    <string name="history">History</string>
+    <string name="tab1_title">@string/transfer</string>
+    <string name="tab2_title">@string/history</string>
 
     <!--  Accessibility  -->
     <string name="ac_more">More</string>
