@@ -17,3 +17,5 @@ fun Amount(currencyCode: String, value: BigDecimal? = null) = Amount(
     Currency.getInstance(currencyCode),
     value ?: BigDecimal.ZERO
 )
+
+fun Amount.onDate(isoLocalDate: String) = AmountOnDate(currency, value, isoLocalDate)

@@ -1,6 +1,7 @@
 package com.fxapp.libfoundation.repository
 
 import com.fxapp.libfoundation.data.Amount
+import com.fxapp.libfoundation.data.HistoricRates
 import com.fxapp.libfoundation.data.LatestRates
 import com.fxapp.libfoundation.di.OkHttpClientHandler
 import kotlinx.coroutines.coroutineScope
@@ -29,8 +30,8 @@ class ApiRepository(
         amount: Amount,
         convertToCurrencyIsoCode: String,
         datePrior: String
-    ): LatestRates = coroutineScope {
-        val latestRatesLens = Body.auto<LatestRates>().toLens()
+    ): HistoricRates = coroutineScope {
+        val converter = Body.auto<HistoricRates>().toLens()
 
         val request = getRequest("$datePrior..")
             .query("amount", amount.value.toString())
@@ -38,7 +39,7 @@ class ApiRepository(
             .query("to", convertToCurrencyIsoCode)
         val response = client.invoke(request)
 
-        latestRatesLens(response)
+        converter(response)
     }
 
     private fun getRequest(path: String) = Request(GET, "$FULL_URL/$path", HTTP_2)

@@ -9,9 +9,9 @@
     <!--  Transfer hub  -->
     <string name="details">Details</string>
     <string name="transfer">Transfer</string>
-    <string name="history">History</string>
+    <string name="historical">Historical</string>
     <string name="tab1_title">@string/transfer</string>
-    <string name="tab2_title">@string/history</string>
+    <string name="tab2_title">@string/historical</string>
 
     <!--  Accessibility  -->
     <string name="ac_more">More</string>

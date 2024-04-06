@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -135,28 +136,43 @@ fun SupportingText(text: String) {
 fun CurrencyRatesListItem(
     currencyCode: String,
     formattedRate: String,
+    date: String? = null,
     onClick: SimpleCallback? = null
 ) {
+    val clickable = onClick != null
     Row(Modifier
         .fillMaxWidth()
-        .clickable { onClick?.invoke() }
+        .clickable(enabled = clickable) { onClick?.invoke() }
         .padding(Dimens.defaultMargin),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             currencyCode,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.ExtraBold,
+            fontStyle = FontStyle.Italic
         )
         SpacerWidth(Dimens.defaultMargin)
-        Text(
-            formattedRate,
-            style = MaterialTheme.typography.titleLarge,
-            lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
-        )
+        Column {
+            Text(
+                formattedRate,
+                style = MaterialTheme.typography.titleLarge,
+                lineHeight = MaterialTheme.typography.bodyMedium.lineHeight
+            )
+            if (date != null) {
+                Text(
+                    date,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+
         Spacer(Modifier.weight(1f))
-        ChevronRightIcon(
-            tint = Colours.default().black,
-            size = Dimens.mediumIcon
-        )
+        if (clickable) {
+            ChevronRightIcon(
+                tint = Colours.default().black,
+                size = Dimens.mediumIcon
+            )
+        }
     }
 }
