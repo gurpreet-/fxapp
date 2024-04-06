@@ -31,8 +31,8 @@ object Colours {
     @Composable
     fun defaultTextFieldColors() = MaterialTheme.colorScheme.run {
         TextFieldDefaults.colors(
-            focusedIndicatorColor = default().transparent,
-            unfocusedIndicatorColor = default().transparent,
+            focusedIndicatorColor = default().primaryColour,
+            unfocusedIndicatorColor = default().primaryColour,
             focusedContainerColor = default().formFieldBackground,
             unfocusedContainerColor = default().formFieldBackground,
             focusedTextColor = default().formFieldBackground,

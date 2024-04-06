@@ -20,11 +20,13 @@ fun FormTextField(
     keyboardOptions: KeyboardOptions? = null,
     textStyle: TextStyle? = null,
     suffix: ComposeObject? = null,
+    label: ComposeObject? = null,
     colours: TextFieldColors? = null,
     onValueChange: (String) -> Unit
 ) {
     TextField(
         modifier = modifier,
+        label = label,
         keyboardOptions = keyboardOptions ?: KeyboardOptions.Default,
         value = value,
         textStyle = textStyle ?: Typography.default().bodyMedium,

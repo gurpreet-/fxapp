@@ -37,6 +37,9 @@ object Typography {
 
     @Composable
     fun default() = Typography(
+        labelSmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 2).sp, fontWeight = FontWeight.Bold),
+        labelMedium = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 1).sp, fontWeight = FontWeight.Bold),
+        labelLarge = defaultTextStyle().copy(fontSize = DEFAULT_FONT_SIZE.sp, fontWeight = FontWeight.Bold),
         bodySmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 2).sp),
         bodyMedium = defaultTextStyle(),
         bodyLarge = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 4).sp),

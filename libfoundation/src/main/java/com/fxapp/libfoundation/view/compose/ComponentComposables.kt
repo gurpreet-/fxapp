@@ -1,7 +1,9 @@
 package com.fxapp.libfoundation.view.compose
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.view.theme.Colours
+import com.fxapp.libfoundation.view.theme.Dimens
 import com.fxapp.libfoundation.view.theme.Dimens.extraSmallIcon
 import com.fxapp.libfoundation.view.theme.Dimens.largeIcon
 import com.fxapp.libfoundation.view.theme.Dimens.mediumMargin
@@ -120,3 +123,10 @@ fun FxAppBar(
                 })
     }
 )
+
+@Composable
+fun SupportingText(text: String) {
+    Box(Modifier.background(Colours.default().green20).padding(Dimens.extraSmallMargin)) {
+        Text(text)
+    }
+}

@@ -37,7 +37,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -113,7 +112,8 @@ fun HomeScreen(
                 },
                 onValueChanged = {
                     viewModel.setAmount(Amount(amount.currency, it))
-                }
+                },
+
             )
         }
 
@@ -142,7 +142,10 @@ fun ColumnScope.RatesList(formattedExchangeRates: List<AmountFormatted>) {
         formattedExchangeRates.forEach {
             CurrencyRatesLItem(it.currencyCode, it.formattedAmount) {
                 navController.navigate(
-                    HomeScreenFragmentDirections.actionGlobalOpenTransferHub(it.currencyCode),
+                    HomeScreenFragmentDirections.actionGlobalOpenTransferHub(
+                        it.currencyCode,
+                        it.formattedAmount
+                    ),
                 )
             }
         }
@@ -189,10 +192,12 @@ fun CurrencyTextField(
                 .bodyMedium
                 .copy(color = Colours.default().secondary, fontSize = 50.sp),
             colours = Colours.defaultTextFieldColors().copy(
+                focusedIndicatorColor = Colours.default().transparent,
+                unfocusedIndicatorColor = Colours.default().transparent,
                 focusedTextColor = Colours.default().secondary,
                 unfocusedTextColor = Colours.default().secondary,
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
+                focusedContainerColor = Colours.default().transparent,
+                unfocusedContainerColor = Colours.default().transparent,
                 cursorColor = Colours.default().cursorColour,
             )
         ) { newString ->

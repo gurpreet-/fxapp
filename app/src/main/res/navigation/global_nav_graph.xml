@@ -16,6 +16,7 @@
             android:id="@+id/action_global_open_transfer_hub"
             app:destination="@id/transfer_nav_graph">
             <argument android:name="currency" app:argType="string" />
+            <argument android:name="amount" app:argType="string" />
         </action>
 
     </fragment>

@@ -16,6 +16,9 @@
         app:tabTextColor="@color/sand60"
         app:tabIndicatorColor="@color/colorSecondary"
         app:tabSelectedTextColor="@color/colorSecondary"
+        app:tabPadding="16dp"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
         app:tabBackground="@color/colorPrimaryDark"
         app:tabMode="fixed" />
 

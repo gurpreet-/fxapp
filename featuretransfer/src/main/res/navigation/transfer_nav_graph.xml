@@ -14,6 +14,11 @@
             android:name="currency"
             app:argType="string"
             app:nullable="false" />
+
+        <argument
+            android:name="amount"
+            app:argType="string"
+            app:nullable="false" />
     </fragment>
 
 </navigation>
