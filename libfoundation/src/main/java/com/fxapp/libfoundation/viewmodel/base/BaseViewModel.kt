@@ -2,9 +2,13 @@ package com.fxapp.libfoundation.viewmodel.base
 
 import androidx.lifecycle.ViewModel
 import com.fxapp.libfoundation.async.JobExecutor
+import com.fxapp.libfoundation.view.base.BaseUIState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import timber.log.Timber
 
 open class BaseViewModel : ViewModel(), KoinComponent {
 
@@ -17,6 +21,15 @@ open class BaseViewModel : ViewModel(), KoinComponent {
           // When this view model is cleared out of
           // memory, cancel all our running jobs.
           jobExecutor.cancelAll()
+     }
+
+     fun <T : BaseUIState> showError(flow: MutableStateFlow<T>, e: Throwable) {
+          Timber.e(e)
+          flow.update {
+               val new = it
+               new.error = e
+               new
+          }
      }
 
      /**

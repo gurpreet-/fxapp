@@ -10,17 +10,17 @@ import org.http4k.core.HttpMessage.Companion.HTTP_2
 import org.http4k.core.Method.GET
 import org.http4k.core.Request
 import org.http4k.format.Gson.auto
-import java.util.Currency
 
 class ApiRepository(
     val client: OkHttpClientHandler
 ) {
 
-    suspend fun getLatestRates(from: Currency): LatestRates = coroutineScope {
+    suspend fun getLatestRates(amount: Amount): LatestRates = coroutineScope {
         val latestRatesLens = Body.auto<LatestRates>().toLens()
 
         val request = getRequest("latest")
-            .query("from", from.currencyCode)
+            .query("amount", amount.value.toString())
+            .query("from", amount.currency.currencyCode)
         val response = client.invoke(request)
 
         latestRatesLens(response)

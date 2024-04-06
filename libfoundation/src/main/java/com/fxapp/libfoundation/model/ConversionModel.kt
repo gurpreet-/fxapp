@@ -19,20 +19,11 @@ open class ConversionModel(val apiRepository: ApiRepository) {
 
     private suspend fun getExchangedRatesForAmount(amount: Amount): List<Amount> {
         // Get the latest conversion rates from the API.
-        val fetchedRates = apiRepository.getLatestRates(amount.currency)
+        val fetchedRates = apiRepository.getLatestRates(amount)
         // Map to formats that we can use within the app.
-        val rates = fetchedRates.rates
+        val exchangedRates = fetchedRates.rates
             .map { Amount(Currency.getInstance(it.key), BigDecimal(it.value)) }
             .toMutableList()
-            .apply {
-                add(amount.copy(value = BigDecimal.ONE))
-            }
-
-        // Multiply rates
-        val exchangedRates = rates.map {
-            val multiplied = amount.value.multiply(it.value)
-            it.copy(value = multiplied)
-        }
 
         // When presenting, filter the one currently requested
         return exchangedRates.filterNot { it.currency == amount.currency }

@@ -6,7 +6,9 @@ import java.util.Currency
 data class Amount(
     val currency: Currency,
     val value: BigDecimal,
-)
+) {
+    fun isZero() = value.compareTo(BigDecimal.ZERO) == 0
+}
 
 fun Amount(currency: Currency, value: BigDecimal? = null) = Amount(
     currency,

@@ -30,7 +30,7 @@ class TransferViewModel(
                 val rates = historicRatesModel.getHistoricRates(fromAmount, exchangedAmount.currency.currencyCode)
                 update { it.copy(historicRates = rates) }
             } catch (e: Throwable) {
-                update { it.copy(error = e) }
+                showError(this, e)
             } finally {
                 update { it.copy(isLoading = false) }
             }

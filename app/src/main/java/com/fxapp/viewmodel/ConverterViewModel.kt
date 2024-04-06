@@ -55,10 +55,12 @@ class ConverterViewModel(
         with(_uiState) {
             try {
                 update { it.copy(isLoading = true) }
-                val formatted = conversionModel.getExchangedRatesForAmountFormatted(amount)
-                update { it.copy(formattedExchangeRates = formatted) }
+                if (!amount.isZero()) {
+                    val formatted = conversionModel.getExchangedRatesForAmountFormatted(amount)
+                    update { it.copy(formattedExchangeRates = formatted) }
+                }
             } catch (e: Throwable) {
-                update { it.copy(error = e) }
+                showError(this, e)
             } finally {
                 update { it.copy(isLoading = false) }
             }

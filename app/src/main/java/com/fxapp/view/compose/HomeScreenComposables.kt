@@ -131,7 +131,7 @@ fun HomeScreen(
                 CircularLoading()
             }
         } else {
-            if (amount.value.compareTo(BigDecimal.ZERO) == 0) {
+            if (amount.isZero()) {
                 TypeSomething()
             } else {
                 RatesList(uiState.formattedExchangeRates) {
