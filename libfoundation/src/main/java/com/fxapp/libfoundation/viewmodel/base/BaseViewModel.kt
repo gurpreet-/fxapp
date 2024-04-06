@@ -8,12 +8,21 @@ import org.koin.core.component.inject
 
 open class BaseViewModel : ViewModel(), KoinComponent {
 
-     protected val jobExecutor by inject<JobExecutor>()
+     /**
+      * Stores our in-progress Jobs.
+      */
+     private val jobExecutor by inject<JobExecutor>()
 
      override fun onCleared() {
+          // When this view model is cleared out of
+          // memory, cancel all our running jobs.
           jobExecutor.cancelAll()
      }
 
+     /**
+      * Launch a coroutine on the IO thread
+      * and add it to our job executor.
+      */
      fun launchOnIO(block: suspend CoroutineScope.() -> Unit)
           = jobExecutor.launchIO(block)
 

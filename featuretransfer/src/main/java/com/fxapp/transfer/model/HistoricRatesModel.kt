@@ -15,14 +15,22 @@ import java.time.temporal.ChronoUnit
 class HistoricRatesModel(val apiRepository: ApiRepository) : BaseViewModel() {
 
     suspend fun getHistoricRates(amount: Amount, currency: String): List<AmountOnDate> {
-        val instantDaysPrior = Instant.now().minus(10, ChronoUnit.DAYS)
-        val zonedTimeDaysPrior = ZonedDateTime.ofInstant(instantDaysPrior, ZoneId.systemDefault())
-        val formatted = zonedTimeDaysPrior.format(DateTimeFormatter.ISO_LOCAL_DATE)
-        val response = apiRepository.getHistoricRates(amount, currency, formatted)
+        val date10DaysAgo = getFormattedDate()
+        val response = apiRepository.getHistoricRates(amount, currency, date10DaysAgo)
         return response.rates.map { entry ->
             val foundRate = entry.value.entries.find { it.key == currency }
-            val exchangedRate = foundRate?.value?.let { BigDecimal(it) } ?: BigDecimal.ZERO
+            val exchangedRate = BigDecimal(foundRate?.value ?: 0.0)
             Amount(currency, exchangedRate).onDate(entry.key)
         }.reversed()
+    }
+
+    /**
+     * Gets a date given X days ago.
+     * @return Date in yyyy-mm-dd format (ISO_LOCAL_DATE)
+     */
+    private fun getFormattedDate(daysAgo: Long = 10): String {
+        val instantDaysPrior = Instant.now().minus(daysAgo, ChronoUnit.DAYS)
+        val zonedTimeDaysPrior = ZonedDateTime.ofInstant(instantDaysPrior, ZoneId.systemDefault())
+        return zonedTimeDaysPrior.format(DateTimeFormatter.ISO_LOCAL_DATE)
     }
 }
