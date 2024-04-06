@@ -95,7 +95,7 @@ fun HomeScreen(
 
     val context = LocalContext.current
     LaunchedEffect(uiState.error) {
-        showGlobalError(context, uiState.error?.message.orEmpty())
+        showGlobalError(context, uiState.error)
     }
 
     Column(

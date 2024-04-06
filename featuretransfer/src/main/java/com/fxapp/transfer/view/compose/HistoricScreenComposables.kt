@@ -31,7 +31,7 @@ fun HistoricMainScreenComposable(
 
     val context = LocalContext.current
     LaunchedEffect(uiState.error) {
-        showGlobalError(context, uiState.error?.message.orEmpty())
+        showGlobalError(context, uiState.error)
     }
 
     if (uiState.isLoading) {
