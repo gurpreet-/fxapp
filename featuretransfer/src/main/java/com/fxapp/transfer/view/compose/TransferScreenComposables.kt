@@ -19,16 +19,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import com.fxapp.libfoundation.view.compose.FxAppScreen
 import com.fxapp.libfoundation.view.compose.SpacerHeight
 import com.fxapp.libfoundation.view.compose.SupportingText
+import com.fxapp.libfoundation.view.compose.koinLocalViewModel
 import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.mediumMargin
 import com.fxapp.transfer.R
 import com.fxapp.transfer.viewmodel.TransferViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TransferMainScreenComposable(
-    viewModel: TransferViewModel = koinViewModel()
+    viewModel: TransferViewModel = koinLocalViewModel()
 ) = FxAppScreen {
     val formattedAmount = viewModel.getExchangedAmountFormatted()
     var name by remember { mutableStateOf(TextFieldValue("")) }

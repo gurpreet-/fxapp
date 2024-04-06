@@ -21,12 +21,12 @@
             app:nullable="false" />
 
         <argument
-            android:name="convertedCurrency"
+            android:name="convertedAmount"
             app:argType="string"
             app:nullable="false" />
 
         <argument
-            android:name="convertedAmount"
+            android:name="convertedCurrency"
             app:argType="string"
             app:nullable="false" />
     </fragment>

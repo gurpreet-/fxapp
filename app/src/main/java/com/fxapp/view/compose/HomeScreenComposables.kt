@@ -62,6 +62,7 @@ import com.fxapp.libfoundation.view.compose.HorizontalDivider
 import com.fxapp.libfoundation.view.compose.SimpleCallback
 import com.fxapp.libfoundation.view.compose.SpacerHeight
 import com.fxapp.libfoundation.view.compose.findNavController
+import com.fxapp.libfoundation.view.compose.koinLocalViewModel
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
 import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
@@ -70,9 +71,9 @@ import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
+import com.fxapp.transfer.viewmodel.TransferViewModel
 import com.fxapp.view.fragment.HomeScreenFragmentDirections
-import com.fxapp.viewmodel.CurrencyConverterViewModel
-import org.koin.androidx.compose.koinViewModel
+import com.fxapp.viewmodel.ConverterViewModel
 import org.koin.compose.koinInject
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -81,17 +82,19 @@ import java.util.Currency
 
 @Composable
 fun HomeScreen(
-    viewModel: CurrencyConverterViewModel = koinViewModel()
+    converterViewModel: ConverterViewModel = koinLocalViewModel(),
+    transferViewModel: TransferViewModel = koinLocalViewModel()
 ) = FxAppScreen {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val navController = findNavController()
+    val uiState by converterViewModel.uiState.collectAsStateWithLifecycle()
     val amount = uiState.amount
 
     LaunchedEffect(true) {
-        viewModel.getAvailableCurrencies()
+        converterViewModel.getAvailableCurrencies()
     }
 
     LaunchedEffect(amount) {
-        viewModel.getRates(amount)
+        converterViewModel.getFormattedExchangeRates(amount)
     }
 
     Column(
@@ -102,15 +105,15 @@ fun HomeScreen(
     ) {
         CurrencyExchangePanel {
             CurrencyTextField(
-                decimalFormat = viewModel.getNumberFormat(amount.currency),
+                decimalFormat = converterViewModel.getNumberFormat(amount.currency),
                 value = amount.value,
                 currency = amount.currency,
                 availableCurrencies = uiState.availableCurrencies,
                 onCurrencyChanged = {
-                    viewModel.setAmount(Amount(it, amount.value))
+                    converterViewModel.setAmount(Amount(it, amount.value))
                 },
                 onValueChanged = {
-                    viewModel.setAmount(Amount(amount.currency, it))
+                    converterViewModel.setAmount(Amount(amount.currency, it))
                 },
 
             )
@@ -119,20 +122,27 @@ fun HomeScreen(
         if (amount.value.compareTo(BigDecimal.ZERO) == 0) {
             TypeSomething()
         } else {
-            RatesList(
-                amount,
-                viewModel.unformattedExchangeRates,
-                uiState.formattedExchangeRates
-            )
+            RatesList(uiState.formattedExchangeRates) {
+                transferViewModel.fromAmount = amount
+                transferViewModel.exchangedAmount = it
+                navController.navigate(
+                    HomeScreenFragmentDirections.actionGlobalOpenTransferHub(
+                        amount.value.toString(),
+                        amount.currency.currencyCode,
+                        it.value.toString(),
+                        it.currency.currencyCode
+                    ),
+                )
+            }
         }
     }
 }
 
 @Composable
 fun ColumnScope.RatesList(
-    initialAmount: Amount,
-    unformattedExchangeRates: List<Amount>,
-    formattedExchangeRates: List<AmountFormatted>
+    formattedExchangeRates: List<AmountFormatted>,
+    conversionModel: ConversionModel = koinInject(),
+    onClick: (Amount) -> Unit
 ) {
     if (formattedExchangeRates.isEmpty()) {
         Row(
@@ -145,17 +155,10 @@ fun ColumnScope.RatesList(
             CircularLoading()
         }
     } else {
-        val navController = findNavController()
-        formattedExchangeRates.forEachIndexed { i, formattedAmount ->
+        formattedExchangeRates.forEach { formattedAmount ->
             CurrencyRatesListItem(formattedAmount.currencyCode, formattedAmount.formattedAmount) {
-                navController.navigate(
-                    HomeScreenFragmentDirections.actionGlobalOpenTransferHub(
-                        initialAmount.value.toString(),
-                        initialAmount.currency.currencyCode,
-                        unformattedExchangeRates[i].value.toString(),
-                        unformattedExchangeRates[i].currency.currencyCode,
-                    ),
-                )
+                val converted = conversionModel.numbersOnly(formattedAmount.formattedAmount)
+                onClick(Amount(formattedAmount.currencyCode, BigDecimal(converted)))
             }
         }
     }

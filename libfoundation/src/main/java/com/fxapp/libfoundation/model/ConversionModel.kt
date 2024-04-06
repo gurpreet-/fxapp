@@ -12,8 +12,9 @@ import java.util.Locale
 
 open class ConversionModel(val apiRepository: ApiRepository) {
     private var rates: MutableList<Amount> = mutableListOf()
+    private var exchangedRates: List<Amount> = mutableListOf()
 
-    suspend fun getExchangedRatesForAmount(amount: Amount): List<Amount> {
+    private suspend fun getExchangedRatesForAmount(amount: Amount): List<Amount> {
         if (rates.isEmpty()) {
             val fetchedRates = apiRepository.getLatestRates(amount.currency)
             rates = fetchedRates.rates
@@ -25,14 +26,17 @@ open class ConversionModel(val apiRepository: ApiRepository) {
         }
 
         // When presenting, filter the one currently requested
-        return rates.filterNot { it.currency == amount.currency }.map {
+
+        exchangedRates = rates.map {
             val multiplied = amount.value.multiply(it.value)
             it.copy(value = multiplied)
         }
+        return exchangedRates.filterNot { it.currency == amount.currency }
     }
 
-    suspend fun getExchangedRatesForAmountFormatted(exchangedRates: List<Amount>): List<AmountFormatted> {
-        return exchangedRates.map { AmountFormatted(it.currency.currencyCode, format(it)) }
+    suspend fun getExchangedRatesForAmountFormatted(amount: Amount): List<AmountFormatted> {
+        return getExchangedRatesForAmount(amount)
+            .map { AmountFormatted(it.currency.currencyCode, format(it)) }
     }
 
     fun getAvailableCurrencies(): List<Currency> {
@@ -52,8 +56,6 @@ open class ConversionModel(val apiRepository: ApiRepository) {
         return getNumberFormat(currency).format(precisionValue)
     }
 
-    fun getNumberFormat(currency: String) = getNumberFormat(Currency.getInstance(currency))
-
     fun getNumberFormat(newCurrency: Currency): DecimalFormat {
         return baseNumberFormat.apply {
             decimalFormatSymbols = decimalFormatSymbols.apply {
@@ -62,7 +64,7 @@ open class ConversionModel(val apiRepository: ApiRepository) {
         }
     }
 
-    fun numbersOnly(potentialNumber: String, decimalSeparator: Char): String {
+    fun numbersOnly(potentialNumber: String, decimalSeparator: Char = baseNumberFormat.decimalFormatSymbols.decimalSeparator): String {
         val filteredForNumbersAndSeparator = potentialNumber
             .filter { it.isDigit() || it == decimalSeparator }
             .ifBlank { "0" }

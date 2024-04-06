@@ -4,23 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
-import com.fxapp.libfoundation.extensions.toAmount
 import com.fxapp.libfoundation.view.base.BaseFragment
 import com.fxapp.transfer.R
 import com.fxapp.transfer.view.fragment.adapter.CurrencyTransferHubAdapter
-import com.fxapp.transfer.viewmodel.TransferViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
-import java.math.BigDecimal
 import com.fxapp.libfoundation.R as LFR
 
 class TransferHubFragment : BaseFragment() {
-
-    private val args by navArgs<TransferHubFragmentArgs>()
-    private val viewModel by activityViewModel<TransferViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,10 +23,6 @@ class TransferHubFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Add to viewmodel
-        viewModel.fromAmount = BigDecimal(args.initialAmount).toAmount(args.initialCurrency)
-        viewModel.exchangedAmount = BigDecimal(args.convertedAmount).toAmount(args.convertedCurrency)
-
         val fragmentAdapter = CurrencyTransferHubAdapter(this)
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = view.findViewById<ViewPager2>(R.id.view_pager).apply {

@@ -12,3 +12,8 @@ fun Amount(currency: Currency, value: BigDecimal? = null) = Amount(
     currency,
     value ?: BigDecimal.ZERO
 )
+
+fun Amount(currencyCode: String, value: BigDecimal? = null) = Amount(
+    Currency.getInstance(currencyCode),
+    value ?: BigDecimal.ZERO
+)

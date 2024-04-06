@@ -10,21 +10,19 @@ import kotlinx.coroutines.flow.update
 import java.text.DecimalFormat
 import java.util.Currency
 
-class CurrencyConverterViewModel(
+class ConverterViewModel(
     private val conversionModel: ConversionModel
 ) : BaseViewModel() {
-
     val uiState = MutableStateFlow(UIState())
-    var unformattedExchangeRates: List<Amount> = listOf()
 
     fun getRates(amount: Amount) = launchOnIO {
-        unformattedExchangeRates = conversionModel.getExchangedRatesForAmount(amount)
-        val formatted = conversionModel.getExchangedRatesForAmountFormatted(unformattedExchangeRates)
-        uiState.update {
-            it.copy(
-                formattedExchangeRates = formatted
-            )
-        }
+        val formatted = conversionModel.getExchangedRatesForAmountFormatted(amount)
+        uiState.update { it.copy(formattedExchangeRates = formatted) }
+    }
+
+    fun getFormattedExchangeRates(amount: Amount) = launchOnIO {
+        val formatted = conversionModel.getExchangedRatesForAmountFormatted(amount)
+        uiState.update { it.copy(formattedExchangeRates = formatted) }
     }
 
     fun getAvailableCurrencies() = launchOnIO {

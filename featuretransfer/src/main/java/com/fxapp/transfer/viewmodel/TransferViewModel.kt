@@ -24,7 +24,9 @@ class TransferViewModel(
 
     fun formatAmount(amount: Amount) = conversionModel.format(amount)
 
-    fun getExchangedAmountFormatted() = formatAmount(exchangedAmount)
+    fun getExchangedAmountFormatted(): String {
+        return formatAmount(exchangedAmount)
+    }
 
     data class UIState(
         val historicRates: List<AmountFormatted> = listOf()

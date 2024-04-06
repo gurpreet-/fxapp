@@ -18,8 +18,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import com.fxapp.libfoundation.view.theme.Colours
 import com.fxapp.libfoundation.view.theme.Typography
+import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.compose.KoinApplication
-import org.koin.compose.KoinContext
+import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.core.context.stopKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -27,9 +28,10 @@ import org.koin.dsl.module
 typealias SimpleCallback = () -> Unit
 typealias ComposeObject = @Composable SimpleCallback
 
+@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun FxAppScreen(content: ComposeObject) = FxAppTheme {
-    KoinContext {
+    KoinAndroidContext {
         val snackbarHostState = remember { SnackbarHostState() }
         Scaffold(
             modifier = Modifier.semantics {
