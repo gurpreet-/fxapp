@@ -17,9 +17,7 @@ class LoginViewModel(
 
     fun goToLoginScreenIfNotLoggedIn(navController: NavController) {
         if (!isLoggedIn()) {
-            navController.navigate(R.id.login_nav_graph, null, navOptions {
-                popUpTo(R.id.login_nav_graph)
-            })
+            logout(navController)
         }
     }
 
@@ -28,6 +26,12 @@ class LoginViewModel(
     fun login() {
         authModel.isLoggedIn = true
         navigationWrapper.navigateToDeepLink(LFR.id.home_fragment)
+    }
+
+    fun logout(navController: NavController) {
+        navController.navigate(R.id.login_nav_graph, null, navOptions {
+            popUpTo(R.id.login_nav_graph)
+        })
     }
 
     fun showHelperText(): Boolean {

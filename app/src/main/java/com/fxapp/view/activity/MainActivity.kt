@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         findViewById<MaterialToolbar>(R.id.main_toolbar).apply {
             setupWithNavController(navController, appBarConfiguration)
+            setSupportActionBar(this)
         }
         return navController
     }

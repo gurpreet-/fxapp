@@ -1,11 +1,43 @@
 package com.fxapp.view.fragment
 
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.core.view.MenuProvider
+import androidx.fragment.app.activityViewModels
+import com.fxapp.R
 import com.fxapp.libfoundation.view.base.ComposeFragment
 import com.fxapp.libfoundation.view.compose.ComposeObject
+import com.fxapp.login.viewmodel.LoginViewModel
 import com.fxapp.view.compose.HomeScreen
 
-class HomeFragment : ComposeFragment() {
+class HomeFragment : ComposeFragment(), MenuProvider {
+
+    private val viewModel by activityViewModels<LoginViewModel>()
 
     override val composeScreen: ComposeObject
         get() = { HomeScreen() }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.addMenuProvider(this, viewLifecycleOwner)
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.main_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.logout -> {
+                navController?.let {
+                    viewModel.logout(it)
+                }
+                true
+            }
+            else -> false
+        }
+    }
 }

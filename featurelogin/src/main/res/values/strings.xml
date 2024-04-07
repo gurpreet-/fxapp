@@ -2,6 +2,7 @@
 <resources>
     <string name="dont_show_again">Don\'t show again</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="login_helper_text">
         This screen showcases a login flow and does not do anything.
         Press the login button to continue.
