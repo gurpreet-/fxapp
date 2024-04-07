@@ -1,0 +1,20 @@
+apply from: "../common.gradle"
+
+android.namespace = 'com.fxapp.libtest'
+
+dependencies {
+    // ---------------
+    // Testing
+    // ---------------
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1-Beta"
+    api "io.insert-koin:koin-test:$koinVersion"
+    api "io.mockk:mockk:$mockkVersion"
+    api "io.mockk:mockk-android:$mockkVersion"
+    api "io.mockk:mockk-agent:$mockkVersion"
+
+    api 'androidx.test.ext:junit:1.1.5'
+    api 'androidx.test.espresso:espresso-core:3.5.1'
+    api "io.mockk:mockk-android:$mockkVersion"
+    api "io.mockk:mockk-agent:$mockkVersion"
+}
+

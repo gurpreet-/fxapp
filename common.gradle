@@ -8,12 +8,6 @@ if (isAppProject()) {
 
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
-def javaVersion = JavaVersion.VERSION_1_8
-def navVersion = "2.7.7"
-def koinVersion = "3.5.3"
-def mockkVersion = "1.13.10"
-def composeBomVersion = "2024.03.00"
-def lifecycleVersion = "2.7.0"
 
 android {
     compileSdk 34
@@ -130,16 +124,8 @@ dependencies {
     // ---------------
     // Testing
     // ---------------
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1-Beta"
-    testImplementation "io.insert-koin:koin-test:$koinVersion"
-    testImplementation "io.mockk:mockk:$mockkVersion"
-    testImplementation "io.mockk:mockk-android:$mockkVersion"
-    testImplementation "io.mockk:mockk-agent:$mockkVersion"
-
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
-    androidTestImplementation "io.mockk:mockk-agent:$mockkVersion"
+    testImplementation project(":libtest")
+    androidTestImplementation project(":libtest")
 }
 
 private Boolean isAppProject() {
