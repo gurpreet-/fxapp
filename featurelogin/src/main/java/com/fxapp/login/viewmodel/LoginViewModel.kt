@@ -1,13 +1,12 @@
 package com.fxapp.login.viewmodel
 
 import com.fxapp.libfoundation.viewmodel.base.BaseViewModel
-import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper
-import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper.Companion.IS_LOGGED_IN
+import com.fxapp.login.model.AuthModel
 
 class LoginViewModel(
-    val sharedPreferences: SharedPreferencesWrapper
+    val authModel: AuthModel
 ) : BaseViewModel() {
 
-    fun isLoggedIn() = sharedPreferences.getBoolean(IS_LOGGED_IN, true)
+    fun isLoggedIn() = authModel.isLoggedIn()
 
 }

@@ -2,6 +2,7 @@ package com.fxapp.di
 
 import com.fxapp.libfoundation.di.FoundationModule
 import com.fxapp.libfoundation.wrappers.BuildWrapper
+import com.fxapp.login.di.LoginModule
 import com.fxapp.transfer.di.TransferModule
 import com.fxapp.viewmodel.ConverterViewModel
 import com.fxapp.wrappers.AppBuildWrapper
@@ -15,5 +16,5 @@ object AppModule {
         viewModel { ConverterViewModel(get()) }
     }
 
-    val allModules = listOf(module, FoundationModule.module, TransferModule.module)
+    val allModules = listOf(module, FoundationModule.module, LoginModule.module, TransferModule.module)
 }
