@@ -97,8 +97,23 @@ class ConversionModelTest : BaseUnitTest() {
         testExtractsNumber(numberToTest, expectedNumber)
     }
 
-    private fun testExtractsNumber(toTest: String, expected: String) {
+    @Test
+    fun `extracts number - test 6, contains two decimal places`() = runTest {
+        val numberToTest = "234........."
+        val expectedNumber = "234.00"
+        val number = testExtractsNumber(numberToTest, expectedNumber)
+        assertEquals(number.substringAfterLast(".").length, 2)
+    }
+
+    @Test
+    fun `parsing malformed number in 0`() = runTest {
+        val numberToTest = "234........."
+        assertEquals("0", conversionModel.tryParseAsNumber(numberToTest))
+    }
+
+    private fun testExtractsNumber(toTest: String, expected: String): String {
         val onlyNumber = conversionModel.extractNumbersAndSeparator(toTest)
         assertEquals(expected, onlyNumber)
+        return onlyNumber
     }
 }

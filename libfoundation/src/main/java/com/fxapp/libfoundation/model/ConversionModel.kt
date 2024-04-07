@@ -1,5 +1,7 @@
 package com.fxapp.libfoundation.model
 
+import androidx.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting.Companion.PRIVATE
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountFormatted
 import com.fxapp.libfoundation.data.CurrencyMap
@@ -76,6 +78,11 @@ open class ConversionModel(val apiRepository: ApiRepository) {
             .filter { it.isDigit() || it == decimalSeparator }
             .ifBlank { "0" }
 
+        return tryParseAsNumber(filteredForNumbersAndSeparator)
+    }
+
+    @VisibleForTesting(otherwise = PRIVATE)
+    fun tryParseAsNumber(filteredForNumbersAndSeparator: String): String {
         // Just try parse here and if it throws an
         // exception then return 0. Potential to be improved
         // by keeping the existing value rather than defauling
