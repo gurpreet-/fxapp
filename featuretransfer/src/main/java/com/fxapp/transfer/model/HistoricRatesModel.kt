@@ -3,8 +3,8 @@ package com.fxapp.transfer.model
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountOnDate
 import com.fxapp.libfoundation.data.onDate
+import com.fxapp.libfoundation.model.BaseModel
 import com.fxapp.libfoundation.repository.ApiRepository
-import com.fxapp.libfoundation.viewmodel.base.BaseViewModel
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.ZoneId
@@ -12,7 +12,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class HistoricRatesModel(private val apiRepository: ApiRepository) : BaseViewModel() {
+class HistoricRatesModel(private val apiRepository: ApiRepository) : BaseModel() {
 
     suspend fun getHistoricRates(amount: Amount, currency: String): List<AmountOnDate> {
         val date10DaysAgo = getFormattedDate()

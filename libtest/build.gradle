@@ -12,6 +12,7 @@ dependencies {
     api "io.mockk:mockk:$mockkVersion"
     api "io.mockk:mockk-android:$mockkVersion"
     api "io.mockk:mockk-agent:$mockkVersion"
+    api "app.cash.turbine:turbine:1.1.0"
 
     api 'androidx.test.ext:junit:1.1.5'
     api 'androidx.test.espresso:espresso-core:3.5.1'
