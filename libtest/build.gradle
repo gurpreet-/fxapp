@@ -2,6 +2,7 @@ apply from: "../common.gradle"
 
 android.namespace = 'com.fxapp.libtest'
 
+
 dependencies {
     // ---------------
     // Testing

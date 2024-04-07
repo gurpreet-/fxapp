@@ -12,7 +12,7 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class HistoricRatesModel(val apiRepository: ApiRepository) : BaseViewModel() {
+class HistoricRatesModel(private val apiRepository: ApiRepository) : BaseViewModel() {
 
     suspend fun getHistoricRates(amount: Amount, currency: String): List<AmountOnDate> {
         val date10DaysAgo = getFormattedDate()
@@ -28,7 +28,7 @@ class HistoricRatesModel(val apiRepository: ApiRepository) : BaseViewModel() {
      * Gets a date given X days ago.
      * @return Date in yyyy-mm-dd format (ISO_LOCAL_DATE)
      */
-    private fun getFormattedDate(daysAgo: Long = 10): String {
+    fun getFormattedDate(daysAgo: Long = 10): String {
         val instantDaysPrior = Instant.now().minus(daysAgo, ChronoUnit.DAYS)
         val zonedTimeDaysPrior = ZonedDateTime.ofInstant(instantDaysPrior, ZoneId.systemDefault())
         return zonedTimeDaysPrior.format(DateTimeFormatter.ISO_LOCAL_DATE)

@@ -12,7 +12,7 @@ import java.text.DecimalFormat
 import java.util.Currency
 import java.util.Locale
 
-open class ConversionModel(val apiRepository: ApiRepository) {
+open class ConversionModel(private val apiRepository: ApiRepository) {
 
     suspend fun getExchangedRatesForAmountFormatted(amount: Amount): List<AmountFormatted> {
         return getExchangedRatesForAmount(amount)

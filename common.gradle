@@ -38,6 +38,15 @@ android {
             '-opt-in=androidx.compose.ui.ExperimentalComposeUiApi'
         ]
     }
+    testOptions {
+        // Prevents an exception where mockk cannot mock Instant.now
+        unitTests.all {
+            jvmArgs(
+                "--add-opens", "java.base/java.time=ALL-UNNAMED",
+                "--add-opens", "java.base/java.lang.reflect=ALL-UNNAMED"
+            )
+        }
+    }
     buildFeatures {
         compose true
         buildConfig true
