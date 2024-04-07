@@ -29,6 +29,7 @@ class LoginViewModel(
     }
 
     fun logout(navController: NavController) {
+        authModel.reset()
         navController.navigate(R.id.login_nav_graph, null, navOptions {
             popUpTo(R.id.login_nav_graph)
         })

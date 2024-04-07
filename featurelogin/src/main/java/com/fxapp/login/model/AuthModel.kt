@@ -8,6 +8,16 @@ class AuthModel(
     val sharedPreferences: SharedPreferencesWrapper
 ) : BaseModel() {
 
+    /**
+     * Clear all shared preferences. This would normally
+     * clear all singleton koin instances too.
+     */
+    fun reset() {
+        sharedPreferences.edit {
+            clear()
+        }
+    }
+
     var isLoggedIn: Boolean
         get() {
             // In production, this would be a network call checking

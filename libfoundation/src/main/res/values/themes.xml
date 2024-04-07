@@ -17,6 +17,7 @@
         <item name="titleTextColor">@color/colorSecondary</item>
         <item name="titleTextAppearance">@style/ToolbarText</item>
         <item name="android:fontFamily">@font/primary_font</item>
+        <item name="colorOnPrimary">@color/green10</item>
     </style>
 
     <style name="ToolbarText">
