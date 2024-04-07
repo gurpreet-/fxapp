@@ -62,7 +62,17 @@ open class ConversionModel(val apiRepository: ApiRepository) {
      * its numbers and a decimal separator.
      */
     fun extractNumbersAndSeparator(potentialNumber: String, decimalSeparator: Char = baseNumberFormat.decimalFormatSymbols.decimalSeparator): String {
-        val filteredForNumbersAndSeparator = potentialNumber
+        val oneSeparator = if (potentialNumber.count { it == decimalSeparator } == 0) {
+            potentialNumber
+        } else {
+            // Get the first most separator and sanitise the strings
+            // before and after it
+            val after = potentialNumber.substringAfter(decimalSeparator).filter(Char::isDigit)
+            val before = potentialNumber.substringBefore(decimalSeparator)
+            "$before$decimalSeparator$after"
+        }
+
+        val filteredForNumbersAndSeparator = oneSeparator
             .filter { it.isDigit() || it == decimalSeparator }
             .ifBlank { "0" }
 
