@@ -6,7 +6,6 @@
     android:id="@+id/global_nav_graph">
 
     <include app:graph="@navigation/transfer_nav_graph" />
-    <include app:graph="@navigation/login_nav_graph" />
 
     <fragment
         android:id="@id/home_fragment"

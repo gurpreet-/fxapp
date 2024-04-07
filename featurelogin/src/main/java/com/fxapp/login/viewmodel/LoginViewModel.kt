@@ -1,11 +1,9 @@
 package com.fxapp.login.viewmodel
 
-import androidx.navigation.NavController
-import androidx.navigation.navOptions
+import android.annotation.SuppressLint
 import com.fxapp.libfoundation.viewmodel.base.BaseViewModel
 import com.fxapp.libfoundation.wrappers.BuildWrapper
 import com.fxapp.libfoundation.wrappers.NavigationWrapper
-import com.fxapp.login.R
 import com.fxapp.login.model.AuthModel
 import com.fxapp.libfoundation.R as LFR
 
@@ -15,9 +13,9 @@ class LoginViewModel(
     val buildWrapper: BuildWrapper
 ) : BaseViewModel() {
 
-    fun goToLoginScreenIfNotLoggedIn(navController: NavController) {
+    fun goToLoginScreenIfNotLoggedIn() {
         if (!isLoggedIn()) {
-            logout(navController)
+            logout()
         }
     }
 
@@ -28,11 +26,10 @@ class LoginViewModel(
         navigationWrapper.navigateToDeepLink(LFR.id.home_fragment)
     }
 
-    fun logout(navController: NavController) {
+    @SuppressLint("RestrictedApi")
+    fun logout() {
         authModel.reset()
-        navController.navigate(R.id.login_nav_graph, null, navOptions {
-            popUpTo(R.id.login_nav_graph)
-        })
+        navigationWrapper.logout()
     }
 
     fun showHelperText(): Boolean {

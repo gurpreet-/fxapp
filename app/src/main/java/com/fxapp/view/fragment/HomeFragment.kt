@@ -32,9 +32,7 @@ class HomeFragment : ComposeFragment(), MenuProvider {
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.logout -> {
-                navController?.let {
-                    viewModel.logout(it)
-                }
+                viewModel.logout()
                 true
             }
             else -> false

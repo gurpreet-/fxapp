@@ -1,6 +1,7 @@
 package com.fxapp.view.activity
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,12 +15,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
 
     private val loginViewModel by viewModel<LoginViewModel>()
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val navController = setupNavController()
-        loginViewModel.goToLoginScreenIfNotLoggedIn(navController)
+        navController = setupNavController()
+        loginViewModel.goToLoginScreenIfNotLoggedIn()
     }
 
     private fun setupNavController(): NavController {
@@ -36,5 +38,23 @@ class MainActivity : AppCompatActivity() {
             setSupportActionBar(this)
         }
         return navController
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            onSupportNavigateUp()
+            true
+        } else {
+            false
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return if (onBackPressedDispatcher.hasEnabledCallbacks()) {
+            onBackPressedDispatcher.onBackPressed()
+            true
+        } else {
+            navController.navigateUp() || super.onSupportNavigateUp()
+        }
     }
 }
