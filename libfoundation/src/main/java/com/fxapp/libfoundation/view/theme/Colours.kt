@@ -2,7 +2,6 @@ package com.fxapp.libfoundation.view.theme
 
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -45,23 +44,18 @@ object Colours {
     }
 
     @Composable
-    fun defaultOutlinedTextFieldColors() = MaterialTheme.colorScheme.run {
-        OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = primary,
-            unfocusedBorderColor = primary
-        )
-    }
-
-    @Composable
     fun lightColourTheme() = default().run {
         lightColorScheme(
             primary = primaryColour,
             primaryContainer = primaryColour,
+            onPrimary = white,
+            onPrimaryContainer = green20,
             background = background,
             secondary = secondary,
             secondaryContainer = secondaryContainer,
             onSecondaryContainer = secondaryContainer,
             inversePrimary = secondary,
+            tertiaryContainer = green20
         )
     }
 

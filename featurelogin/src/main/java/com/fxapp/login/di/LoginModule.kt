@@ -9,6 +9,6 @@ object LoginModule {
 
     val module = module {
         factory { AuthModel(get()) }
-        viewModel { LoginViewModel(get()) }
+        viewModel { LoginViewModel(get(), get(), get()) }
     }
 }

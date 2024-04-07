@@ -2,7 +2,7 @@ package com.fxapp.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavDeepLinkBuilder
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -18,17 +18,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setupNavController()
-        if (!loginViewModel.isLoggedIn()) {
-            NavDeepLinkBuilder(this)
-                .setGraph(R.navigation.global_nav_graph)
-                .setDestination(R.id.currency_exchange_fragment)
-                .createPendingIntent()
-                .send()
-        }
+        val navController = setupNavController()
+        loginViewModel.goToLoginScreenIfNotLoggedIn(navController)
     }
 
-    private fun setupNavController() {
+    private fun setupNavController(): NavController {
         // Retrieve the nav controller
         val navHostFragment = supportFragmentManager.findFragmentById(
             com.fxapp.libfoundation.R.id.main_fragment_container
@@ -40,5 +34,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<MaterialToolbar>(R.id.main_toolbar).apply {
             setupWithNavController(navController, appBarConfiguration)
         }
+        return navController
     }
 }

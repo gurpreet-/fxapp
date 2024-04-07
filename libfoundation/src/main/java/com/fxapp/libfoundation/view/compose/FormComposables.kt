@@ -15,7 +15,7 @@ import com.fxapp.libfoundation.view.theme.Typography
 @Composable
 fun FormTextField(
     value: String,
-    placeholder: String,
+    placeholder: String? = null,
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions? = null,
     textStyle: TextStyle? = null,
@@ -30,12 +30,14 @@ fun FormTextField(
         keyboardOptions = keyboardOptions ?: KeyboardOptions.Default,
         value = value,
         textStyle = textStyle ?: Typography.default().bodyMedium,
-        placeholder = {
-            Text(
-                placeholder,
-                color = Colours.default().secondary,
-                style = MaterialTheme.typography.titleLarge
-            )
+        placeholder = placeholder?.run {
+            {
+                Text(
+                    this,
+                    color = Colours.default().secondary,
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
         },
         onValueChange = onValueChange,
         suffix = suffix,

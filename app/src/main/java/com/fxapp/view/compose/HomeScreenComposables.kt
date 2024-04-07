@@ -73,7 +73,7 @@ import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
-import com.fxapp.view.fragment.HomeScreenFragmentDirections
+import com.fxapp.view.fragment.HomeFragmentDirections
 import com.fxapp.viewmodel.ConverterViewModel
 import org.koin.compose.koinInject
 import java.math.BigDecimal
@@ -136,7 +136,7 @@ fun HomeScreen(
             } else {
                 RatesList(uiState.formattedExchangeRates) {
                     navController.navigate(
-                        HomeScreenFragmentDirections.actionGlobalOpenTransferHub(
+                        HomeFragmentDirections.actionGlobalOpenTransferHub(
                             amount.value.toString(),
                             amount.currency.currencyCode,
                             it.value.toString(),

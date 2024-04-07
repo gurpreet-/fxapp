@@ -99,16 +99,7 @@ fun FxAppBar(
     title: String = "",
     backPressed: SimpleCallback? = null
 ) = TopAppBar(
-    title = {
-        Text(
-            title,
-            Modifier.padding(horizontal = smallMargin),
-            style = MaterialTheme.typography.titleMedium,
-            fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Italic,
-            color = Colours.default().secondary
-        )
-    },
+    title = { AppNameText(Modifier.padding(horizontal = smallMargin), text = title) },
     colors = TopAppBarDefaults.topAppBarColors(
         containerColor = Colours.default().primaryColourDark,
         titleContentColor = Colours.default().secondary
@@ -124,6 +115,18 @@ fun FxAppBar(
                 })
     }
 )
+
+@Composable
+fun AppNameText(modifier: Modifier = Modifier, colour: Color = Colours.default().secondary, text: String = stringResource(R.string.app_name)) {
+    Text(
+        text,
+        modifier,
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold,
+        fontStyle = FontStyle.Italic,
+        color = colour
+    )
+}
 
 @Composable
 fun SupportingText(text: String) {

@@ -8,10 +8,14 @@ class AuthModel(
     val sharedPreferences: SharedPreferencesWrapper
 ) : BaseModel() {
 
-    fun isLoggedIn(): Boolean {
-        // This would be a network call checking
-        // if an auth token has expired if this app was in production
-        return sharedPreferences.getBoolean(IS_LOGGED_IN, true)
-    }
+    var isLoggedIn: Boolean
+        get() {
+            // In production, this would be a network call checking
+            // if an auth token has expired
+            return sharedPreferences.getBoolean(IS_LOGGED_IN, false)
+        }
+        set(value) = sharedPreferences.edit {
+            putBoolean(IS_LOGGED_IN, value)
+        }
 
 }
