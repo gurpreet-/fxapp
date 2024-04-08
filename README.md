@@ -68,11 +68,11 @@ This project requires the following:
 
 ### Unit tests
 - Tests are written in JUnit.
-- Right-clicking the top-most folder this app is hosted in, click `Run All Tests`.
+- Right-clicking the top-most folder this app is hosted in, click `Run All Tests`. Alternatively, I have included a run configuration that runs all tests for you which is available at `.idea/runConfigration/all_unit_tests.xml`.
 
 ### UI tests
 - Please run all tests on an emulator/device with API 28 or higher. This constraint comes about by mockk, the mocking framework I'm using.
-- All UI tests are located in `app/src/androidTest`, so right-clicking that folder and clicking `Run All Tests` will allow you to run those tests.
+- All UI tests are located in `app/src/androidTest`, so right-clicking that folder and clicking `Run All Tests` will allow you to run those tests. Alternatively, I have included a run configuration that runs all tests for you which is available at `.idea/runConfigration/all_ui_tests.xml`.
 
 ## Things to note
 - UI Tests only run on emulators/devices running API 28 or above.
