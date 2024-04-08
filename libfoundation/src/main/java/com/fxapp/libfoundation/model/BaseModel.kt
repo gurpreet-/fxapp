@@ -1,5 +1,3 @@
 package com.fxapp.libfoundation.model
 
-open class BaseModel {
-
-}
+open class BaseModel

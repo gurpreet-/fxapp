@@ -29,7 +29,6 @@ object FoundationModule {
         factory<JobExecutor> { JobExecutor(get()) }
         single<OkHttpClientHandler> { createOkHttpClient(androidContext(), get()) }
         single<ApiRepository> { ApiRepository(get()) }
-
         factory { ConversionModel(get()) }
     }
 

@@ -12,7 +12,7 @@ import org.http4k.core.Request
 import org.http4k.format.Gson.auto
 
 class ApiRepository(
-    val client: OkHttpClientHandler
+    private val client: OkHttpClientHandler
 ) {
 
     suspend fun getLatestRates(amount: Amount): LatestRates = coroutineScope {
