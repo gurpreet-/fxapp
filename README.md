@@ -67,13 +67,13 @@ The code itself is well formatted and offers no grammatical mistakes. Good namin
 
 ### UI tests
 - Please run all tests on an emulator/device with API 28 or higher. This constraint comes about by mockk, the mocking framework I'm using.
-- All UI tests are located in `app/src/androidTest`, so right-clicking that folder and clicking `Run..` will allow you to run those tests.
+- All UI tests are located in `app/src/androidTest`, so right-clicking that folder and clicking `Run All Tests` will allow you to run those tests.
 
 ## Things to note
 - UI Tests only run on emulators/devices running API 28 or above.
 - The amount field does have some quirky behaviour when typing and sometimes pushes the cursor back. Given more time I can alleviate these issues.
-- I have tested many components but due to time constraints some wrapper classes I have not been able to test. Though the essentials are all tested `ViewModels` and `Model` and of course the view.
-- The app uses `Fragments` and is not 100% Compose. Why? Navigation in pure Compose is an arduous task especially if you have state in different screens. Navigation using the standard `Fragment` based approach which is in a battle-tested library is much easier (although you have to write more shell `Fragments`) and works well with different components such as the side drawer and bottom navigation bar.
+- I have tested many components but due to time constraints some wrapper classes I have not been able to test and I would have liked to have added more UI tests. Though the essentials are all tested `ViewModels` and `Model`.
+- FxApp uses `Fragments` and is not 100% Compose. Why? Navigation in pure Compose is an arduous task especially if you have state in different screens. Navigation using the standard `Fragment` based approach which is in a battle-tested library is much easier (although you have to write more shell `Fragments`) and works well with different components such as the side drawer and bottom navigation bar.
 
 ## Acknowledgements
 
