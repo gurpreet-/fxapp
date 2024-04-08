@@ -11,6 +11,8 @@ The app is using a reactive view system known as Jetpack Compose which only upda
 
 I've tried to use as little dependencies as possible in order to not bloat the app and keep build times fast.
 
+I've used the Memory Profiler to assist me in finding any egregious allocations and memory hazards.
+
 #### Maintainability
 - As mentioned above, I've used little external dependencies.
 - 99% of logic is out of any view and in my ViewModels/Models which have tests written for them.
