@@ -18,5 +18,9 @@ dependencies {
     api 'androidx.test.espresso:espresso-core:3.5.1'
     api "io.mockk:mockk-android:$mockkVersion"
     api "io.mockk:mockk-agent:$mockkVersion"
+
+    api "com.kaspersky.android-components:kaspresso:$kaspressoVersion"
+    api "com.kaspersky.android-components:kaspresso-allure-support:$kaspressoVersion"
+    api "com.kaspersky.android-components:kaspresso-compose-support:$kaspressoVersion"
 }
 

@@ -13,4 +13,5 @@ ext {
     mockkVersion = "1.13.10"
     composeBomVersion = "2024.03.00"
     lifecycleVersion = "2.7.0"
+    kaspressoVersion = "1.5.5"
 }
