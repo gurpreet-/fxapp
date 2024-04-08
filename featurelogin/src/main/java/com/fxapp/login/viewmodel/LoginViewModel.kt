@@ -8,9 +8,9 @@ import com.fxapp.login.model.AuthModel
 import com.fxapp.libfoundation.R as LFR
 
 class LoginViewModel(
-    val authModel: AuthModel,
-    val navigationWrapper: NavigationWrapper,
-    val buildWrapper: BuildWrapper
+    private val authModel: AuthModel,
+    private val navigationWrapper: NavigationWrapper,
+    private val buildWrapper: BuildWrapper
 ) : BaseViewModel() {
 
     fun goToLoginScreenIfNotLoggedIn() {

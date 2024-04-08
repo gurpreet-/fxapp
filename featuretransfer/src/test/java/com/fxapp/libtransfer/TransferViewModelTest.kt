@@ -33,7 +33,7 @@ class TransferViewModelTest : BaseUnitTest() {
     fun `get historical rates loads first and then updates ui state`() = runTest {
         viewModel.uiState.test {
             viewModel.getHistoricalRates()
-            skipItems(1)
+            skipItems(1) // Initial state
             assertTrue(awaitItem().isLoading)
             assertFalse(awaitItem().historicRates.isEmpty())
             assertFalse(awaitItem().isLoading)

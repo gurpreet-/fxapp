@@ -5,7 +5,7 @@ import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper
 import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper.Companion.IS_LOGGED_IN
 
 class AuthModel(
-    val sharedPreferences: SharedPreferencesWrapper
+    private val sharedPreferences: SharedPreferencesWrapper
 ) : BaseModel() {
 
     /**
