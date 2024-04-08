@@ -77,6 +77,7 @@ This project requires the following:
 
 ### UI tests
 - Please run all tests on an emulator/device with API 28 or higher. This constraint comes about by mockk, the mocking framework I'm using.
+- I tested on a Pixel 5 with an API of 28 and 34.
 - All UI tests are located in `app/src/androidTest`, so right-clicking that folder and clicking `Run All Tests` will allow you to run those tests. Alternatively, I have included a run configuration that runs all tests for you which is available at `.idea/runConfigration/all_ui_tests.xml`.
 
 ## Things to note
