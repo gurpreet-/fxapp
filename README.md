@@ -53,11 +53,16 @@ The code itself is well formatted and offers no grammatical mistakes. Good namin
 
 
 ## Building and running
-
-### Requirements
+This project requires the following:
 - Android Studio - Android Studio Iguana | 2023.2.1 Patch 1
 - In order to build the app, you need the Android SDK. It's usually downloaded and installed in your home folder when you install Android Studio.
 - The app targets API 34 so installing an image version equivalent or close to that API would be ideal.
+- JDK 8 or higher.
+
+1. `git clone` the repo or download it as a zip.
+2. Open the extracted folder in Android Studio.
+3. Let Android Studio download all the dependencies.
+4. Hit the green play button in the top right hand corner to run the app.
 
 ## Running tests
 
