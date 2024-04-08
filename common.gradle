@@ -43,8 +43,14 @@ android {
         unitTests.all {
             jvmArgs(
                 "--add-opens", "java.base/java.time=ALL-UNNAMED",
-                "--add-opens", "java.base/java.lang.reflect=ALL-UNNAMED"
+                "--add-opens", "java.base/java.lang.reflect=ALL-UNNAMED",
+                "-Djdk.attach.allowAttachSelf=true"
             )
+        }
+        packagingOptions {
+            jniLibs {
+                useLegacyPackaging = true
+            }
         }
     }
     buildFeatures {

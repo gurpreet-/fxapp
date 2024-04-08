@@ -38,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -73,6 +74,9 @@ import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.view.theme.Typography
+import com.fxapp.view.compose.TestTags.AMOUNT_FIELD
+import com.fxapp.view.compose.TestTags.CURRENCY_SELECTOR_BUTTON
+import com.fxapp.view.compose.TestTags.CURRENCY_SELECTOR_SCREEN
 import com.fxapp.view.fragment.HomeFragmentDirections
 import com.fxapp.viewmodel.ConverterViewModel
 import org.koin.compose.koinInject
@@ -194,7 +198,7 @@ fun CurrencyTextField(
     ) {
         FormTextField(
             value = formatted,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).testTag(AMOUNT_FIELD),
             placeholder = "0.00",
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal
@@ -241,6 +245,7 @@ fun CurrencyTextField(
 @Composable
 fun TypeSomething() = Column(
     Modifier
+        .testTag(AMOUNT_FIELD)
         .fillMaxWidth()
         .alpha(0.66f)
         .padding(vertical = xLargeMargin, horizontal = largeMargin),
@@ -301,7 +306,7 @@ fun CurrencySelectorButton(
 
     if (availableCurrencies.isNotEmpty()) {
         FilledIconButton(
-            modifier = modifier.requiredSizeIn(minWidth = 58.dp, maxHeight = 30.dp),
+            modifier = modifier.testTag(CURRENCY_SELECTOR_BUTTON).requiredSizeIn(minWidth = 58.dp, maxHeight = 30.dp),
             shape = RoundedCornerShape(8.dp),
             onClick = {
                 showDialog = !showDialog
@@ -338,6 +343,7 @@ fun CurrencySelectorScreen(
     var searchText by remember { mutableStateOf("") }
     Column(
         Modifier
+            .testTag(CURRENCY_SELECTOR_SCREEN)
             .fillMaxSize()
             .background(Colours.default().viewBackground)
     ) {
@@ -380,4 +386,11 @@ fun CurrencySelectorScreen(
             }
         }
     }
+}
+
+object TestTags {
+    const val AMOUNT_FIELD = "test_tag_amount_field"
+    const val TYPE_SOMETHING = "test_tag_type_something"
+    const val CURRENCY_SELECTOR_SCREEN = "test_tag_currency_selector_screen"
+    const val CURRENCY_SELECTOR_BUTTON = "test_tag_currency_selector_button"
 }

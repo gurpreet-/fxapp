@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -89,9 +90,10 @@ fun LoginScreen(
             onValueChange = onPasswordChanged
         )
         SpacerHeight(defaultMargin)
-        Button(onClick = onLoginClicked) {
+        val login = stringResource(R.string.login)
+        Button(onClick = onLoginClicked, modifier = Modifier.testTag(login)) {
             Text(
-                stringResource(R.string.login),
+                login,
                 color = Colours.default().secondary,
                 fontWeight = FontWeight.Bold
             )

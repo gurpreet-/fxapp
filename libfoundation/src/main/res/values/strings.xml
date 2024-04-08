@@ -22,4 +22,7 @@
     <string name="ac_more">More</string>
     <string name="ac_search">@string/search</string>
     <string name="ac_currency_exchange">Currency exchange icon</string>
+
+    <!--  Test tags  -->
+    <string name="test_tag_amount_field">test_tag_amount_field</string>
 </resources>

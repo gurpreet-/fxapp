@@ -10,17 +10,22 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1-Beta"
     api "io.insert-koin:koin-test:$koinVersion"
     api "io.mockk:mockk:$mockkVersion"
-    api "io.mockk:mockk-android:$mockkVersion"
-    api "io.mockk:mockk-agent:$mockkVersion"
+    api "androidx.compose.ui:ui-test-junit4:1.6.5"
+    api 'androidx.test.ext:junit:1.1.5'
+    api "androidx.test:runner:1.5.2"
+    api "androidx.test:rules:1.5.0"
+
+    // Flow testing
     api "app.cash.turbine:turbine:1.1.0"
 
-    api 'androidx.test.ext:junit:1.1.5'
-    api 'androidx.test.espresso:espresso-core:3.5.1'
+    // UI testing
     api "io.mockk:mockk-android:$mockkVersion"
     api "io.mockk:mockk-agent:$mockkVersion"
-
     api "com.kaspersky.android-components:kaspresso:$kaspressoVersion"
-    api "com.kaspersky.android-components:kaspresso-allure-support:$kaspressoVersion"
     api "com.kaspersky.android-components:kaspresso-compose-support:$kaspressoVersion"
+
+    // Needed due to Espresso having a transitive dependency
+    // on it
+    api "org.hamcrest:hamcrest:2.2"
 }
 
