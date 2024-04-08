@@ -50,6 +50,10 @@ With the above module structure, we can use [Play On-Demand delivery](https://de
 
 The code itself is well formatted and offers no grammatical mistakes. Good naming conventions are used for variables and where possible in-keeping with Android's guidelines.
 
+#### Testability
+The app is very testable with business logic and view logic being tested as part of unit and UI tests. Further work can be done by improving developer experience with the use of data generator classes which can be used to mock API responses.
+
+
 
 ## Building and running
 This project requires the following:
