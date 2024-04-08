@@ -1,5 +1,5 @@
 
-<img src="https://github.com/gurpreet-/fxapp/assets/6073488/471ea20b-008f-4970-9e3b-565d3b9fc367" width="190"> 
+<img src="https://github.com/gurpreet-/fxapp/assets/6073488/471ea20b-008f-4970-9e3b-565d3b9fc367" width="190" alt="logo"> 
 
 A currency conversion app written in Jetpack Compose using an MVVM architecture.  Currently this app supports `EUR`, `GBP` and `USD` and shows a list of currencies that any amount you provide gets converted to.
 
