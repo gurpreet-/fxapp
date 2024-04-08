@@ -5,6 +5,10 @@ A currency conversion app written in Jetpack Compose using an MVVM architecture.
 
 **Note**: The API refreshes rates around 16:00 CET every **working** day so the rates may be a little stale.
 
+https://github.com/gurpreet-/fxapp/assets/6073488/cbc3cf20-518f-433e-97a8-9c998390365e
+
+
+
 #### Performance
 The app is using a reactive view system known as Jetpack Compose which only updates when a `Flow` updates its data. I initially did not want to use `UIState` view-holders as they can lead to more frequent updates to a screen than necessary. Though, by guiding developers, I can ensure they use multiple `UIState`s per `ViewModel` thereby ensuring an update doesn't lead to whole pages updating.
 
