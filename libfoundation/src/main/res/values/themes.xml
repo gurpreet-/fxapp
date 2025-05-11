@@ -9,7 +9,7 @@
         <item name="toolbarStyle">@style/Theme.CurrencyConvert.Toolbar</item>
         <item name="actionOverflowButtonStyle">@style/ToolbarMenuStyle</item>
         <item name="colorControlNormal">@color/lgreen20</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.CurrencyConvert" parent="Base.Theme.CurrencyConvert" />

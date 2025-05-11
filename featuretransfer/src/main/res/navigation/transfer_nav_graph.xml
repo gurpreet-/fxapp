@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/currency_transfer_hub_fragment"
         android:name="com.fxapp.transfer.presentation.fragment.HistoricalRatesFragment"
-        android:label="@string/details">
+        android:label="@string/historical">
 
         <argument
             android:name="initialAmount"

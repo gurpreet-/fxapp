@@ -1,7 +1,5 @@
 package com.fxapp.libfoundation.presentation.view.base
 
-import android.content.res.Configuration
-import android.content.res.Resources
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
@@ -11,17 +9,11 @@ class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.auto(
-                lightScrim = getColor(com.fxapp.libfoundation.R.color.black),
-                darkScrim = getColor(com.fxapp.libfoundation.R.color.black),
-                detectDarkMode = ::isDarkMode
+            statusBarStyle = SystemBarStyle.light(
+                scrim = getColor(com.fxapp.libfoundation.R.color.colorPrimary),
+                darkScrim = getColor(com.fxapp.libfoundation.R.color.colorPrimary),
             )
         )
         super.onCreate(savedInstanceState)
-    }
-
-    fun isDarkMode(resources: Resources): Boolean {
-        val darkModeFlag = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return false
     }
 }

@@ -7,11 +7,7 @@
     <string name="search">Search</string>
 
     <!--  Transfer hub  -->
-    <string name="details">Details</string>
-    <string name="transfer">Transfer</string>
-    <string name="historical">Historical</string>
-    <string name="tab1_title">@string/transfer</string>
-    <string name="tab2_title">@string/historical</string>
+    <string name="historical">Historical rates</string>
 
     <!--  Errors  -->
     <string name="sorry">Sorry there was an error.</string>
