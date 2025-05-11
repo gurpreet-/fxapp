@@ -44,9 +44,5 @@ class TransferViewModel(
         }
     }
 
-    fun getExchangedAmountFormatted(): String {
-        return formatAmount(exchangedAmount)
-    }
-
     fun formatAmount(amount: Amount) = conversionRepository.format(amount)
 }
