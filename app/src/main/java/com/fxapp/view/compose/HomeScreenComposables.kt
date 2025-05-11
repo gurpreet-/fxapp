@@ -38,6 +38,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -121,7 +123,6 @@ fun HomeScreen(
                 onValueChanged = {
                     converterViewModel.setAmount(Amount(amount.currency, it))
                 },
-
             )
         }
 
@@ -193,13 +194,17 @@ fun CurrencyTextField(
     onValueChanged: (BigDecimal) -> Unit
 ) {
     val formatted = conversionRepository.format(currency, value)
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         FormTextField(
             value = formatted,
-            modifier = Modifier.weight(1f).testTag(AMOUNT_FIELD),
+            modifier = Modifier.weight(1f).testTag(AMOUNT_FIELD).focusRequester(focusRequester),
             placeholder = "0.00",
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal

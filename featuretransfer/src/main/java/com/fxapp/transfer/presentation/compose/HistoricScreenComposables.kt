@@ -26,7 +26,7 @@ fun HistoricMainScreenComposable(
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val historicRates = uiState.historicRates
 
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         viewModel.onEvent(FxAppEvent.GetHistoricalRatesEvent)
     }
 

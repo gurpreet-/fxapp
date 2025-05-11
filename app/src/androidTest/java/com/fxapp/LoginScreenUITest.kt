@@ -2,7 +2,7 @@ package com.fxapp
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import com.fxapp.login.data.model.AuthRepositoryImpl
+import com.fxapp.login.domain.repository.AuthRepository
 import com.fxapp.login.presentation.activity.LoginActivity
 import com.fxapp.screens.HomeScreen
 import com.fxapp.screens.LoginScreen
@@ -17,19 +17,19 @@ import org.koin.dsl.module
 
 class LoginScreenUITest : BaseUITest() {
 
-    private val authModelRepository = mockk<AuthRepositoryImpl>(relaxed = true)
+    private val authRepository = mockk<AuthRepository>(relaxed = true)
 
     @get:Rule
     val composeRule = createAndroidComposeRule<LoginActivity>()
 
 
     override fun getTestingModule() = module {
-        factory { authModelRepository }
+        factory { authRepository }
     }
 
     @Before
     fun testBefore() {
-        every { authModelRepository.isLoggedIn } returns false
+        every { authRepository.isLoggedIn } returns false
     }
 
     @Test
@@ -38,7 +38,7 @@ class LoginScreenUITest : BaseUITest() {
             onComposeScreen<LoginScreen>(composeRule) {
                 loginButton {
                     isDisplayed()
-                    every { authModelRepository.isLoggedIn } returns true
+                    every { authRepository.isLoggedIn } returns true
                     performClick()
                 }
             }
