@@ -6,6 +6,7 @@ import com.fxapp.libfoundation.async.CoroutineScopes
 import com.fxapp.libfoundation.async.JobExecutor
 import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl
 import com.fxapp.libfoundation.domain.repository.ApiRepository
+import com.fxapp.libfoundation.domain.repository.ConversionRepository
 import com.fxapp.libfoundation.wrappers.BuildWrapper
 import okhttp3.OkHttpClient
 import org.http4k.client.OkHttp
@@ -16,6 +17,8 @@ import org.http4k.filter.DebuggingFilters
 import org.http4k.filter.TrafficFilters
 import org.http4k.traffic.ReadWriteCache
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -25,11 +28,11 @@ typealias OkHttpClientHandler = HttpHandler
 object FoundationModule {
 
     val module = module {
-        factory<CoroutineScopes> { AppCoroutineScopes() }
-        factory<JobExecutor> { JobExecutor(get()) }
-        single<OkHttpClientHandler> { createOkHttpClient(androidContext(), get()) }
-        single<ApiRepository> { ApiRepository(get()) }
-        factory { ConversionRepositoryImpl(get()) }
+        factoryOf(::AppCoroutineScopes) bind CoroutineScopes::class
+        factoryOf(::JobExecutor)
+        factory<OkHttpClientHandler> { createOkHttpClient(androidContext(), get()) }
+        factoryOf(::ApiRepository)
+        factoryOf(::ConversionRepositoryImpl) bind ConversionRepository::class
     }
 
     private fun createOkHttpClient(context: Context, buildWrapper: BuildWrapper): OkHttpClientHandler {
