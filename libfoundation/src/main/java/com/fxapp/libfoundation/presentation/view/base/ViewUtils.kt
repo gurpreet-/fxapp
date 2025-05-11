@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.view.base
+package com.fxapp.libfoundation.presentation.view.base
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog

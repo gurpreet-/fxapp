@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.fxapp.libfoundation.data.Amount
-import com.fxapp.libfoundation.view.base.BaseFragment
+import com.fxapp.libfoundation.presentation.view.base.BaseFragment
 import com.fxapp.transfer.R
 import com.fxapp.transfer.view.fragment.adapter.CurrencyTransferHubAdapter
 import com.fxapp.transfer.viewmodel.TransferViewModel

@@ -4,8 +4,8 @@ import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountFormatted
 import com.fxapp.libfoundation.model.ConversionModel
 import com.fxapp.libfoundation.model.ConversionModel.Companion.GBP
-import com.fxapp.libfoundation.view.base.BaseUIState
-import com.fxapp.libfoundation.viewmodel.base.BaseViewModel
+import com.fxapp.libfoundation.presentation.base.BaseViewModel
+import com.fxapp.libfoundation.presentation.view.base.BaseUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -16,13 +16,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
-import com.fxapp.libfoundation.view.compose.FxAppScreen
-import com.fxapp.libfoundation.view.compose.SpacerHeight
-import com.fxapp.libfoundation.view.compose.SupportingText
-import com.fxapp.libfoundation.view.compose.koinLocalViewModel
-import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
-import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
-import com.fxapp.libfoundation.view.theme.Dimens.mediumMargin
+import com.fxapp.libfoundation.presentation.view.compose.FxAppScreen
+import com.fxapp.libfoundation.presentation.view.compose.SpacerHeight
+import com.fxapp.libfoundation.presentation.view.compose.SupportingText
+import com.fxapp.libfoundation.presentation.view.compose.koinLocalViewModel
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.extraSmallMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.largeMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.mediumMargin
 import com.fxapp.transfer.R
 import com.fxapp.transfer.viewmodel.TransferViewModel
 

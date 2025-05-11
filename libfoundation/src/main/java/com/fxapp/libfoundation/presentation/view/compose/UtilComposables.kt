@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.view.compose
+package com.fxapp.libfoundation.presentation.view.compose
 
 import android.app.Activity
 import android.content.ContextWrapper

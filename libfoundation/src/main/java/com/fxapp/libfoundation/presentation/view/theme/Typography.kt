@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.view.theme
+package com.fxapp.libfoundation.presentation.view.theme
 
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Typography

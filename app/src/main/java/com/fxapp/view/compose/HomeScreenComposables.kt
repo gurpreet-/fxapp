@@ -54,27 +54,27 @@ import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.data.Amount
 import com.fxapp.libfoundation.data.AmountFormatted
 import com.fxapp.libfoundation.model.ConversionModel
-import com.fxapp.libfoundation.view.base.showGlobalError
-import com.fxapp.libfoundation.view.compose.ChevronRightIcon
-import com.fxapp.libfoundation.view.compose.CircularLoading
-import com.fxapp.libfoundation.view.compose.CurrencyItem
-import com.fxapp.libfoundation.view.compose.CurrencyRatesListItem
-import com.fxapp.libfoundation.view.compose.FormTextField
-import com.fxapp.libfoundation.view.compose.FxAppBar
-import com.fxapp.libfoundation.view.compose.FxAppScreen
-import com.fxapp.libfoundation.view.compose.HorizontalDivider
-import com.fxapp.libfoundation.view.compose.SimpleCallback
-import com.fxapp.libfoundation.view.compose.SpacerHeight
-import com.fxapp.libfoundation.view.compose.findNavController
-import com.fxapp.libfoundation.view.compose.koinLocalViewModel
-import com.fxapp.libfoundation.view.theme.Colours
-import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
-import com.fxapp.libfoundation.view.theme.Dimens.extraSmallMargin
-import com.fxapp.libfoundation.view.theme.Dimens.largeIcon
-import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
-import com.fxapp.libfoundation.view.theme.Dimens.xLargeMargin
-import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
-import com.fxapp.libfoundation.view.theme.Typography
+import com.fxapp.libfoundation.presentation.view.base.showGlobalError
+import com.fxapp.libfoundation.presentation.view.compose.ChevronRightIcon
+import com.fxapp.libfoundation.presentation.view.compose.CircularLoading
+import com.fxapp.libfoundation.presentation.view.compose.CurrencyItem
+import com.fxapp.libfoundation.presentation.view.compose.CurrencyRatesListItem
+import com.fxapp.libfoundation.presentation.view.compose.FormTextField
+import com.fxapp.libfoundation.presentation.view.compose.FxAppBar
+import com.fxapp.libfoundation.presentation.view.compose.FxAppScreen
+import com.fxapp.libfoundation.presentation.view.compose.HorizontalDivider
+import com.fxapp.libfoundation.presentation.view.compose.SimpleCallback
+import com.fxapp.libfoundation.presentation.view.compose.SpacerHeight
+import com.fxapp.libfoundation.presentation.view.compose.findNavController
+import com.fxapp.libfoundation.presentation.view.compose.koinLocalViewModel
+import com.fxapp.libfoundation.presentation.view.theme.Colours
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.defaultMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.extraSmallMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.largeIcon
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.largeMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.xLargeMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.xxLargeMargin
+import com.fxapp.libfoundation.presentation.view.theme.Typography
 import com.fxapp.view.compose.TestTags.AMOUNT_FIELD
 import com.fxapp.view.compose.TestTags.CURRENCY_SELECTOR_BUTTON
 import com.fxapp.view.compose.TestTags.CURRENCY_SELECTOR_SCREEN
@@ -359,7 +359,7 @@ fun CurrencySelectorScreen(
             ),
             trailingIcon = {
                 Icon(
-                    painterResource(androidx.appcompat.R.drawable.abc_ic_clear_material),
+                    painterResource(R.drawable.clear),
                     contentDescription = stringResource(R.string.ac_search),
                     tint = Colours.default().slate50,
                     modifier = Modifier.clickable {

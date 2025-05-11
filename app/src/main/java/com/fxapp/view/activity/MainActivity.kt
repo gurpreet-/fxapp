@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.fxapp.R
+import com.fxapp.libfoundation.presentation.intent.FxAppEvent
 import com.fxapp.login.presentation.viewmodel.LoginViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         navController = setupNavController()
-        loginViewModel.goToLoginScreenIfNotLoggedIn()
+        loginViewModel.onEvent(FxAppEvent.AppStartUpEvent)
     }
 
     private fun setupNavController(): NavController {

@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.view.base
+package com.fxapp.libfoundation.presentation.view.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
-import com.fxapp.libfoundation.view.compose.ComposeObject
+import com.fxapp.libfoundation.presentation.view.compose.ComposeObject
 
 abstract class ComposeFragment : BaseFragment() {
 

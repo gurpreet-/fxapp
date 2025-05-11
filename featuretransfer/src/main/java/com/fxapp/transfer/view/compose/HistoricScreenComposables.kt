@@ -11,11 +11,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.fxapp.libfoundation.view.base.showGlobalError
-import com.fxapp.libfoundation.view.compose.CircularLoading
-import com.fxapp.libfoundation.view.compose.CurrencyRatesListItem
-import com.fxapp.libfoundation.view.compose.FxAppScreen
-import com.fxapp.libfoundation.view.compose.koinLocalViewModel
+import com.fxapp.libfoundation.presentation.view.base.showGlobalError
+import com.fxapp.libfoundation.presentation.view.compose.CircularLoading
+import com.fxapp.libfoundation.presentation.view.compose.CurrencyRatesListItem
+import com.fxapp.libfoundation.presentation.view.compose.FxAppScreen
+import com.fxapp.libfoundation.presentation.view.compose.koinLocalViewModel
 import com.fxapp.transfer.viewmodel.TransferViewModel
 
 @Composable

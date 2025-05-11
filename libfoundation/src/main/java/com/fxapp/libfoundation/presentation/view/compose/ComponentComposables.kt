@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.view.compose
+package com.fxapp.libfoundation.presentation.view.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,12 +30,12 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import com.fxapp.libfoundation.R
-import com.fxapp.libfoundation.view.theme.Colours
-import com.fxapp.libfoundation.view.theme.Dimens
-import com.fxapp.libfoundation.view.theme.Dimens.extraSmallIcon
-import com.fxapp.libfoundation.view.theme.Dimens.largeIcon
-import com.fxapp.libfoundation.view.theme.Dimens.mediumMargin
-import com.fxapp.libfoundation.view.theme.Dimens.smallMargin
+import com.fxapp.libfoundation.presentation.view.theme.Colours
+import com.fxapp.libfoundation.presentation.view.theme.Dimens
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.extraSmallIcon
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.largeIcon
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.mediumMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.smallMargin
 import java.util.Currency
 
 @Composable

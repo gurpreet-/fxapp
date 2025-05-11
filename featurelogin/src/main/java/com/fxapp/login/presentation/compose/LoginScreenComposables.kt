@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -25,16 +24,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import com.fxapp.libfoundation.view.compose.AppNameText
-import com.fxapp.libfoundation.view.compose.FxAppScreen
-import com.fxapp.libfoundation.view.compose.SimpleCallback
-import com.fxapp.libfoundation.view.compose.SpacerHeight
-import com.fxapp.libfoundation.view.compose.koinLocalViewModel
-import com.fxapp.libfoundation.view.theme.Colours
-import com.fxapp.libfoundation.view.theme.Dimens.defaultMargin
-import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
-import com.fxapp.libfoundation.view.theme.Dimens.smallMargin
-import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.fxapp.libfoundation.presentation.intent.FxAppEvent
+import com.fxapp.libfoundation.presentation.view.compose.AppNameText
+import com.fxapp.libfoundation.presentation.view.compose.FxAppScreen
+import com.fxapp.libfoundation.presentation.view.compose.SimpleCallback
+import com.fxapp.libfoundation.presentation.view.compose.SpacerHeight
+import com.fxapp.libfoundation.presentation.view.compose.koinLocalViewModel
+import com.fxapp.libfoundation.presentation.view.theme.Colours
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.defaultMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.largeMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.smallMargin
+import com.fxapp.libfoundation.presentation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.login.R
 import com.fxapp.login.presentation.viewmodel.LoginViewModel
 
@@ -42,11 +43,16 @@ import com.fxapp.login.presentation.viewmodel.LoginViewModel
 fun LoginMainScreenComposable(
     viewModel: LoginViewModel = koinLocalViewModel()
 ) = FxAppScreen {
-    var username by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val showHelperText by remember { mutableStateOf(viewModel.showHelperText()) }
-    LoginScreen(username, password, showHelperText, { username = it }, { password = it}) {
-        viewModel.login()
+    LoginScreen(
+        state.username,
+        state.password,
+        showHelperText,
+        { viewModel.onEvent(FxAppEvent.LoginFieldEvent(it, null)) },
+        { viewModel.onEvent(FxAppEvent.LoginFieldEvent(null, it)) }
+    ) {
+        viewModel.onEvent(FxAppEvent.LoginEvent)
     }
 }
 

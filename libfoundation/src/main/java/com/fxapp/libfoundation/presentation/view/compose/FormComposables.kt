@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.view.compose
+package com.fxapp.libfoundation.presentation.view.compose
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import com.fxapp.libfoundation.view.theme.Colours
-import com.fxapp.libfoundation.view.theme.Typography
+import com.fxapp.libfoundation.presentation.view.theme.Colours
+import com.fxapp.libfoundation.presentation.view.theme.Typography
 
 @Composable
 fun FormTextField(

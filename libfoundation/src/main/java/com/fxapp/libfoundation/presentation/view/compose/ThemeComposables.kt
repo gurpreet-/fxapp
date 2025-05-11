@@ -1,4 +1,4 @@
-package com.fxapp.libfoundation.view.compose
+package com.fxapp.libfoundation.presentation.view.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -16,8 +16,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import com.fxapp.libfoundation.view.theme.Colours
-import com.fxapp.libfoundation.view.theme.Typography
+import com.fxapp.libfoundation.presentation.view.theme.Colours
+import com.fxapp.libfoundation.presentation.view.theme.Typography
 import org.koin.androidx.compose.KoinAndroidContext
 import org.koin.compose.KoinApplication
 import org.koin.core.annotation.KoinExperimentalAPI

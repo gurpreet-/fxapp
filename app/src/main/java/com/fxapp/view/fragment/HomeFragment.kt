@@ -8,8 +8,8 @@ import android.view.View
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import com.fxapp.R
-import com.fxapp.libfoundation.view.base.ComposeFragment
-import com.fxapp.libfoundation.view.compose.ComposeObject
+import com.fxapp.libfoundation.presentation.view.base.ComposeFragment
+import com.fxapp.libfoundation.presentation.view.compose.ComposeObject
 import com.fxapp.login.presentation.viewmodel.LoginViewModel
 import com.fxapp.view.compose.HomeScreen
 

@@ -1,8 +1,8 @@
-package com.fxapp.libfoundation.viewmodel.base
+package com.fxapp.libfoundation.presentation.base
 
 import androidx.lifecycle.ViewModel
 import com.fxapp.libfoundation.async.JobExecutor
-import com.fxapp.libfoundation.view.base.BaseUIState
+import com.fxapp.libfoundation.presentation.view.base.BaseUIState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
