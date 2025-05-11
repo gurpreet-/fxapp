@@ -1,10 +1,11 @@
 package com.fxapp.liblogin
 
-import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.wrappers.BuildWrapper
 import com.fxapp.libfoundation.wrappers.NavigationWrapper
 import com.fxapp.libtest.BaseUnitTest
-import com.fxapp.login.data.model.AuthRepositoryImpl
+import com.fxapp.login.domain.repository.AuthRepository
+import com.fxapp.login.domain.usecases.LoginUseCase
+import com.fxapp.login.domain.usecases.LogoutUseCase
 import com.fxapp.login.presentation.viewmodel.LoginViewModel
 import io.mockk.every
 import io.mockk.mockk
@@ -14,38 +15,38 @@ import org.junit.Test
 
 class LoginViewModelTest : BaseUnitTest() {
 
-    private val authModelRepository: AuthRepositoryImpl = mockk(relaxed = true)
+    private val authRepository: AuthRepository = mockk(relaxed = true)
     private val navigationWrapper: NavigationWrapper = mockk(relaxed = true)
+    private val loginUseCase: LoginUseCase = mockk(relaxed = true)
+    private val logoutUseCase: LogoutUseCase = mockk(relaxed = true)
     private val buildWrapper: BuildWrapper = mockk(relaxed = true)
     private lateinit var viewModel: LoginViewModel
 
     @Before
     fun beforeTest() {
-        viewModel = LoginViewModel(authModelRepository, navigationWrapper, buildWrapper)
+        viewModel = LoginViewModel(loginUseCase, logoutUseCase, authRepository, buildWrapper)
     }
 
     @Test
     fun `on login navigates to home fragment`() = runTest {
         viewModel.login()
         verify {
-            authModelRepository.isLoggedIn = true
-            navigationWrapper.navigateToDeepLink(R.id.home_fragment)
+            loginUseCase.invoke()
         }
     }
 
     @Test
     fun `on login check false, navigates to login screen`() = runTest {
-        every { authModelRepository.isLoggedIn } returns false
+        every { authRepository.isLoggedIn } returns false
         viewModel.goToLoginScreenIfNotLoggedIn()
         verify {
-            authModelRepository.reset()
-            navigationWrapper.logout()
+            logoutUseCase.invoke()
         }
     }
 
     @Test
     fun `on login check true, does not navigate to login screen`() = runTest {
-        every { authModelRepository.isLoggedIn } returns true
+        every { authRepository.isLoggedIn } returns true
         viewModel.goToLoginScreenIfNotLoggedIn()
         verify(atLeast = 0) {
             navigationWrapper.logout()
