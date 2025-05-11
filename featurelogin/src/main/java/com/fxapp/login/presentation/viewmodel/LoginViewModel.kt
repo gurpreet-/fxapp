@@ -1,7 +1,7 @@
 package com.fxapp.login.presentation.viewmodel
 
 import com.fxapp.libfoundation.presentation.base.BaseViewModel
-import com.fxapp.libfoundation.presentation.intent.FxAppEvent
+import com.fxapp.libfoundation.presentation.event.FxAppEvent
 import com.fxapp.libfoundation.presentation.state.FxAppState
 import com.fxapp.libfoundation.wrappers.BuildWrapper
 import com.fxapp.login.domain.repository.AuthRepository
@@ -25,6 +25,7 @@ class LoginViewModel(
             is FxAppEvent.LoginEvent -> login()
             is FxAppEvent.LogoutEvent -> logout()
             is FxAppEvent.LoginFieldEvent -> storeUserNamePassword(event.username, event.password)
+            else -> Unit
         }
     }
 
@@ -53,7 +54,7 @@ class LoginViewModel(
         logoutUseCase.invoke()
     }
 
-    fun showHelperText(): Boolean {
+    fun shouldShowHelperText(): Boolean {
         return buildWrapper.isDebug
     }
 }

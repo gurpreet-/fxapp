@@ -51,9 +51,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fxapp.libfoundation.R
-import com.fxapp.libfoundation.data.Amount
-import com.fxapp.libfoundation.data.AmountFormatted
-import com.fxapp.libfoundation.model.ConversionModel
+import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl
+import com.fxapp.libfoundation.domain.entities.Amount
+import com.fxapp.libfoundation.domain.entities.AmountFormatted
 import com.fxapp.libfoundation.presentation.view.base.showGlobalError
 import com.fxapp.libfoundation.presentation.view.compose.ChevronRightIcon
 import com.fxapp.libfoundation.presentation.view.compose.CircularLoading
@@ -157,12 +157,12 @@ fun HomeScreen(
 @Composable
 fun RatesList(
     formattedExchangeRates: List<AmountFormatted>,
-    conversionModel: ConversionModel = koinInject(),
+    conversionRepository: ConversionRepositoryImpl = koinInject(),
     onClick: (Amount) -> Unit
 ) {
     formattedExchangeRates.forEach { formattedAmount ->
         CurrencyRatesListItem(formattedAmount.currencyCode, formattedAmount.formattedAmount) {
-            val converted = conversionModel.extractNumbersAndSeparator(formattedAmount.formattedAmount)
+            val converted = conversionRepository.extractNumbersAndSeparator(formattedAmount.formattedAmount)
             onClick(Amount(formattedAmount.currencyCode, BigDecimal(converted)))
         }
     }
@@ -188,11 +188,11 @@ fun CurrencyTextField(
     currency: Currency,
     decimalFormat: DecimalFormat,
     availableCurrencies: List<Currency> = listOf(),
-    conversionModel: ConversionModel = koinInject(),
+    conversionRepository: ConversionRepositoryImpl = koinInject(),
     onCurrencyChanged: (Currency) -> Unit,
     onValueChanged: (BigDecimal) -> Unit
 ) {
-    val formatted = conversionModel.format(currency, value)
+    val formatted = conversionRepository.format(currency, value)
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -217,11 +217,11 @@ fun CurrencyTextField(
                 cursorColor = Colours.default().cursorColour,
             )
         ) { newString ->
-            val newNumbersOnly = conversionModel.extractNumbersAndSeparator(
+            val newNumbersOnly = conversionRepository.extractNumbersAndSeparator(
                 newString,
                 decimalFormat.decimalFormatSymbols.decimalSeparator
             )
-            val oldNumbersOnly = conversionModel.extractNumbersAndSeparator(
+            val oldNumbersOnly = conversionRepository.extractNumbersAndSeparator(
                 formatted,
                 decimalFormat.decimalFormatSymbols.decimalSeparator
             )

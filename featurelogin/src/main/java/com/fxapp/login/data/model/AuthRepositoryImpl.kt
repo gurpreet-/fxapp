@@ -1,6 +1,6 @@
 package com.fxapp.login.data.model
 
-import com.fxapp.libfoundation.model.BaseRepository
+import com.fxapp.libfoundation.domain.repository.BaseRepository
 import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper
 import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper.Companion.IS_LOGGED_IN
 import com.fxapp.login.domain.repository.AuthRepository

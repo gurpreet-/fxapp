@@ -1,6 +1,6 @@
 package com.fxapp.libfoundation.extensions
 
-import com.fxapp.libfoundation.data.Amount
+import com.fxapp.libfoundation.domain.entities.Amount
 import java.math.BigDecimal
 import java.util.Currency
 

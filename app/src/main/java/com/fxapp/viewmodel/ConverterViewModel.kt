@@ -1,9 +1,9 @@
 package com.fxapp.viewmodel
 
-import com.fxapp.libfoundation.data.Amount
-import com.fxapp.libfoundation.data.AmountFormatted
-import com.fxapp.libfoundation.model.ConversionModel
-import com.fxapp.libfoundation.model.ConversionModel.Companion.GBP
+import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl
+import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl.Companion.GBP
+import com.fxapp.libfoundation.domain.entities.Amount
+import com.fxapp.libfoundation.domain.entities.AmountFormatted
 import com.fxapp.libfoundation.presentation.base.BaseViewModel
 import com.fxapp.libfoundation.presentation.view.base.BaseUIState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ import java.util.Currency
 import kotlin.time.Duration.Companion.seconds
 
 class ConverterViewModel(
-    private val conversionModel: ConversionModel
+    private val conversionRepository: ConversionRepositoryImpl
 ) : BaseViewModel() {
 
     // Main state flow used to update the view
@@ -56,7 +56,7 @@ class ConverterViewModel(
             try {
                 update { it.copy(isLoading = true) }
                 if (!amount.isZero()) {
-                    val formatted = conversionModel.getExchangedRatesForAmountFormatted(amount)
+                    val formatted = conversionRepository.getExchangedRatesForAmountFormatted(amount)
                     update { it.copy(formattedExchangeRates = formatted) }
                 }
             } catch (e: Throwable) {
@@ -68,11 +68,11 @@ class ConverterViewModel(
     }
 
     private fun getAvailableCurrencies() = launchOnIO {
-        _uiState.update { it.copy(availableCurrencies = conversionModel.getAvailableCurrencies()) }
+        _uiState.update { it.copy(availableCurrencies = conversionRepository.getAvailableCurrencies()) }
     }
 
     fun getNumberFormat(currency: Currency): DecimalFormat {
-        return conversionModel.getNumberFormat(currency)
+        return conversionRepository.getNumberFormat(currency)
     }
 
     fun setAmount(amount: Amount) = launchOnIO {

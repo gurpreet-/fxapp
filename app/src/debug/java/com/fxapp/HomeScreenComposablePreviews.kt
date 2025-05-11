@@ -2,7 +2,7 @@ package com.fxapp
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.fxapp.libfoundation.model.ConversionModel.Companion.baseNumberFormat
+import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl.Companion.baseNumberFormat
 import com.fxapp.libfoundation.presentation.view.compose.RenderPreview
 import com.fxapp.view.compose.CurrencyExchangePanel
 import com.fxapp.view.compose.CurrencyTextField

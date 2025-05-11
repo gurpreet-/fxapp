@@ -1,7 +1,7 @@
 package com.fxapp.libtest.data
 
-import com.fxapp.libfoundation.data.Amount
-import com.fxapp.libfoundation.data.HistoricRates
+import com.fxapp.libfoundation.domain.entities.Amount
+import com.fxapp.libfoundation.domain.entities.HistoricRates
 import java.math.BigDecimal
 
 object HistoricRatesDataGenerator {

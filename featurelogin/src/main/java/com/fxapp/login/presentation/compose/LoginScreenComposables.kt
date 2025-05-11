@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.fxapp.libfoundation.presentation.intent.FxAppEvent
+import com.fxapp.libfoundation.presentation.event.FxAppEvent
 import com.fxapp.libfoundation.presentation.view.compose.AppNameText
 import com.fxapp.libfoundation.presentation.view.compose.FxAppScreen
 import com.fxapp.libfoundation.presentation.view.compose.SimpleCallback
@@ -44,7 +44,7 @@ fun LoginMainScreenComposable(
     viewModel: LoginViewModel = koinLocalViewModel()
 ) = FxAppScreen {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val showHelperText by remember { mutableStateOf(viewModel.showHelperText()) }
+    val showHelperText by remember { mutableStateOf(viewModel.shouldShowHelperText()) }
     LoginScreen(
         state.username,
         state.password,
