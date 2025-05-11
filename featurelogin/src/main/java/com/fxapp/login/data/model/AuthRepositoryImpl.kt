@@ -1,24 +1,25 @@
-package com.fxapp.login.model
+package com.fxapp.login.data.model
 
-import com.fxapp.libfoundation.model.BaseModel
+import com.fxapp.libfoundation.model.BaseRepository
 import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper
 import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper.Companion.IS_LOGGED_IN
+import com.fxapp.login.domain.repository.AuthRepository
 
-class AuthModel(
+class AuthRepositoryImpl(
     private val sharedPreferences: SharedPreferencesWrapper
-) : BaseModel() {
+) : BaseRepository(), AuthRepository {
 
     /**
      * Clear all shared preferences. This would normally
      * clear all singleton koin instances too.
      */
-    fun reset() {
+    override fun reset() {
         sharedPreferences.edit {
             clear()
         }
     }
 
-    var isLoggedIn: Boolean
+    override var isLoggedIn: Boolean
         get() {
             // In production, this would be a network call checking
             // if an auth token has expired

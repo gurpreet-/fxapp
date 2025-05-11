@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.navigation.NavDeepLinkBuilder
 import com.fxapp.R
 import com.fxapp.libfoundation.wrappers.NavigationWrapper
-import com.fxapp.login.view.activity.LoginActivity
+import com.fxapp.login.presentation.activity.LoginActivity
 
 
 class AppNavigationWrapper(

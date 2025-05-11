@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name=".login.view.activity.LoginActivity"
+            android:name=".login.presentation.activity.LoginActivity"
             android:theme="@style/Theme.CurrencyConvert"
             android:exported="false" />
     </application>

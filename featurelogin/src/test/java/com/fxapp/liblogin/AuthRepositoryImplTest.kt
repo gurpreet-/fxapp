@@ -2,27 +2,27 @@ package com.fxapp.liblogin
 
 import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper
 import com.fxapp.libtest.BaseUnitTest
-import com.fxapp.login.model.AuthModel
+import com.fxapp.login.data.model.AuthRepositoryImpl
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertFalse
 
-class AuthModelTest : BaseUnitTest() {
+class AuthRepositoryImplTest : BaseUnitTest() {
 
     private val sharedPreferences = mockk<SharedPreferencesWrapper>(relaxed = true)
-    private lateinit var authModel: AuthModel
+    private lateinit var authModelRepository: AuthRepositoryImpl
 
 
     @Before
     fun beforeTest() {
-        authModel = AuthModel(sharedPreferences)
+        authModelRepository = AuthRepositoryImpl(sharedPreferences)
     }
 
     @Test
     fun `returns default value for is logged in`() = runTest {
-        val isLoggedIn = authModel.isLoggedIn
+        val isLoggedIn = authModelRepository.isLoggedIn
         verify {
             sharedPreferences.getBoolean(any(), any())
         }
@@ -31,7 +31,7 @@ class AuthModelTest : BaseUnitTest() {
 
     @Test
     fun `clears shared prefs on reset`() = runTest {
-        authModel.reset()
+        authModelRepository.reset()
         verify {
             sharedPreferences.edit(any(), any())
         }

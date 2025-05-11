@@ -1,4 +1,4 @@
-package com.fxapp.login.view.compose
+package com.fxapp.login.presentation.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +36,7 @@ import com.fxapp.libfoundation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.view.theme.Dimens.smallMargin
 import com.fxapp.libfoundation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.login.R
-import com.fxapp.login.viewmodel.LoginViewModel
+import com.fxapp.login.presentation.viewmodel.LoginViewModel
 
 @Composable
 fun LoginMainScreenComposable(

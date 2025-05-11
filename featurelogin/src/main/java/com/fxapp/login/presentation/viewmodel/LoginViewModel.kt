@@ -1,14 +1,14 @@
-package com.fxapp.login.viewmodel
+package com.fxapp.login.presentation.viewmodel
 
 import android.annotation.SuppressLint
 import com.fxapp.libfoundation.viewmodel.base.BaseViewModel
 import com.fxapp.libfoundation.wrappers.BuildWrapper
 import com.fxapp.libfoundation.wrappers.NavigationWrapper
-import com.fxapp.login.model.AuthModel
+import com.fxapp.login.data.model.AuthRepositoryImpl
 import com.fxapp.libfoundation.R as LFR
 
 class LoginViewModel(
-    private val authModel: AuthModel,
+    private val authModelRepository: AuthRepositoryImpl,
     private val navigationWrapper: NavigationWrapper,
     private val buildWrapper: BuildWrapper
 ) : BaseViewModel() {
@@ -19,16 +19,16 @@ class LoginViewModel(
         }
     }
 
-    fun isLoggedIn() = authModel.isLoggedIn
+    fun isLoggedIn() = authModelRepository.isLoggedIn
 
     fun login() {
-        authModel.isLoggedIn = true
+        authModelRepository.isLoggedIn = true
         navigationWrapper.navigateToDeepLink(LFR.id.home_fragment)
     }
 
     @SuppressLint("RestrictedApi")
     fun logout() {
-        authModel.reset()
+        authModelRepository.reset()
         navigationWrapper.logout()
     }
 
