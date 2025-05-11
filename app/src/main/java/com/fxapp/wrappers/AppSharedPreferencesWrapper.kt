@@ -2,20 +2,31 @@ package com.fxapp.wrappers
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.core.content.edit
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.fxapp.libfoundation.wrappers.BuildWrapper
 import com.fxapp.libfoundation.wrappers.SharedPreferencesWrapper
 
 class AppSharedPreferencesWrapper(
-    val sharedPreferences: SharedPreferences
+    private val sharedPreference: SharedPreferences
 ) : SharedPreferencesWrapper {
+
     override fun edit(commit: Boolean, action: SharedPreferences.Editor.() -> Unit) {
-        sharedPreferences.edit(commit, action)
+        getEditor().apply {
+            action()
+            if (commit) {
+                commit()
+            } else {
+                apply()
+            }
+        }
     }
 
-    override fun getBoolean(key: String, default: Boolean) = sharedPreferences.getBoolean(key, default)
+    override fun getBoolean(key: String, default: Boolean) = sharedPreference.getBoolean(key, default)
+
+    override fun getEditor(): SharedPreferences.Editor {
+        return sharedPreference.edit()
+    }
 
     companion object {
         fun createSharedPrefs(context: Context, buildWrapper: BuildWrapper): SharedPreferences {

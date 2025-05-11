@@ -18,9 +18,9 @@ import org.koin.dsl.module
 
 object AppModule {
     val module = module {
-        single<BuildWrapper> { AppBuildWrapper() }
-        single<SharedPreferencesWrapper> { AppSharedPreferencesWrapper(createSharedPrefs(androidContext(), get())) }
-        single<NavigationWrapper> { AppNavigationWrapper(androidContext()) }
+        factory<BuildWrapper> { AppBuildWrapper() }
+        factory<SharedPreferencesWrapper> { AppSharedPreferencesWrapper(createSharedPrefs(androidContext(), get())) }
+        factory<NavigationWrapper> { AppNavigationWrapper(androidContext()) }
         viewModel { ConverterViewModel(get()) }
     }
 

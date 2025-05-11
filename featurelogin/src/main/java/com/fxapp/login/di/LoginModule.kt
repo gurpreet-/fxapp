@@ -11,7 +11,6 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 object LoginModule {
-
     val module = module {
         factoryOf(::AuthRepositoryImpl) bind AuthRepository::class
         factoryOf(::LoginUseCase)

@@ -1,11 +1,11 @@
 package com.fxapp.libtransfer
 
 import app.cash.turbine.test
-import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl
 import com.fxapp.libfoundation.domain.entities.AmountOnDate
+import com.fxapp.libfoundation.domain.repository.ConversionRepository
 import com.fxapp.libtest.BaseUnitTest
 import com.fxapp.libtest.data.HistoricRatesDataGenerator.oneGbp
-import com.fxapp.transfer.data.model.HistoricRatesRepositoryImpl
+import com.fxapp.transfer.domain.usecases.HistoricalDataUseCase
 import com.fxapp.transfer.presentation.viewmodel.TransferViewModel
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -17,16 +17,16 @@ import kotlin.test.assertTrue
 
 class TransferViewModelTest : BaseUnitTest() {
 
-    private val conversionRepository: ConversionRepositoryImpl = mockk(relaxed = true)
-    private val historicRatesRepository: HistoricRatesRepositoryImpl = mockk(relaxed = true)
+    private val conversionRepository: ConversionRepository = mockk(relaxed = true)
+    private val historicalDataUseCase = mockk<HistoricalDataUseCase>(relaxed = true)
     private lateinit var viewModel: TransferViewModel
 
     @Before
     fun beforeTest() {
-        coEvery { historicRatesRepository.getHistoricRates(any(), any()) } returns listOf(
+        coEvery { historicalDataUseCase.invoke(any(), any()) } returns listOf(
             AmountOnDate(oneGbp.currency, BigDecimal(1.2), "2024-04-06")
         )
-        viewModel = TransferViewModel(conversionRepository, historicRatesRepository)
+        viewModel = TransferViewModel(historicalDataUseCase, conversionRepository)
     }
 
     @Test

@@ -15,7 +15,7 @@ class AuthRepositoryImpl(
      */
     override fun reset() {
         sharedPreferences.edit {
-            clear()
+            it.clear()
         }
     }
 
@@ -26,7 +26,7 @@ class AuthRepositoryImpl(
             return sharedPreferences.getBoolean(IS_LOGGED_IN, false)
         }
         set(value) = sharedPreferences.edit {
-            putBoolean(IS_LOGGED_IN, value)
+            it.putBoolean(IS_LOGGED_IN, value)
         }
 
 }
