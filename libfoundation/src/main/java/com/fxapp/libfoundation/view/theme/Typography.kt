@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.sp
 import com.fxapp.libfoundation.R
 
 object Typography {
-    private const val DEFAULT_FONT_SIZE = 15
+    private const val DEFAULT_FONT_SIZE = 14
 
     val defaultFontSize = DEFAULT_FONT_SIZE.sp
 
@@ -21,30 +21,31 @@ object Typography {
         color = LocalContentColor.current,
         fontSize = defaultFontSize,
         fontFamily = FontFamily(
-            Font(R.font.rasa_light, FontWeight.Light),
-            Font(R.font.rasa_regular, FontWeight.Normal),
-            Font(R.font.rasa_medium, FontWeight.Medium),
-            Font(R.font.rasa_semibold, FontWeight.SemiBold),
-            Font(R.font.rasa_bold, FontWeight.Bold),
+            Font(R.font.ss3_light, FontWeight.Light),
+            Font(R.font.ss3_regular, FontWeight.Normal),
+            Font(R.font.ss3_medium, FontWeight.Medium),
+            Font(R.font.ss3_semibold, FontWeight.SemiBold),
+            Font(R.font.ss3_bold, FontWeight.Bold),
 
-            Font(R.font.rasa_lightitalic, FontWeight.Light, style = FontStyle.Italic),
-            Font(R.font.rasa_italic, FontWeight.Normal, style = FontStyle.Italic),
-            Font(R.font.rasa_mediumitalic, FontWeight.Medium, style = FontStyle.Italic),
-            Font(R.font.rasa_semibolditalic, FontWeight.SemiBold, style = FontStyle.Italic),
-            Font(R.font.rasa_bolditalic, FontWeight.Bold, style = FontStyle.Italic),
+            Font(R.font.ss3_lightitalic, FontWeight.Light, style = FontStyle.Italic),
+            Font(R.font.ss3_italic, FontWeight.Normal, style = FontStyle.Italic),
+            Font(R.font.ss3_mediumitalic, FontWeight.Medium, style = FontStyle.Italic),
+            Font(R.font.ss3_semibolditalic, FontWeight.SemiBold, style = FontStyle.Italic),
+            Font(R.font.ss3_bolditalic, FontWeight.Bold, style = FontStyle.Italic),
         ),
     )
 
     @Composable
     fun default() = Typography(
-        labelSmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 2).sp, fontWeight = FontWeight.Bold),
-        labelMedium = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 1).sp, fontWeight = FontWeight.Bold),
-        labelLarge = defaultTextStyle().copy(fontSize = DEFAULT_FONT_SIZE.sp, fontWeight = FontWeight.Bold),
+        labelSmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 0.5).sp, fontWeight = FontWeight.SemiBold),
+        labelMedium = defaultTextStyle().copy(fontSize = DEFAULT_FONT_SIZE.sp, fontWeight = FontWeight.SemiBold),
+        labelLarge = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 0.5).sp, fontWeight = FontWeight.SemiBold),
         bodySmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE - 2).sp),
         bodyMedium = defaultTextStyle(),
         bodyLarge = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 4).sp),
         titleSmall = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 8).sp),
         titleMedium = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 10).sp),
         titleLarge = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 14).sp),
+        headlineLarge = defaultTextStyle().copy(fontSize = (DEFAULT_FONT_SIZE + 32).sp),
     )
 }

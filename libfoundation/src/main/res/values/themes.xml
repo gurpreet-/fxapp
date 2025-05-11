@@ -3,30 +3,40 @@
     <!--  Base app theme  -->
     <style name="Base.Theme.CurrencyConvert" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/slate10</item>
         <item name="colorSecondary">@color/colorPrimaryLight</item>
         <item name="android:fontFamily">@font/primary_font</item>
         <item name="toolbarStyle">@style/Theme.CurrencyConvert.Toolbar</item>
+        <item name="actionOverflowButtonStyle">@style/ToolbarMenuStyle</item>
         <item name="colorControlNormal">@color/colorSecondary</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.CurrencyConvert" parent="Base.Theme.CurrencyConvert" />
 
+    <style name="Theme.CurrencyConvert.Screen">
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+    </style>
+
     <style name="Theme.CurrencyConvert.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:background">@color/colorPrimaryDark</item>
-        <item name="titleTextColor">@color/colorSecondary</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/lgreen20</item>
         <item name="titleTextAppearance">@style/ToolbarText</item>
         <item name="android:fontFamily">@font/primary_font</item>
-        <item name="colorOnPrimary">@color/green10</item>
+        <item name="colorOnPrimary">@color/lgreen20</item>
     </style>
 
     <style name="ToolbarText">
-        <item name="android:fontFamily">@font/rasa_bolditalic</item>
+        <item name="android:fontFamily">@font/ss3_bold</item>
         <item name="android:textSize">26sp</item>
     </style>
 
     <style name="TabTextAppearance">
-        <item name="android:fontFamily">@font/rasa_bolditalic</item>
+        <item name="android:fontFamily">@font/ss3_bolditalic</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="ToolbarMenuStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="tint">@color/lgreen20</item>
     </style>
 </resources>

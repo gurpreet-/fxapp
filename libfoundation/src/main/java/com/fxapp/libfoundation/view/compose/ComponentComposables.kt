@@ -101,12 +101,12 @@ fun FxAppBar(
 ) = TopAppBar(
     title = { AppNameText(Modifier.padding(horizontal = smallMargin), text = title) },
     colors = TopAppBarDefaults.topAppBarColors(
-        containerColor = Colours.default().primaryColourDark,
-        titleContentColor = Colours.default().secondary
+        containerColor = Colours.default().primaryColour,
+        titleContentColor = Colours.default().lgreen20
     ),
     navigationIcon = {
         Icon(painterResource(androidx.appcompat.R.drawable.abc_ic_ab_back_material),
-            tint = Colours.default().secondary,
+            tint = Colours.default().lgreen20,
             contentDescription = "back",
             modifier = Modifier
                 .padding(smallMargin)
@@ -117,13 +117,16 @@ fun FxAppBar(
 )
 
 @Composable
-fun AppNameText(modifier: Modifier = Modifier, colour: Color = Colours.default().secondary, text: String = stringResource(R.string.app_name)) {
+fun AppNameText(
+    modifier: Modifier = Modifier,
+    colour: Color = Colours.default().lgreen20,
+    text: String = stringResource(R.string.app_name)
+) {
     Text(
         text,
         modifier,
-        style = MaterialTheme.typography.titleMedium,
+        style = MaterialTheme.typography.titleSmall,
         fontWeight = FontWeight.Bold,
-        fontStyle = FontStyle.Italic,
         color = colour
     )
 }

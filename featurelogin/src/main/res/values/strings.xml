@@ -4,8 +4,8 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="login_helper_text">
-        This screen showcases a login flow and does not do anything.
-        Press the login button to continue.
+        Welcome to FxApp, an app that allows you to see currency
+        conversion rates from any amount you enter. Press the login button to continue.
     </string>
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>

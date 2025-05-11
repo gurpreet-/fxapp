@@ -3,11 +3,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="green70">#024731</color>
-    <color name="green50">#006a4d</color>
-    <color name="green30">#158E6D</color>
-    <color name="green20">#C8ECE3</color>
-    <color name="green10">#F0F6F5</color>
+    <color name="green70">#148D3A</color>
+    <color name="green50">#199D43</color>
+    <color name="green30">#1BBB45</color>
+    <color name="green20">#29C24F</color>
+    <color name="green10">#32CA54</color>
+
+    <color name="lgreen50">#90DDA1</color>
+    <color name="lgreen40">#A5E4B2</color>
+    <color name="lgreen30">#C3F3CE</color>
+    <color name="lgreen20">#E2FDEB</color>
 
     <color name="grey60">#B9B9B9</color>
     <color name="grey50">#D3D3D3</color>
@@ -15,16 +20,18 @@
     <color name="grey10">#FDFDFD</color>
 
     <color name="slate50">#5F5F5F</color>
+    <color name="slate20">#CDCDCD</color>
+    <color name="slate10">#F1F1F1</color>
 
     <color name="neonGreen50">#77b800</color>
 
-    <color name="sand60">#9EAE57</color>
-    <color name="sand50">#c8d882</color>
-    <color name="sand40">#DDEC9D</color>
+    <color name="sand60">#9AD1AE</color>
+    <color name="sand50">#AADBBC</color>
+    <color name="sand40">#B8E6C9</color>
 
     <color name="colorPrimary">@color/green50</color>
     <color name="colorPrimaryDark">@color/green70</color>
-    <color name="colorPrimaryLight">@color/green20</color>
-    <color name="colorSecondary">@color/sand50</color>
+    <color name="colorPrimaryLight">@color/green30</color>
+    <color name="colorSecondary">@color/green20</color>
     <color name="viewBackground">@color/white</color>
 </resources>

@@ -60,7 +60,7 @@ fun LoginScreen(
     onLoginClicked: SimpleCallback
 ) {
     Column(Modifier
-        .background(Colours.default().green10)
+        .background(Colours.default().viewBackground)
         .fillMaxSize()
         .padding(horizontal = largeMargin)
         .verticalScroll(rememberScrollState()),

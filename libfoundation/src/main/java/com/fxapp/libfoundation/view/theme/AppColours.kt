@@ -13,12 +13,18 @@ data class AppColours(
     val green20: Color,
     val green10: Color,
 
+    val lgreen50: Color,
+    val lgreen40: Color,
+    val lgreen20: Color,
+
     val grey60: Color,
     val grey50: Color,
     val grey40: Color,
     val grey10: Color,
 
     val slate50: Color,
+    val slate20: Color,
+    val slate10: Color,
 
     val neonGreen50: Color,
 
@@ -30,7 +36,7 @@ data class AppColours(
     val primaryColourLight: Color = green20,
 
     val secondary: Color = sand50,
-    val secondaryContainer: Color = secondary,
+    val secondaryContainer: Color = sand40,
 
     val formFieldBackground: Color = white,
     val formFieldTextColour: Color = black,
@@ -38,6 +44,6 @@ data class AppColours(
     val textColour: Color = black,
 
     val dividerColour: Color = grey40,
-    val viewBackground: Color = green10,
+    val viewBackground: Color = slate10,
     val background: Color = viewBackground,
 )

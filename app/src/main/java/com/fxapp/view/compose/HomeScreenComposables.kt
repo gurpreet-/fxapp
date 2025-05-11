@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -105,7 +106,7 @@ fun HomeScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .background(Colours.default().green10)
+            .background(Colours.default().viewBackground)
             .verticalScroll(rememberScrollState())
     ) {
         CurrencyExchangePanel {
@@ -173,7 +174,7 @@ fun CurrencyExchangePanel(
 ) = Column(
     Modifier
         .shadow(4.dp)
-        .background(Colours.default().primaryColourDark)
+        .background(Colours.default().slate10)
         .fillMaxWidth()
         .padding(defaultMargin),
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -205,12 +206,12 @@ fun CurrencyTextField(
             ),
             textStyle = Typography.default()
                 .bodyMedium
-                .copy(color = Colours.default().secondary, fontSize = 50.sp),
+                .copy(color = Colours.default().green20, fontSize = 50.sp),
             colours = Colours.defaultTextFieldColors().copy(
                 focusedIndicatorColor = Colours.default().transparent,
                 unfocusedIndicatorColor = Colours.default().transparent,
-                focusedTextColor = Colours.default().secondary,
-                unfocusedTextColor = Colours.default().secondary,
+                focusedTextColor = Colours.default().green20,
+                unfocusedTextColor = Colours.default().green10,
                 focusedContainerColor = Colours.default().transparent,
                 unfocusedContainerColor = Colours.default().transparent,
                 cursorColor = Colours.default().cursorColour,
@@ -345,7 +346,7 @@ fun CurrencySelectorScreen(
         Modifier
             .testTag(CURRENCY_SELECTOR_SCREEN)
             .fillMaxSize()
-            .background(Colours.default().viewBackground)
+            .background(Colours.default().background)
     ) {
         FxAppBar(stringResource(R.string.select_currency), backPressed = onClose)
         SearchBar(
@@ -353,6 +354,9 @@ fun CurrencySelectorScreen(
             placeholder = {
                 Text(stringResource(R.string.search), color = Colours.default().slate50)
             },
+            colors = SearchBarDefaults.colors(
+                dividerColor = Colours.default().slate20
+            ),
             trailingIcon = {
                 Icon(
                     painterResource(androidx.appcompat.R.drawable.abc_ic_clear_material),
