@@ -1,4 +1,4 @@
-package com.fxapp.view.activity
+package com.fxapp.presentation.activity
 
 import android.os.Bundle
 import android.view.MenuItem

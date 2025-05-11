@@ -4,8 +4,8 @@ import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import com.fxapp.login.data.model.AuthRepositoryImpl
+import com.fxapp.presentation.activity.MainActivity
 import com.fxapp.screens.HomeScreen
-import com.fxapp.view.activity.MainActivity
 import io.github.kakaocup.compose.node.element.ComposeScreen.Companion.onComposeScreen
 import io.mockk.every
 import io.mockk.mockk

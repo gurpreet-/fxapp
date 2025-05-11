@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl.Companion.baseNumberFormat
 import com.fxapp.libfoundation.presentation.view.compose.RenderPreview
-import com.fxapp.view.compose.CurrencyExchangePanel
-import com.fxapp.view.compose.CurrencyTextField
-import com.fxapp.view.compose.TypeSomething
+import com.fxapp.presentation.compose.CurrencyExchangePanel
+import com.fxapp.presentation.compose.CurrencyTextField
+import com.fxapp.presentation.compose.TypeSomething
 import java.math.BigDecimal
 import java.util.Currency
 

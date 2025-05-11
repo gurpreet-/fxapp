@@ -1,4 +1,4 @@
-package com.fxapp.view.compose
+package com.fxapp.presentation.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -77,10 +77,10 @@ import com.fxapp.libfoundation.presentation.view.theme.Dimens.largeMargin
 import com.fxapp.libfoundation.presentation.view.theme.Dimens.xLargeMargin
 import com.fxapp.libfoundation.presentation.view.theme.Dimens.xxLargeMargin
 import com.fxapp.libfoundation.presentation.view.theme.Typography
-import com.fxapp.view.compose.TestTags.AMOUNT_FIELD
-import com.fxapp.view.compose.TestTags.CURRENCY_SELECTOR_BUTTON
-import com.fxapp.view.compose.TestTags.CURRENCY_SELECTOR_SCREEN
-import com.fxapp.view.fragment.HomeFragmentDirections
+import com.fxapp.presentation.compose.TestTags.AMOUNT_FIELD
+import com.fxapp.presentation.compose.TestTags.CURRENCY_SELECTOR_BUTTON
+import com.fxapp.presentation.compose.TestTags.CURRENCY_SELECTOR_SCREEN
+import com.fxapp.presentation.fragment.HomeFragmentDirections
 import com.fxapp.viewmodel.ConverterViewModel
 import org.koin.compose.koinInject
 import java.math.BigDecimal

@@ -1,10 +1,10 @@
 package com.fxapp.screens
 
 import androidx.compose.ui.test.SemanticsNodeInteractionsProvider
-import com.fxapp.view.compose.TestTags.AMOUNT_FIELD
-import com.fxapp.view.compose.TestTags.CURRENCY_SELECTOR_BUTTON
-import com.fxapp.view.compose.TestTags.CURRENCY_SELECTOR_SCREEN
-import com.fxapp.view.compose.TestTags.TYPE_SOMETHING
+import com.fxapp.presentation.compose.TestTags.AMOUNT_FIELD
+import com.fxapp.presentation.compose.TestTags.CURRENCY_SELECTOR_BUTTON
+import com.fxapp.presentation.compose.TestTags.CURRENCY_SELECTOR_SCREEN
+import com.fxapp.presentation.compose.TestTags.TYPE_SOMETHING
 import io.github.kakaocup.compose.node.element.ComposeScreen
 import io.github.kakaocup.compose.node.element.KNode
 

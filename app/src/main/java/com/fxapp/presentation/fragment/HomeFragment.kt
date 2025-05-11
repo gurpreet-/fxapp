@@ -1,4 +1,4 @@
-package com.fxapp.view.fragment
+package com.fxapp.presentation.fragment
 
 import android.os.Bundle
 import android.view.Menu
@@ -11,7 +11,7 @@ import com.fxapp.R
 import com.fxapp.libfoundation.presentation.view.base.ComposeFragment
 import com.fxapp.libfoundation.presentation.view.compose.ComposeObject
 import com.fxapp.login.presentation.viewmodel.LoginViewModel
-import com.fxapp.view.compose.HomeScreen
+import com.fxapp.presentation.compose.HomeScreen
 
 class HomeFragment : ComposeFragment(), MenuProvider {
 
