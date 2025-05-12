@@ -22,7 +22,6 @@ open class BaseUnitTest {
     private val testCoroutineScopes = object : CoroutineScopes {
         override val mainScope = testScope
         override val ioScope = testScope
-
     }
 
     private val mockJobExecutor: JobExecutor = JobExecutor(testCoroutineScopes)

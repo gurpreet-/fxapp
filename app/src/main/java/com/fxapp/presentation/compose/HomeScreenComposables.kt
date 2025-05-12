@@ -56,6 +56,7 @@ import com.fxapp.libfoundation.R
 import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl
 import com.fxapp.libfoundation.domain.entities.Amount
 import com.fxapp.libfoundation.domain.entities.AmountFormatted
+import com.fxapp.libfoundation.presentation.event.FxAppEvent
 import com.fxapp.libfoundation.presentation.view.base.showGlobalError
 import com.fxapp.libfoundation.presentation.view.compose.ChevronRightIcon
 import com.fxapp.libfoundation.presentation.view.compose.CircularLoading
@@ -81,7 +82,7 @@ import com.fxapp.presentation.compose.TestTags.AMOUNT_FIELD
 import com.fxapp.presentation.compose.TestTags.CURRENCY_SELECTOR_BUTTON
 import com.fxapp.presentation.compose.TestTags.CURRENCY_SELECTOR_SCREEN
 import com.fxapp.presentation.fragment.HomeFragmentDirections
-import com.fxapp.viewmodel.ConverterViewModel
+import com.fxapp.presentation.viewmodel.ConverterViewModel
 import org.koin.compose.koinInject
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -96,8 +97,8 @@ fun HomeScreen(
     val uiState by converterViewModel.uiState.collectAsStateWithLifecycle()
     val amount = uiState.amount
 
-    LaunchedEffect(true) {
-        converterViewModel.initialise()
+    LaunchedEffect(Unit) {
+        converterViewModel.onEvent(FxAppEvent.GetAvailableCurrencies)
     }
 
     val context = LocalContext.current
@@ -118,10 +119,10 @@ fun HomeScreen(
                 currency = amount.currency,
                 availableCurrencies = uiState.availableCurrencies,
                 onCurrencyChanged = {
-                    converterViewModel.setAmount(Amount(it, amount.value))
+                    converterViewModel.onEvent(FxAppEvent.SetAmount(Amount(it, amount.value)))
                 },
                 onValueChanged = {
-                    converterViewModel.setAmount(Amount(amount.currency, it))
+                    converterViewModel.onEvent(FxAppEvent.SetAmount(Amount(amount.currency, it)))
                 },
             )
         }

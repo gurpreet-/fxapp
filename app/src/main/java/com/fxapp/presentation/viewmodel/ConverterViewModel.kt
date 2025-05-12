@@ -1,11 +1,13 @@
-package com.fxapp.viewmodel
+package com.fxapp.presentation.viewmodel
 
-import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl
-import com.fxapp.libfoundation.data.model.ConversionRepositoryImpl.Companion.GBP
+import com.fxapp.domain.usecases.GetAvailableCurrenciesUseCase
+import com.fxapp.domain.usecases.GetExchangeRateForAmountUseCase
+import com.fxapp.domain.usecases.GetNumberFormatUseCase
 import com.fxapp.libfoundation.domain.entities.Amount
-import com.fxapp.libfoundation.domain.entities.AmountFormatted
 import com.fxapp.libfoundation.presentation.base.BaseViewModel
-import com.fxapp.libfoundation.presentation.view.base.BaseUIState
+import com.fxapp.libfoundation.presentation.event.FxAppEvent
+import com.fxapp.libfoundation.presentation.state.FxAppState
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,17 +19,20 @@ import java.text.DecimalFormat
 import java.util.Currency
 import kotlin.time.Duration.Companion.seconds
 
+@OptIn(FlowPreview::class)
 class ConverterViewModel(
-    private val conversionRepository: ConversionRepositoryImpl
+    private val getAvailableCurrenciesUseCase: GetAvailableCurrenciesUseCase,
+    private val getNumberFormatUseCase: GetNumberFormatUseCase,
+    private val getExchangeRateForAmountUseCase: GetExchangeRateForAmountUseCase,
 ) : BaseViewModel() {
 
     // Main state flow used to update the view
     // careful not to add too many fields that update as
     // it can be quite expensive. Better to use different
     // screen states.
-    private val _uiState = MutableStateFlow(ConverterScreenState())
+    private val _uiState = MutableStateFlow(FxAppState())
     // Consume this unidirectional UI state from the view
-    val uiState: StateFlow<ConverterScreenState> = _uiState.asStateFlow()
+    val uiState: StateFlow<FxAppState> = _uiState.asStateFlow()
 
     // A flow with a debounce that you can emit
     // Amounts to without choking up the app with network requests.
@@ -43,8 +48,12 @@ class ConverterViewModel(
         }
     }
 
-    fun initialise() {
-        getAvailableCurrencies()
+    fun onEvent(event: FxAppEvent) {
+        when (event) {
+            is FxAppEvent.GetAvailableCurrencies -> getAvailableCurrencies()
+            is FxAppEvent.SetAmount -> setAmount(event.amount)
+            else -> Unit
+        }
     }
 
     /**
@@ -56,7 +65,7 @@ class ConverterViewModel(
             try {
                 update { it.copy(isLoading = true) }
                 if (!amount.isZero()) {
-                    val formatted = conversionRepository.getExchangedRatesForAmountFormatted(amount)
+                    val formatted = getExchangeRateForAmountUseCase.invoke(amount)
                     update { it.copy(formattedExchangeRates = formatted) }
                 }
             } catch (e: Throwable) {
@@ -68,23 +77,16 @@ class ConverterViewModel(
     }
 
     private fun getAvailableCurrencies() = launchOnIO {
-        _uiState.update { it.copy(availableCurrencies = conversionRepository.getAvailableCurrencies()) }
+        val currencies = getAvailableCurrenciesUseCase.invoke()
+        _uiState.update { it.copy(availableCurrencies = currencies) }
     }
 
     fun getNumberFormat(currency: Currency): DecimalFormat {
-        return conversionRepository.getNumberFormat(currency)
+        return getNumberFormatUseCase.invoke(currency)
     }
 
-    fun setAmount(amount: Amount) = launchOnIO {
+    private fun setAmount(amount: Amount) = launchOnIO {
         _uiState.update { it.copy(amount = amount, isLoading = true) }
         exchangeRatesUpdaterFlow.emit(amount)
     }
-
-    data class ConverterScreenState(
-        val amount: Amount = Amount(GBP),
-        val formattedExchangeRates: List<AmountFormatted> = listOf(),
-        val availableCurrencies: List<Currency> = listOf(),
-        override var isLoading: Boolean = false,
-        override var error: Throwable? = null
-    ) : BaseUIState
 }
