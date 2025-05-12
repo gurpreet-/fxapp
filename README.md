@@ -38,10 +38,9 @@ Further work can be done to use GraphQL which provides an ever-updating contract
 #### Readability
 It has an easy to comprehend folder structure:
 - 🗂️ di - for dependency injection
-- 🗂️ repository - for any network abstractions
-- 🗂️ data - for any data classes
+- 🗂️ repository - for any network abstractions and business logic
+- 🗂️ entities - for any data classes
 - 🗂️ viewmodel - for viewmodels
-- 🗂️ model - for our models (business logic)
 - 🗂️ view - for any compose/activity/fragment/custom views
 
 It also has an easy to comprehend module structure:
@@ -52,7 +51,6 @@ It also has an easy to comprehend module structure:
 
 With the above module structure, we can use [Play On-Demand delivery](https://developer.android.com/guide/playcore/feature-delivery/on-demand) to download modules ad-hoc lowering the size of the initial download.
 
-The code itself is well formatted and offers no grammatical mistakes. Good naming conventions are used for variables and where possible in-keeping with Android's guidelines.
 
 #### Testability
 The app is very testable with business logic and view logic being tested as part of unit and UI tests. Further work can be done by improving developer experience with the use of data generator classes which can be used to mock API responses.
@@ -61,9 +59,9 @@ The app is very testable with business logic and view logic being tested as part
 
 ## Building and running
 This project requires the following:
-- Android Studio - Android Studio Iguana | 2023.2.1 Patch 1
+- Android Studio - Android Studio Ladybug | 2024.2.1 Patch 3
 - In order to build the app, you need the Android SDK. It's usually downloaded and installed in your home folder when you install Android Studio.
-- The app targets API 34 so installing an image version equivalent or close to that API would be ideal.
+- The app targets API 36 so installing an image version equivalent or close to that API would be ideal.
 - JDK 8 or higher.
 
 1. `git clone` the repo or download it as a zip.
@@ -79,14 +77,14 @@ This project requires the following:
 
 ### UI tests
 - Please run all tests on an emulator/device with API 28 or higher. This constraint comes about by mockk, the mocking framework I'm using.
-- I tested on a Pixel 5 with an API of 28 and 34.
+- I tested on a Pixel 9 Pro with an API of 36.
 - All UI tests are located in `app/src/androidTest`, so right-clicking that folder and clicking `Run All Tests` will allow you to run those tests. Alternatively, I have included a run configuration that runs all tests for you which is available at `.idea/runConfigration/all_ui_tests.xml`.
 
 ## Things to note
 - UI Tests only run on emulators/devices running API 28 or above.
 - The amount field does have some quirky behaviour when typing and sometimes pushes the cursor back. Given more time I can alleviate these issues.
 - I have tested many components but due to time constraints some wrapper classes I have not been able to test and I would have liked to have added more UI tests. Though the essentials are all tested `ViewModels` and `Model`.
-- FxApp uses `Fragments` and is not 100% Compose. Why? Navigation in pure Compose is an arduous task especially if you have state in different screens. Navigation using the standard `Fragment` based approach which is in a battle-tested library is much easier (although you have to write more shell `Fragments`) and works well with different components such as the side drawer and bottom navigation bar.
+- FxApp uses `Fragments` and is not 100% Compose. Why? Navigation in pure Compose is an arduous task especially if you have state in different screens. Navigation using the standard `Fragment` based approach, which is in a battle-tested library, is much easier (although you have to write more shell `Fragments`) and works well with different components such as the side drawer and bottom navigation bar.
 
 ## Acknowledgements
 
