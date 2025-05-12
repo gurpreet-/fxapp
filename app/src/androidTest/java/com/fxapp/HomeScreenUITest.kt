@@ -3,7 +3,7 @@ package com.fxapp
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import com.fxapp.login.data.model.AuthRepositoryImpl
+import com.fxapp.login.domain.repository.AuthRepository
 import com.fxapp.presentation.activity.MainActivity
 import com.fxapp.screens.HomeScreen
 import io.github.kakaocup.compose.node.element.ComposeScreen.Companion.onComposeScreen
@@ -17,7 +17,7 @@ import org.koin.dsl.module
 
 class HomeScreenUITest : BaseUITest() {
 
-    private val authModelRepository = mockk<AuthRepositoryImpl>(relaxed = true)
+    private val authRepository = mockk<AuthRepository>(relaxed = true)
     private lateinit var mainActivity: ActivityScenario<MainActivity>
 
     @get:Rule
@@ -25,12 +25,12 @@ class HomeScreenUITest : BaseUITest() {
 
 
     override fun getTestingModule() = module {
-        factory { authModelRepository }
+        factory { authRepository }
     }
 
     @Before
     fun testBefore() {
-        every { authModelRepository.isLoggedIn } returns true
+        every { authRepository.isLoggedIn } returns true
         mainActivity = ActivityScenario.launch(MainActivity::class.java)
     }
 

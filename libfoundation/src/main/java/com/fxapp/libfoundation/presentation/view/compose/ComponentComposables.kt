@@ -105,7 +105,7 @@ fun FxAppBar(
         titleContentColor = Colours.default().lgreen20
     ),
     navigationIcon = {
-        Icon(painterResource(androidx.appcompat.R.drawable.abc_ic_ab_back_material),
+        Icon(painterResource(R.drawable.back),
             tint = Colours.default().lgreen20,
             contentDescription = "back",
             modifier = Modifier
