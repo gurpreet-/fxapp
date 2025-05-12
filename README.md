@@ -1,20 +1,18 @@
 
 <img src="https://github.com/gurpreet-/fxapp/assets/6073488/471ea20b-008f-4970-9e3b-565d3b9fc367" width="190" alt="logo"> 
 
-A currency conversion app written in Jetpack Compose using an MVVM architecture.  Currently this app supports `EUR`, `GBP` and `USD` and shows a list of currencies that any amount you provide gets converted to.
+A currency conversion app written in Jetpack Compose using an MVI+CleanArch architecture. Currently this app supports `EUR`, `GBP` and `USD` and shows a list of currencies that any amount you provide gets converted to.
 
-**Note**: The API refreshes rates around 16:00 CET every **working** day so the rates may be a little stale.
+**Note**: The API refreshes rates around 16:00 CET every **working** day.
 
 https://github.com/gurpreet-/fxapp/assets/6073488/cbc3cf20-518f-433e-97a8-9c998390365e
 
 
 
 #### Performance
-The app is using a reactive view system known as Jetpack Compose which only updates when a `Flow` updates its data. I initially did not want to use `UIState` view-holders as they can lead to more frequent updates to a screen than necessary. Though, by guiding developers, I can ensure they use multiple `UIState`s per `ViewModel` thereby ensuring an update doesn't lead to whole pages updating.
-
-I've tried to use as little dependencies as possible in order to not bloat the app and keep build times fast.
-
-I've used the Memory Profiler to assist me in finding any egregious allocations and memory hazards.
+- The app is using a reactive view system known as Jetpack Compose which only updates when a `Flow` updates its data. 
+- I've tried to use as little dependencies as possible in order to not bloat the app and keep build times fast.
+- I've used the Memory Profiler to assist me in finding any egregious allocations and memory hazards.
 
 #### Maintainability
 - As mentioned above, I've used little external dependencies.
@@ -26,7 +24,7 @@ I've used the Memory Profiler to assist me in finding any egregious allocations 
 The app has been setup to interface with the outside world using HTTPS2 and all user stored data is encrypted. Further work can be done to add DexGuard to detect rooted devices and scramble code effectively.
 
 #### Simplicity
-The app does not use any external complex math libraries or classes that have been bodged in. The app has an architecture (MVVM) that is consistent with Google's recommended approach and therefore it's easier for less experienced members of the team to get up-to-speed with especially as most documentation is in Compose.
+The app does not use any external complex math libraries or classes that have been bodged in. The app has an architecture (MVI+CleanArch) which naturally lends itself to a Compose-based workflow.
 
 Kotlin coroutines make it easy to perform intense work that should be kept away from the main thread. `JobExecutor` provides an easy abstraction layer in creating units of asynchronous work.
 
