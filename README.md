@@ -5,9 +5,6 @@ A currency conversion app written in Jetpack Compose using an MVI+CleanArch arch
 
 **Note**: The API refreshes rates around 16:00 CET every **working** day.
 
-https://github.com/gurpreet-/fxapp/assets/6073488/cbc3cf20-518f-433e-97a8-9c998390365e
-
-
 
 #### Performance
 - The app is using a reactive view system known as Jetpack Compose which only updates when a `Flow` updates its data. 
